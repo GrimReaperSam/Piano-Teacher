@@ -6,6 +6,7 @@
   <version>1.0-SNAPSHOT</version>
     <modules>
         <module>Parser</module>
+        <module>Piano</module>
     </modules>
     <packaging>pom</packaging>
   <name>midi</name>
