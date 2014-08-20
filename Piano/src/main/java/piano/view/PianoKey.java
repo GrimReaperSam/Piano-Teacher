@@ -1,6 +1,5 @@
 package piano.view;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class PianoKey extends Rectangle {
@@ -9,7 +8,7 @@ public class PianoKey extends Rectangle {
 
     public PianoKey(int x, int y, int w, int h) {
         super(x, y, w, h);
-        setStroke(Color.BLACK);
+        getStyleClass().add("piano-key");
     }
 
     public void setNote(int note) {

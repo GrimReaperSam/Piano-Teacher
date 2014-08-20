@@ -1,0 +1,15 @@
+.group {
+    -fx-padding: 3px;
+}
+
+.piano-key {
+    -fx-stroke: #252525;
+}
+
+.white-key {
+    -fx-fill: white;
+}
+
+.black-key {
+    -fx-fill: #252525;
+}
