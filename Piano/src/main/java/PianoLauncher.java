@@ -1,17 +1,25 @@
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import piano.view.BlackKey;
+import piano.view.PianoKey;
 import piano.view.WhiteKey;
+
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Synthesizer;
+import java.util.Arrays;
+import java.util.List;
 
 public class PianoLauncher extends Application {
 
     private static final int WHITE_NUMBER = 52;
-    private static final int[] BLACK_INDICES = {0, 1, 3, 4, 5};
+    private static final List<Integer> BLACK_INDICES = Arrays.asList(0, 1, 3, 4, 5);
 
     private Stage primaryStage;
     private Pane rootLayout;
@@ -32,39 +40,56 @@ public class PianoLauncher extends Application {
         primaryStage.setX(bounds.getMinX());
         primaryStage.setY(bounds.getMinY());
         primaryStage.setWidth(bounds.getWidth());
-        primaryStage.setHeight(bounds.getHeight());
+        primaryStage.setHeight(500);
 
         int keyWidth = (int) bounds.getWidth() / WHITE_NUMBER;
         int remainingWidth = (int) (bounds.getWidth() % WHITE_NUMBER);
         int rightMargin = remainingWidth / 4;
 
+        int note = 21;
+        WhiteKey whiteKey;
         for (int i = 0; i < WHITE_NUMBER; i++) {
-            rootLayout.getChildren().add(new WhiteKey(rightMargin + i*keyWidth, 1, keyWidth));
+            whiteKey = new WhiteKey(rightMargin + i*keyWidth, 1, keyWidth);
+            whiteKey.setNote(note);
+            rootLayout.getChildren().add(whiteKey);
+            if (BLACK_INDICES.contains((i+5) % 7)) {
+                note += 2;
+            } else {
+                note += 1;
+            }
         }
 
+        note = 22;
+        BlackKey blackKey;
         for (int i = 0; i < WHITE_NUMBER-1; i++) {
-            for (int index: BLACK_INDICES) {
-                if ((i+5) % 7 == index) {
-                    int xPos = rightMargin + i * keyWidth + keyWidth/2 + 4;
-                    int bWidth = keyWidth - 8;
-                    rootLayout.getChildren().add(new BlackKey(xPos, 1, bWidth));
+            if (BLACK_INDICES.contains((i+5) % 7)) {
+                blackKey = new BlackKey(rightMargin + i * keyWidth + keyWidth/2 + 4, 1, keyWidth - 8);
+                blackKey.setNote(note);
+                rootLayout.getChildren().add(blackKey);
+                if (BLACK_INDICES.contains((i+6) % 7)) {
+                    note += 2;
+                } else {
+                    note += 3;
                 }
             }
         }
 
-//        rootLayout.getChildren().add(new BlackKey(19,1));
-//        rootLayout.getChildren().add(new BlackKey(49,1));
-//        rootLayout.getChildren().add(new BlackKey(109,1));
-//        BlackKey black = new BlackKey(139,1);
-//        black.setFill(Color.YELLOW);
-//        rootLayout.getChildren().add(black);
-//        rootLayout.getChildren().add(new BlackKey(169,1));
-//        rootLayout.getChildren().add(new BlackKey(229,1));
-//        rootLayout.getChildren().add(new BlackKey(259,1));
-
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        Synthesizer synth = MidiSystem.getSynthesizer();
+        synth.open();
+        MidiChannel piano = synth.getChannels()[0];
+        int c =0;
+        for (Node node: rootLayout.getChildren()) {
+            c++;
+            PianoKey key = (PianoKey) node;
+            piano.noteOn(key.getNote(), 100);
+            Thread.sleep(200);
+            piano.noteOff(key.getNote());
+        }
+        System.out.println(c);
+        synth.close();
 
     }
 
