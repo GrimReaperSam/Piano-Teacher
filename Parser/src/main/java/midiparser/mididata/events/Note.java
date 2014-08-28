@@ -8,18 +8,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Note extends Event {
 
+    private int value;
     private String key;
     private int volume;
     private double duration;
 
     private Note(NoteBuilder b) {
         super(b.ticks, b.time);
+        this.value = b.value;
         this.key = b.key;
         this.volume = b.volume;
         this.duration = b.duration;
     }
 
     protected Note(){
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public String getKey() {
@@ -38,15 +48,16 @@ public class Note extends Event {
         this.volume = volume;
     }
 
-    public long getDuration() {
-        return (long) (duration);
+    public double getDuration() {
+        return duration;
     }
 
-    public void setDuration(long duration) {
+    public void setDuration(double duration) {
         this.duration = duration;
     }
 
     public static class NoteBuilder {
+        private int value;
         private String key;
         private long ticks;
         private double time;
@@ -55,6 +66,11 @@ public class Note extends Event {
 
         public NoteBuilder(String key) {
             this.key = key;
+        }
+
+        public NoteBuilder value(int value) {
+            this.value = value;
+            return this;
         }
 
         public NoteBuilder ticks(long ticks) {

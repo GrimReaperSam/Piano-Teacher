@@ -49,7 +49,7 @@ public class TrackParser {
 
     private void fireNoteOn(ShortMessage message, long timeStamp) {
         String key = MIDIUtils.getKey(message.getData1());
-        NoteBuilder nb = new NoteBuilder(key).ticks(timeStamp).time(midi.toMicros(timeStamp)).volume(message.getData2());
+        NoteBuilder nb = new NoteBuilder(key).value(message.getData1()).ticks(timeStamp).time(midi.toMicros(timeStamp)).volume(message.getData2());
         notes.put(key, nb);
     }
 
