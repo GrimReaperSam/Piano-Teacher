@@ -13,3 +13,16 @@
 .black-key {
     -fx-fill: #252525;
 }
+
+.countdown-label {
+    -fx-font-size: 64px;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-background-color: rgba(221, 221, 221, 0.5);
+}
+
+.play-hbox {
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+    -fx-padding: 10px 0;
+}

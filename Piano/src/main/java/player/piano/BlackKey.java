@@ -1,4 +1,4 @@
-package piano.view;
+package player.piano;
 
 public class BlackKey extends PianoKey {
 
@@ -6,6 +6,12 @@ public class BlackKey extends PianoKey {
 
     public BlackKey(int x, int y, int width) {
         super(x, y, width, HEIGHT);
-        getStyleClass().add("black-key");
     }
+
+    @Override
+    public void resetStyle() {
+        super.resetStyle();
+        getRectangle().getStyleClass().add("black-key");
+    }
+
 }
