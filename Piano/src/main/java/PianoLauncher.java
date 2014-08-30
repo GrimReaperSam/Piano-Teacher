@@ -86,15 +86,13 @@ public class PianoLauncher extends Application {
         Unmarshaller jaxbUnmarshaller = context.createUnmarshaller();
         MIDI midi = (MIDI) jaxbUnmarshaller.unmarshal(new File(PianoLauncher.class.getResource("Mozart - Turkish March.xml").toURI()));
 
-        player = new Player(midi);
-        player.setLauncher(this);
+        player = new Player(this, midi);
 
         VBox box = new VBox();
         Button play = new Button("Start");
         play.setOnAction(event -> player.play());
 
         Button pause = new Button("Pause");
-        pause.translateXProperty().add(100);
         pause.setOnAction(event -> player.pause());
 
         Button resume = new Button("Resume");
@@ -116,6 +114,10 @@ public class PianoLauncher extends Application {
             index = BLACK_NOTES.indexOf(note);
             return (PianoKey) blackGroup.getChildren().get(index);
         }
+    }
+
+    public boolean isWhite(int note) {
+        return WHITE_NOTES.indexOf(note) != -1;
     }
 
 }
