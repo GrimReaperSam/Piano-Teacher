@@ -18,13 +18,10 @@ public class ParserTest {
     public void testTurkishMarch() throws JAXBException, URISyntaxException {
         testFile("Mozart - Turkish March");
     }
+
     @Test
     public void testDrifting() throws JAXBException, URISyntaxException {
         testFile("Andy Mckee - Drifting (Pro)");
-    }
-    @Test
-    public void testRiverFlowsInYou() throws JAXBException, URISyntaxException {
-        testFile("Yiruma-River_Flows_In_You_(ver_2)_Guitar_Pro_Tab");
     }
 
     private void testFile(String midiFileName) throws JAXBException, URISyntaxException {

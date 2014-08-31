@@ -72,7 +72,7 @@ public class PianoLauncher extends Application {
         primaryStage.setTitle("Piano");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
-        stage.sizeToScene();
+        primaryStage.sizeToScene();
         primaryStage.show();
 
         MidiFile file = new MidiFile(new File(PianoLauncher.class.getResource("../Mozart - Turkish March.xml").toURI()));
