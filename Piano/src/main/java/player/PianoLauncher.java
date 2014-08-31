@@ -1,6 +1,7 @@
 package player;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -13,19 +14,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import midiparser.mididata.MIDI;
 import midiparser.mididata.events.Note;
+import player.model.MidiFile;
 import player.piano.BlackKey;
 import player.piano.PianoKey;
 import player.piano.WhiteKey;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PianoLauncher extends Application {
 
@@ -36,54 +32,58 @@ public class PianoLauncher extends Application {
 
     private Stage primaryStage;
     private VBox rootLayout;
-    private Player player;
+    private List<Player> players;
     private Button start;
     private Button pause;
-    private Button resume;
+    private Button stop;
     private Label countdownLabel;
 
     @Override
     public void start(Stage stage) throws Exception {
+        players = new ArrayList<>();
         rootLayout = new VBox();
         Scene scene = new Scene(rootLayout);
         scene.setFill(Color.BLACK);
         scene.getStylesheets().add("pianostyles.css");
 
-        primaryStage = stage;
-        primaryStage.setTitle("Piano");
-        primaryStage.setResizable(false);
-
         createPiano();
 
         HBox box = new HBox();
-        start = new Button("Start");
-        start.getStyleClass().add("start-button");
-        start.setOnAction(event -> player.play());
+        start = new Button();
+        start.getStyleClass().addAll("image-button", "play-button");
+        start.setOnAction(event -> players.forEach(Player::play));
 
-        pause = new Button("Pause");
-        pause.getStyleClass().add("pause-button");
-        pause.setOnAction(event -> player.pause());
+        pause = new Button();
+        pause.getStyleClass().addAll("image-button", "pause-button");
+        pause.setOnAction(event -> players.forEach(Player::pause));
         pause.setDisable(true);
 
-        resume = new Button("Resume");
-        resume.getStyleClass().add("resume-button");
-        resume.setOnAction(event -> player.resume());
-        resume.setDisable(true);
+        stop = new Button();
+        stop.getStyleClass().addAll("image-button", "stop-button");
+        stop.setOnAction(event -> players.forEach(Player::stop));
+        stop.setDisable(true);
 
-        box.getChildren().addAll(start, pause, resume);
+        box.getChildren().addAll(start, pause, stop);
         box.getStyleClass().add("play-hbox");
 
         rootLayout.getChildren().add(box);
 
-        JAXBContext context = JAXBContext.newInstance(MIDI.class);
-        Unmarshaller jaxbUnmarshaller = context.createUnmarshaller();
-        MIDI midi = (MIDI) jaxbUnmarshaller.unmarshal(new File(PianoLauncher.class.getResource("../Mozart - Turkish March.xml").toURI()));
-
-        player = new Player(this, midi);
-
+        primaryStage = stage;
+        primaryStage.setTitle("Piano");
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         stage.sizeToScene();
         primaryStage.show();
+
+        MidiFile file = new MidiFile(new File(PianoLauncher.class.getResource("../Mozart - Turkish March.xml").toURI()));
+        if (file.getRightHand() != null) {
+            Player rightHand = new HandPlayer(this, file.getRightHand());
+            players.add(rightHand);
+        }
+        if (file.getLeftHand() != null) {
+            Player leftHand = new HandPlayer(this, file.getLeftHand());
+            players.add(leftHand);
+        }
     }
 
     private void createPiano() {
@@ -113,10 +113,8 @@ public class PianoLauncher extends Application {
             }
             noteIndex += 1;
         }
-
         Pane pianoGroup = new Pane();
         pianoGroup.getChildren().addAll(whiteGroup, blackGroup);
-
 
         countdownLabel = new Label();
         countdownLabel.setVisible(false);
@@ -126,6 +124,7 @@ public class PianoLauncher extends Application {
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(pianoGroup, countdownLabel);
+
         rootLayout.getChildren().addAll(stackPane);
     }
 
@@ -146,12 +145,18 @@ public class PianoLauncher extends Application {
         return pause;
     }
 
-    public Button getResume() {
-        return resume;
+    public Button getStop() {
+        return stop;
     }
 
     public Label getCountdownLabel() {
         return countdownLabel;
     }
 
+    public void resetNotes() {
+        Platform.runLater(() -> {
+            whiteNotes.forEach((key, note) -> note.resetStyle());
+            blackNotes.forEach((key, note) -> note.resetStyle());
+        });
+    }
 }

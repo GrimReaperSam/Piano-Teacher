@@ -26,6 +26,7 @@ public class PianoKey {
     }
 
     public void resetStyle() {
+        rectangle.getStyleClass().clear();
         rectangle.getStyleClass().add("piano-key");
     }
 
@@ -57,7 +58,7 @@ public class PianoKey {
             stroke.setOnFinished(e -> rectangle.setStrokeWidth(1));
             stroke.play();
         } else {
-            getRectangle().setFill(Color.DARKORANGE);
+            rectangle.getStyleClass().add("prepare-key");
         }
     }
 

@@ -14,11 +14,35 @@
     -fx-fill: #252525;
 }
 
+.prepare-key {
+    -fx-fill: darkorange;
+}
+
 .countdown-label {
     -fx-font-size: 64px;
     -fx-alignment: center;
     -fx-text-alignment: center;
     -fx-background-color: rgba(221, 221, 221, 0.5);
+}
+
+.play-button {
+    -fx-background-image: url("icons/Play%20Green%20Button.png");
+}
+
+.pause-button {
+    -fx-background-image: url("icons/Pause%20Green%20Button.png");
+}
+
+.stop-button {
+    -fx-background-image: url("icons/Stop%20Green%20Button.png");
+}
+
+.image-button {
+    -fx-background-color: transparent;
+    -fx-background-size: 32 32;
+    -fx-pref-width: 32;
+    -fx-pref-height: 32;
+    -fx-border-width: 0;
 }
 
 .play-hbox {
