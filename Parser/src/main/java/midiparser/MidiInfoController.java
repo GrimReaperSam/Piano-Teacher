@@ -1,7 +1,5 @@
 package midiparser;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,13 +8,15 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
-import javafx.util.StringConverter;
+import midiparser.mididata.MIDI;
 import midiparser.model.MidiInfo;
+import midiparser.parser.MidiParser;
 import midiparser.utils.DialogUtils;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import java.io.File;
-import java.math.BigDecimal;
-import java.math.MathContext;
+import java.io.PrintWriter;
 import java.util.prefs.Preferences;
 
 public class MidiInfoController {
@@ -107,7 +107,7 @@ public class MidiInfoController {
             }
         }
         info.setMultiplier(Math.floor(multiplier.getValue() * 10) / 10);
-        launcher.parse(info);
+        parse(info);
         DialogUtils.infoDialog("Parsing complete");
     }
 
@@ -121,6 +121,39 @@ public class MidiInfoController {
         parseButton.disableProperty().bind(midiFile.textProperty().isEmpty());
         outputHbox.visibleProperty().bind(txtCheckbox.selectedProperty());
         outputHbox.managedProperty().bind(txtCheckbox.selectedProperty());
+    }
+
+    private void parse(MidiInfo info) {
+        MIDI midi = new MidiParser().parse(info);
+        String midiName = getFileName(midi);
+        try {
+            if(info.isTextOutput()) {
+                PrintWriter printer;
+                File output = info.getOutput();
+                if (info.getOutput() != null) {
+                    printer = new PrintWriter(output);
+                } else {
+                    printer = new PrintWriter(midiName + ".txt");
+                }
+                printer.println(midi);
+                printer.close();
+            }
+            File dir = new File("results");
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            File xmlFile = new File("results/" + midiName + ".xml");
+            JAXBContext context = JAXBContext.newInstance(MIDI.class);
+            Marshaller jxbM = context.createMarshaller();
+
+            jxbM.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jxbM.marshal(midi, xmlFile);
+        } catch (Exception e) {
+        }
+    }
+
+    private String getFileName(MIDI midi) {
+        return midi.getFileName().split("\\.")[0] + (midi.getMultiplier() == 1? "": midi.getMultiplier());
     }
 
 }
