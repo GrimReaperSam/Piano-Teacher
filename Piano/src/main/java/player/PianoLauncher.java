@@ -1,6 +1,7 @@
 package player;
 
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -20,7 +21,14 @@ public class PianoLauncher extends Application {
 
         PianoController controller = loader.getController();
         controller.setLauncher(this);
-        controller.setup();
+        Task<Void> setup = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                controller.setup();
+                return null;
+            }
+        };
+        new Thread(setup).start();
 
         Scene scene = new Scene(rootLayout);
         primaryStage.setTitle("Piano");

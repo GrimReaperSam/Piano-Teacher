@@ -8,14 +8,12 @@ import midiparser.mididata.events.Note;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MidiFile {
 
     private MIDI midi;
-    private List<List<Note>> rightHand;
-    private List<List<Note>> leftHand;
+    private Hand rightHand;
+    private Hand leftHand;
     private double multiplier = 1;
 
     public MidiFile(File file) throws Exception {
@@ -30,28 +28,28 @@ public class MidiFile {
         leftHand = getHand(midi, 1);
     }
 
-    private List<List<Note>> getHand(MIDI midi, int trackIndex) {
+    private Hand getHand(MIDI midi, int trackIndex) {
         if(midi.getTracks().size() <= trackIndex) {
             return null;
         }
         Track track = midi.getTracks().get(trackIndex);
-        List<List<Note>> notes = new ArrayList<>();
-        notes.add(new ArrayList<>());
+        Hand hand = new Hand();
+        hand.add(new Accord());
         long ticks = 0;
         for (Event event : track.getEvents()) {
             if (Note.class.isAssignableFrom(event.getClass())) {
                 Note note = (Note) event;
                 if (note.getTicks() > ticks) {
-                    List<Note> accord = new ArrayList<>();
+                    Accord accord = new Accord();
                     accord.add(note);
                     ticks = note.getTicks();
-                    notes.add(accord);
+                    hand.add(accord);
                 } else {
-                    notes.get(notes.size() - 1).add(note);
+                    hand.get(hand.size() - 1).add(note);
                 }
             }
         }
-        return notes;
+        return hand;
     }
 
     public double getMultiplier() {
@@ -62,11 +60,11 @@ public class MidiFile {
         this.multiplier = multiplier;
     }
 
-    public List<List<Note>> getRightHand() {
+    public Hand getRightHand() {
         return rightHand;
     }
 
-    public List<List<Note>> getLeftHand() {
+    public Hand getLeftHand() {
         return leftHand;
     }
 }

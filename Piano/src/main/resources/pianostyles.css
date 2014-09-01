@@ -41,17 +41,13 @@
     -fx-border-width: 0;
 }
 
-.play-hbox {
+.action-box {
     -fx-alignment: center;
     -fx-spacing: 20px;
+    -fx-padding: 0 0 10px 0;
+}
+
+.slider-hbox {
+    -fx-alignment: center;
     -fx-padding: 10px 0;
-}
-
-.progress-bar .track {
-    -fx-background-radius: 0;
-}
-
-.progress-bar .bar {
-    -fx-padding: 0;
-    -fx-background-insets: 0;
 }

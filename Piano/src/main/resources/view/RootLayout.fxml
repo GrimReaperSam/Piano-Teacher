@@ -13,12 +13,12 @@
       </StackPane>
       <VBox>
          <children>
-            <HBox alignment="CENTER" styleClass="play-hbox">
+            <HBox alignment="CENTER" styleClass="slider-hbox">
                <children>
-                  <Slider fx:id="progressBar" prefWidth="550.0" />
+                  <Slider fx:id="progressBar" prefHeight="25.0" prefWidth="550.0" styleClass="action-box" />
                </children>
             </HBox>
-            <HBox styleClass="play-hbox">
+            <HBox styleClass="action-box">
                <children>
                   <Button fx:id="play" mnemonicParsing="false" onAction="#handlePlay" text="Button">
                      <styleClass>

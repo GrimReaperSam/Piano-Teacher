@@ -10,26 +10,28 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
-import midiparser.mididata.events.Note;
+import player.model.Accord;
+import player.model.Hand;
 import player.piano.PianoKey;
 
 import java.util.List;
 
-public class HandPlayer implements Player {
+public class MidiTimeline implements Player {
 
     private static final int COUNTDOWN_TIME = 3;
+    private PianoController controller;
     private Timeline timeline;
     private Timeline countdownTimeline;
-    private PianoController controller;
-    private List<List<Note>> hand;
+    private List<Hand> hands;
 
-    public HandPlayer(PianoController controller, List<List<Note>> hand) {
+    public MidiTimeline(PianoController controller, List<Hand> hands) {
         this.controller = controller;
-        this.hand = hand;
+        this.hands = hands;
         initializeCountdownTimeline();
         initializeTimeline();
     }
 
+    @Override
     public Timeline getTimeline() {
         return timeline;
     }
@@ -37,7 +39,7 @@ public class HandPlayer implements Player {
     @Override
     public void play() {
         if (timeline.getStatus().equals(Animation.Status.STOPPED)) {
-            Platform.runLater(() -> hand.get(0).forEach(note -> controller.getKey(note).preparePlay()));
+            Platform.runLater(() -> hands.forEach((hand) -> hand.get(0).forEach(note -> controller.getKey(note).preparePlay())));
         }
         countdownTimeline.setOnFinished(ev -> timeline.play());
         countdownTimeline.playFromStart();
@@ -59,22 +61,25 @@ public class HandPlayer implements Player {
     private void initializeTimeline() {
         timeline = new Timeline();
         double multiplier = 1;
-        for (int index = 0; index < hand.size(); index++ ) {
-            final int finalIndex = index;
-            List<Note> accord = hand.get(index);
-            accord.forEach(note -> {
-                PianoKey key = controller.getKey(note);
-                double time = multiplier * note.getTime() / 1000;
-                KeyFrame startFrame = new KeyFrame(Duration.millis(time)
-                        , ev -> {
-                    key.play(note, multiplier);
-                    if (finalIndex < hand.size() - 2) {
-                        hand.get(finalIndex + 1).forEach(nextNote -> controller.getKey(nextNote).preparePlay());
-                    }
+        hands.forEach((hand) -> {
+            for (int index = 0; index < hand.size(); index++ ) {
+                final int finalIndex = index;
+                Accord accord = hand.get(index);
+                accord.forEach(note -> {
+                    PianoKey key = controller.getKey(note);
+                    double time = multiplier * note.getTime() / 1000;
+                    KeyFrame startFrame = new KeyFrame(Duration.millis(time)
+                            , ev -> {
+                        key.play(note, multiplier);
+                        if (finalIndex < hand.size() - 2) {
+                            hand.get(finalIndex + 1).forEach(nextNote -> controller.getKey(nextNote).preparePlay());
+                        }
+                    });
+                    timeline.getKeyFrames().addAll(startFrame);
                 });
-                timeline.getKeyFrames().addAll(startFrame);
-            });
-        }
+            }
+        });
+        timeline.setOnFinished(event -> controller.resetNotes());
 
         BooleanBinding timelineRunning = timeline.statusProperty().isEqualTo(Animation.Status.RUNNING);
         BooleanBinding countdownTimelineRunning = countdownTimeline.statusProperty().isEqualTo(Animation.Status.RUNNING);
@@ -91,9 +96,11 @@ public class HandPlayer implements Player {
         KeyFrame beginTimer = new KeyFrame(Duration.millis(0)
                 , new KeyValue(countdown, COUNTDOWN_TIME)
                 , new KeyValue(countdownLabel.visibleProperty(), true));
+
         KeyFrame endTimer = new KeyFrame(Duration.millis(COUNTDOWN_TIME * 1000)
                 , new KeyValue(countdown, 0)
                 , new KeyValue(countdownLabel.visibleProperty(), false));
+
         countdownTimeline.getKeyFrames().addAll(beginTimer, endTimer);
     }
 }

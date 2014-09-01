@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import midiparser.mididata.events.Note;
+import player.model.Hand;
 import player.model.MidiFile;
 import player.piano.BlackKey;
 import player.piano.PianoKey;
@@ -26,9 +27,7 @@ public class PianoController {
     private static final List<Integer> BLACK_INDICES = Arrays.asList(0, 1, 3, 4, 5);
     private Map<Integer, PianoKey> whiteNotes = new HashMap<>();
     private Map<Integer, PianoKey> blackNotes = new HashMap<>();
-    private List<Player> players = new ArrayList<>();
-    private Player rightHand;
-    private Player leftHand;
+    private Player player;
 
     @FXML
     private Pane keys;
@@ -93,35 +92,36 @@ public class PianoController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        List<Hand> hands = new ArrayList<>();
         if (midi.getRightHand() != null) {
-            rightHand = new HandPlayer(this, midi.getRightHand());
-            rightHand.getTimeline().currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());
-            progressBar.valueProperty().addListener(ov -> {
-                if (progressBar.isValueChanging()) {
-                    // multiply duration by percentage calculated by slider position
-                    Timeline timeline = rightHand.getTimeline();
-                    Duration totalDuration = timeline.getTotalDuration();
-                    if (totalDuration != null) {
-                        timeline.pause();
-                        timeline.jumpTo(totalDuration.multiply(progressBar.getValue() / 100.0));
-                        resetNotes();
-                        timeline.play();
-                    }
-                    updateValues();
-                }
-            });
-            players.add(rightHand);
+            hands.add(midi.getRightHand());
         }
         if (midi.getLeftHand() != null) {
-            leftHand = new HandPlayer(this, midi.getLeftHand());
-            players.add(leftHand);
+            hands.add(midi.getLeftHand());
         }
+        player = new MidiTimeline(this, hands);
+
+        player.getTimeline().currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());
+        progressBar.valueProperty().addListener(ov -> {
+            if (progressBar.isValueChanging()) {
+                // multiply duration by percentage calculated by slider position
+                Timeline timeline = player.getTimeline();
+                Duration totalDuration = timeline.getTotalDuration();
+                if (totalDuration != null) {
+                    timeline.pause();
+                    timeline.jumpTo(totalDuration.multiply(progressBar.getValue() / 100.0));
+                    resetNotes();
+                    timeline.play();
+                }
+                updateValues();
+            }
+        });
     }
 
     private void updateValues() {
         if (progressBar != null) {
             Platform.runLater(() -> {
-                Timeline timeline = rightHand.getTimeline();
+                Timeline timeline = player.getTimeline();
                 Duration currentTime = timeline.getCurrentTime();
                 Duration totalDuration = timeline.getTotalDuration();
                 progressBar.setDisable(totalDuration.isUnknown());
@@ -134,17 +134,17 @@ public class PianoController {
 
     @FXML
     private void handlePlay() {
-        players.forEach(Player::play);
+        player.play();
     }
 
     @FXML
     private void handlePause() {
-        players.forEach(Player::pause);
+        player.pause();
     }
 
     @FXML
     private void handleStop() {
-        players.forEach(Player::stop);
+        player.stop();
     }
 
     @FXML
