@@ -20,19 +20,19 @@
             </HBox>
             <HBox styleClass="action-box">
                <children>
-                  <Button fx:id="play" mnemonicParsing="false" onAction="#handlePlay" text="Button">
+                  <Button fx:id="play" mnemonicParsing="false" onAction="#handlePlay">
                      <styleClass>
                         <String fx:value="play-button" />
                         <String fx:value="image-button" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="pause" mnemonicParsing="false" onAction="#handlePause" text="Button">
+                  <Button fx:id="pause" mnemonicParsing="false" onAction="#handlePause">
                      <styleClass>
                         <String fx:value="pause-button" />
                         <String fx:value="image-button" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="stop" mnemonicParsing="false" onAction="#handleStop" text="Button">
+                  <Button fx:id="stop" mnemonicParsing="false" onAction="#handleStop">
                      <styleClass>
                         <String fx:value="stop-button" />
                         <String fx:value="image-button" />

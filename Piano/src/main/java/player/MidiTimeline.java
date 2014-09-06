@@ -48,14 +48,14 @@ public class MidiTimeline implements Player {
     @Override
     public void pause() {
         timeline.pause();
-        MidiPlayer.getInstance().getPiano().allNotesOff();
+        MidiPlayerComponent.getInstance().getPiano().allNotesOff();
     }
 
     @Override
     public void stop() {
         controller.resetNotes();
         timeline.stop();
-        MidiPlayer.getInstance().getPiano().allNotesOff();
+        MidiPlayerComponent.getInstance().getPiano().allNotesOff();
     }
 
     private void initializeTimeline() {

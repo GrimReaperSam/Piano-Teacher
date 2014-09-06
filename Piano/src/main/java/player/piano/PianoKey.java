@@ -7,14 +7,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import midiparser.mididata.events.Note;
-import player.MidiPlayer;
+import player.MidiPlayerComponent;
 
 public class PianoKey {
 
     private int note;
     private Rectangle rectangle;
     private FillTransition transition;
-    private MidiPlayer player = MidiPlayer.getInstance();
+    private MidiPlayerComponent player = MidiPlayerComponent.getInstance();
 
     public PianoKey(int x, int y, int w, int h) {
         rectangle = new Rectangle(x, y, w, h);
@@ -26,8 +26,7 @@ public class PianoKey {
     }
 
     public void resetStyle() {
-        rectangle.getStyleClass().clear();
-        rectangle.getStyleClass().add("piano-key");
+        rectangle.getStyleClass().setAll("piano-key");
     }
 
     public Rectangle getRectangle() {

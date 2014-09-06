@@ -1,5 +1,6 @@
 package player;
 
+import javafx.animation.Animation.Status;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -47,15 +48,9 @@ public class PianoController {
     @FXML
     private Slider progressBar;
 
-    private PianoLauncher launcher;
-
     private MidiFile midi;
 
     public PianoController() {
-    }
-
-    public void setLauncher(PianoLauncher launcher) {
-        this.launcher = launcher;
     }
 
     public Button getStart() {
@@ -108,10 +103,13 @@ public class PianoController {
                 Timeline timeline = player.getTimeline();
                 Duration totalDuration = timeline.getTotalDuration();
                 if (totalDuration != null) {
+                    Status previousStatus = timeline.getStatus();
                     timeline.pause();
                     timeline.jumpTo(totalDuration.multiply(progressBar.getValue() / 100.0));
                     resetNotes();
-                    timeline.play();
+                    if (previousStatus.equals(Status.RUNNING)) {
+                        timeline.play();
+                    }
                 }
                 updateValues();
             }

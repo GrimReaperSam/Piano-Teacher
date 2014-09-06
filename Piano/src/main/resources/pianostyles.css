@@ -22,15 +22,15 @@
 }
 
 .play-button {
-    -fx-background-image: url("icons/Play%20Green%20Button.png");
+    -fx-background-image: url("icons/play.png");
 }
 
 .pause-button {
-    -fx-background-image: url("icons/Pause%20Green%20Button.png");
+    -fx-background-image: url("icons/pause.png");
 }
 
 .stop-button {
-    -fx-background-image: url("icons/Stop%20Green%20Button.png");
+    -fx-background-image: url("icons/stop.png");
 }
 
 .image-button {

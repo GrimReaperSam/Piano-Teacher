@@ -4,18 +4,18 @@ import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Synthesizer;
 
-public class MidiPlayer {
+public class MidiPlayerComponent {
 
     private Synthesizer synthesizer;
     private MidiChannel pianoChannel;
 
-    public static MidiPlayer player;
+    public static MidiPlayerComponent player;
     static {
-        player = new MidiPlayer();
+        player = new MidiPlayerComponent();
         player.open();
     }
 
-    public static MidiPlayer getInstance() {
+    public static MidiPlayerComponent getInstance() {
         return player;
     }
 
@@ -23,7 +23,7 @@ public class MidiPlayer {
         return pianoChannel;
     }
 
-    private MidiPlayer() {
+    private MidiPlayerComponent() {
     }
 
     public void open() {
