@@ -33,18 +33,29 @@
     -fx-background-image: url("icons/stop.png");
 }
 
-.image-button {
-    -fx-background-color: transparent;
-    -fx-background-size: 32 32;
-    -fx-pref-width: 32;
-    -fx-pref-height: 32;
-    -fx-border-width: 0;
+.left-hand {
+    -fx-background-image: url("icons/left-hand.png");
 }
 
-.action-box {
-    -fx-alignment: center;
-    -fx-spacing: 20px;
+.right-hand {
+    -fx-background-image: url("icons/right-hand.png");
+}
+
+.image-button {
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 24 24;
+    -fx-background-position: center center;
+    -fx-pref-width: 32;
+    -fx-pref-height: 32;
+}
+
+.play-box {
+    -fx-spacing: 10px;
     -fx-padding: 0 0 10px 0;
+}
+
+.hand-box {
+    -fx-spacing: 10px;
 }
 
 .slider-hbox {
