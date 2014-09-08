@@ -1,11 +1,9 @@
 package midiparser;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import midiparser.mididata.MIDI;
@@ -38,6 +36,9 @@ public class MidiInfoController {
 
     @FXML
     private Slider multiplier;
+
+    @FXML
+    private Label tempoLabel;
 
     @FXML
     private Button parseButton;
@@ -118,7 +119,11 @@ public class MidiInfoController {
 
     @FXML
     private void initialize() {
-        parseButton.disableProperty().bind(midiFile.textProperty().isEmpty());
+        BooleanBinding isEmpty = midiFile.textProperty().isEmpty();
+        txtCheckbox.disableProperty().bind(isEmpty);
+        multiplier.disableProperty().bind(isEmpty);
+        parseButton.disableProperty().bind(isEmpty);
+        tempoLabel.disableProperty().bind(isEmpty);
         outputHbox.visibleProperty().bind(txtCheckbox.selectedProperty());
         outputHbox.managedProperty().bind(txtCheckbox.selectedProperty());
     }
