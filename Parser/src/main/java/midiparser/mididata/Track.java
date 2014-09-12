@@ -1,6 +1,6 @@
 package midiparser.mididata;
 
-import midiparser.mididata.events.Event;
+import midiparser.mididata.events.Note;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
@@ -11,22 +11,22 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Track {
 
-    @XmlElementRef(name = "event")
-    @XmlElementWrapper(name="events")
-    private List<Event> events;
+    @XmlElementRef(name = "note")
+    @XmlElementWrapper(name="notes")
+    private List<Note> notes;
 
-    public List<Event> getEvents() {
-        if (events == null) {
-            events = new ArrayList<>();
+    public List<Note> getNotes() {
+        if (notes == null) {
+            notes = new ArrayList<>();
         }
-        return events;
+        return notes;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        events.stream().forEach((event) -> {
-            sb.append(event);
+        notes.stream().forEach((note) -> {
+            sb.append(note);
             sb.append('\n');
         });
         return sb.toString();

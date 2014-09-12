@@ -2,7 +2,7 @@ package midiparser.parser;
 
 import midiparser.mididata.MIDI;
 import midiparser.mididata.Track;
-import midiparser.mididata.events.*;
+import midiparser.mididata.events.Note;
 import midiparser.mididata.events.Note.NoteBuilder;
 import midiparser.utils.MIDIUtils;
 
@@ -33,8 +33,8 @@ public class TrackParser {
             MidiEvent midiEvent = original.get(event);
             parse(midiEvent.getMessage(), midiEvent.getTick());
         }
-        Collections.sort(track.getEvents(), (Event e1, Event e2) ->
-            new Long(e1.getTicks()).compareTo(e2.getTicks())
+        Collections.sort(track.getNotes(), (n1, n2) ->
+            new Long(n1.getTicks()).compareTo(n2.getTicks())
         );
         return track;
     }
@@ -59,69 +59,69 @@ public class TrackParser {
             NoteBuilder nb = notes.remove(keyName);
             nb.duration(midi.toMicros(timeStamp - nb.getTicks()));
             Note note = nb.build();
-            track.getEvents().add(note);
+            track.getNotes().add(note);
         }
     }
 
-    private void firePolyphonicKeyPressure(ShortMessage message, long timeStamp) {
-        String keyName = MIDIUtils.getKey(message.getData1());
-        int pressure = message.getData2();
-        PolyKeyPressure pkp = new PolyKeyPressure(keyName, pressure, timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(pkp);
-    }
-
-    private void fireControlChange(ShortMessage message, long timeStamp) {
-        int control = message.getData1();
-        int value = message.getData2();
-        ControlChange cc = new ControlChange(control, value, timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(cc);
-    }
-
-    private void fireProgramChange(ShortMessage message, long timeStamp) {
-        int program = message.getData1();
-        ProgramChange pc = new ProgramChange(program, timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(pc);
-
-    }
-
-    private void fireKeyPressure(ShortMessage message, long timeStamp) {
-        String keyName = MIDIUtils.getKey(message.getData1());
-        int pressure = message.getData2();
-        KeyPressure kp = new KeyPressure(keyName, pressure, timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(kp);
-    }
-
-    private void firePitchWheel(ShortMessage message, long timeStamp) {
-        int wheel = (message.getData1() & 0x7F) | ((message.getData2() & 0x7F) << 7);
-        PitchWheel pw = new PitchWheel(wheel, timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(pw);
-    }
-
+//    private void firePolyphonicKeyPressure(ShortMessage message, long timeStamp) {
+//        String keyName = MIDIUtils.getKey(message.getData1());
+//        int pressure = message.getData2();
+//        PolyKeyPressure pkp = new PolyKeyPressure(keyName, pressure, timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(pkp);
+//    }
+//
+//    private void fireControlChange(ShortMessage message, long timeStamp) {
+//        int control = message.getData1();
+//        int value = message.getData2();
+//        ControlChange cc = new ControlChange(control, value, timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(cc);
+//    }
+//
+//    private void fireProgramChange(ShortMessage message, long timeStamp) {
+//        int program = message.getData1();
+//        ProgramChange pc = new ProgramChange(program, timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(pc);
+//
+//    }
+//
+//    private void fireKeyPressure(ShortMessage message, long timeStamp) {
+//        String keyName = MIDIUtils.getKey(message.getData1());
+//        int pressure = message.getData2();
+//        KeyPressure kp = new KeyPressure(keyName, pressure, timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(kp);
+//    }
+//
+//    private void firePitchWheel(ShortMessage message, long timeStamp) {
+//        int wheel = (message.getData1() & 0x7F) | ((message.getData2() & 0x7F) << 7);
+//        PitchWheel pw = new PitchWheel(wheel, timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(pw);
+//    }
+//
     private void fireTempo(int tempo, long timeStamp) {
         midi.updateMPB(tempo);
-        Tempo tEvent = new Tempo(tempo, midi.getBPM(), timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(tEvent);
+//        Tempo tEvent = new Tempo(tempo, midi.getBPM(), timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(tEvent);
     }
-
-    private void fireTrackName(String name, long timeStamp) {
-        TrackName tn = new TrackName(name, timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(tn);
-    }
-
-    private void fireInstrumentName(String name, long timeStamp) {
-        InstrumentName in = new InstrumentName(name, timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(in);
-    }
-
-    private void fireChannelPrefix(int prefix, long timeStamp) {
-        ChannelPrefix cp = new ChannelPrefix(prefix, timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(cp);
-    }
-
-    private void fireEndOfTrack(long timeStamp) {
-        EndOfTrack eot = new EndOfTrack(timeStamp, midi.toMicros(timeStamp));
-        track.getEvents().add(eot);
-    }
+//
+//    private void fireTrackName(String name, long timeStamp) {
+//        TrackName tn = new TrackName(name, timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(tn);
+//    }
+//
+//    private void fireInstrumentName(String name, long timeStamp) {
+//        InstrumentName in = new InstrumentName(name, timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(in);
+//    }
+//
+//    private void fireChannelPrefix(int prefix, long timeStamp) {
+//        ChannelPrefix cp = new ChannelPrefix(prefix, timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(cp);
+//    }
+//
+//    private void fireEndOfTrack(long timeStamp) {
+//        EndOfTrack eot = new EndOfTrack(timeStamp, midi.toMicros(timeStamp));
+//        track.getEvents().add(eot);
+//    }
 
     private void decodeMessage(ShortMessage message, long timeStamp) {
         switch (message.getCommand()) {
@@ -137,23 +137,23 @@ public class TrackParser {
             break;
 
         case 0xa0:
-            firePolyphonicKeyPressure(message, timeStamp);
+//            firePolyphonicKeyPressure(message, timeStamp);
             break;
 
         case 0xb0:
-            fireControlChange(message, timeStamp);
+//            fireControlChange(message, timeStamp);
             break;
 
         case 0xc0:
-            fireProgramChange(message, timeStamp);
+//            fireProgramChange(message, timeStamp);
             break;
 
         case 0xd0:
-            fireKeyPressure(message, timeStamp);
+//            fireKeyPressure(message, timeStamp);
             break;
 
         case 0xe0:
-            firePitchWheel(message, timeStamp);
+//            firePitchWheel(message, timeStamp);
             break;
 
         default:
@@ -185,11 +185,11 @@ public class TrackParser {
 //            break;
 
         case 3:
-            fireTrackName(new String(abData), timeStamp);
+//            fireTrackName(new String(abData), timeStamp);
             break;
 
         case 4:
-            fireInstrumentName(new String(abData), timeStamp);
+//            fireInstrumentName(new String(abData), timeStamp);
             break;
 
 //        case 5:
@@ -211,11 +211,11 @@ public class TrackParser {
 //            break;
 
         case 0x20:
-            fireChannelPrefix(abData[0] & 0xFF, timeStamp);
+//            fireChannelPrefix(abData[0] & 0xFF, timeStamp);
             break;
 
         case 0x2F:
-            fireEndOfTrack(timeStamp);
+//            fireEndOfTrack(timeStamp);
             break;
 
         case 0x51:

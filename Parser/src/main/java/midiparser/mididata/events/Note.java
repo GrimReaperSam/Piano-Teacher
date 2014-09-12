@@ -103,6 +103,6 @@ public class Note extends Event {
 
     @Override
     public String toString() {
-        return super.toString() + "Note:" + key + " Duration:" + duration / 1000 + "ms Volume:" + volume;
+        return String.format("%sNote:%s Duration:%sms Volume:%d", super.toString(), key, duration / 1000, volume);
     }
 }

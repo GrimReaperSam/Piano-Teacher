@@ -37,7 +37,7 @@ public abstract class Event {
     }
     @Override
     public String toString() {
-        return "tick " + ticks + ", at " + DateUtils.toMinSec(time) + ": ";
+        return String.format("tick %d, at %s: ", ticks, DateUtils.toMinSec(time));
     }
 
 }

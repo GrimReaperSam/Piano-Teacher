@@ -124,27 +124,27 @@ public class MIDI {
         }
     }
 
-    public int getBPM() {
-        if (getDivisionType() == Sequence.PPQ) {
-            float bpm = 60000000 / (microsecondsPerBeat * getResolution());
-            return (int) (Math.round(bpm * 100.0f) / 100.0f);
-        } else {
-            throw new IllegalStateException("Cannot update MPB in SMTP mode");
-        }
-    }
+//    public int getBPM() {
+//        if (getDivisionType() == Sequence.PPQ) {
+//            float bpm = 60000000 / (microsecondsPerBeat * getResolution());
+//            return (int) (Math.round(bpm * 100.0f) / 100.0f);
+//        } else {
+//            throw new IllegalStateException("Cannot update MPB in SMTP mode");
+//        }
+//    }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("File: " + fileName + "\n");
-        sb.append("MIDI file format: " + type + "\n");
-        sb.append("Length: " + ticks + " ticks\n");
-        sb.append("Duration: " + DateUtils.toMinSec(microseconds) + " microseconds\n");
-        sb.append("Number of tracks: " + trackCount + "\n");
-        sb.append("Tempo Multiplier: " + multiplier + "\n");
+        sb.append("File: ").append(fileName).append("\n");
+        sb.append("MIDI file format: ").append(type).append("\n");
+        sb.append("Length: ").append(ticks).append(" ticks\n");
+        sb.append("Duration: ").append(DateUtils.toMinSec(microseconds)).append(" microseconds\n");
+        sb.append("Number of tracks: ").append(trackCount).append("\n");
+        sb.append("Tempo Multiplier: ").append(multiplier).append("\n");
         for (int index=0; index<tracks.size(); index++) {
             sb.append("---------------------------------------------------------------------------\n");
-            sb.append("Track " + index + ":\n");
+            sb.append("Track ").append(index).append(":\n");
             sb.append("---------------------------------------------------------------------------\n");
             sb.append(tracks.get(index));
         }

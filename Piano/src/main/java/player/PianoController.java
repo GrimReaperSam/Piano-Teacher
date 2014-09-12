@@ -83,7 +83,7 @@ public class PianoController {
 
     public void setup() {
         try {
-            midi = new MidiFile(new File(PianoController.class.getResource("../Mozart - Turkish March.xml").toURI()));
+            midi = new MidiFile(new File(PianoController.class.getResource("../beethoven_opus10_1.xml").toURI()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,9 +91,9 @@ public class PianoController {
         if (midi.getRightHand() != null) {
             hands.add(midi.getRightHand());
         }
-        if (midi.getLeftHand() != null) {
-            hands.add(midi.getLeftHand());
-        }
+//        if (midi.getLeftHand() != null) {
+//            hands.add(midi.getLeftHand());
+//        }
         player = new MidiTimeline(this, hands);
 
         player.getTimeline().currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());

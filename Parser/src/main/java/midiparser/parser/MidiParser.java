@@ -33,7 +33,10 @@ public class MidiParser {
             Track[] tracks = sequence.getTracks();
             midi.setTrackCount(tracks.length);
             for (Track track: tracks) {
-                midi.getTracks().add(new TrackParser(midi).parse(track));
+                midiparser.mididata.Track midiTrack = new TrackParser(midi).parse(track);
+                if (!midiTrack.getNotes().isEmpty()) {
+                    midi.getTracks().add(midiTrack);
+                }
             }
             return midi;
         }catch (Exception e) {
