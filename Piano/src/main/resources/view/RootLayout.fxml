@@ -18,46 +18,26 @@
                         <Slider fx:id="progressBar" prefHeight="25.0" prefWidth="550.0" styleClass="action-box" />
                     </children>
                 </HBox>
-                <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="524.0" styleClass="play-box">
+                <HBox alignment="CENTER" prefHeight="48.0" prefWidth="524.0" styleClass="play-box">
                     <children>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="501.0" styleClass="hand-box">
-                            <children>
-                                <Button fx:id="play" mnemonicParsing="false" onAction="#handlePlay">
-                                    <styleClass>
-                                        <String fx:value="play-button" />
-                                        <String fx:value="image-button" />
-                                    </styleClass>
-                                </Button>
-                                <Button fx:id="pause" mnemonicParsing="false" onAction="#handlePause">
-                                    <styleClass>
-                                        <String fx:value="pause-button" />
-                                        <String fx:value="image-button" />
-                                    </styleClass>
-                                </Button>
-                                <Button fx:id="stop" mnemonicParsing="false" onAction="#handleStop">
-                                    <styleClass>
-                                        <String fx:value="stop-button" />
-                                        <String fx:value="image-button" />
-                                    </styleClass>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="381.0" styleClass="hand-box">
-                            <children>
-                                <Button mnemonicParsing="false">
-                                    <styleClass>
-                                        <String fx:value="left-hand" />
-                                        <String fx:value="image-button" />
-                                    </styleClass>
-                                </Button>
-                                <Button mnemonicParsing="false">
-                                    <styleClass>
-                                        <String fx:value="right-hand" />
-                                        <String fx:value="image-button" />
-                                    </styleClass>
-                                </Button>
-                            </children>
-                        </HBox>
+                          <Button fx:id="play" mnemonicParsing="false" onAction="#handlePlay">
+                              <styleClass>
+                                  <String fx:value="play-button" />
+                                  <String fx:value="image-button" />
+                              </styleClass>
+                          </Button>
+                          <Button fx:id="pause" mnemonicParsing="false" onAction="#handlePause">
+                              <styleClass>
+                                  <String fx:value="pause-button" />
+                                  <String fx:value="image-button" />
+                              </styleClass>
+                          </Button>
+                          <Button fx:id="stop" mnemonicParsing="false" onAction="#handleStop">
+                              <styleClass>
+                                  <String fx:value="stop-button" />
+                                  <String fx:value="image-button" />
+                              </styleClass>
+                          </Button>
                     </children>
                 </HBox>
             </children>
