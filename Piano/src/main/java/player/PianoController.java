@@ -1,8 +1,8 @@
 package player;
 
 import javafx.animation.Animation.Status;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -11,8 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
-import javafx.util.Duration;
 import midiparser.mididata.events.Note;
+import player.model.Hand;
 import player.model.MidiFile;
 import player.piano.BlackKey;
 import player.piano.PianoKey;
@@ -66,6 +66,8 @@ public class PianoController {
         return stop;
     }
 
+    public Slider getProgressBar() {return progressBar;}
+
     public Label getCountdownLabel() {
         return countdown;
     }
@@ -89,39 +91,6 @@ public class PianoController {
             e.printStackTrace();
         }
         player = new MidiTimeline(this, midi);
-
-        player.getTimeline().currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());
-        progressBar.valueProperty().addListener(ov -> {
-            if (progressBar.isValueChanging()) {
-                // multiply duration by percentage calculated by slider position
-                Timeline timeline = player.getTimeline();
-                Duration totalDuration = timeline.getTotalDuration();
-                if (totalDuration != null) {
-                    Status previousStatus = timeline.getStatus();
-                    timeline.pause();
-                    timeline.jumpTo(totalDuration.multiply(progressBar.getValue() / 100.0));
-                    resetNotes();
-                    if (previousStatus.equals(Status.RUNNING)) {
-                        timeline.play();
-                    }
-                }
-                updateValues();
-            }
-        });
-    }
-
-    private void updateValues() {
-        if (progressBar != null) {
-            Platform.runLater(() -> {
-                Timeline timeline = player.getTimeline();
-                Duration currentTime = timeline.getCurrentTime();
-                Duration totalDuration = timeline.getTotalDuration();
-                progressBar.setDisable(totalDuration.isUnknown());
-                if (!progressBar.isDisabled() && totalDuration.greaterThan(Duration.ZERO) && !progressBar.isValueChanging()) {
-                    progressBar.setValue(currentTime.divide(totalDuration.toMillis()).toMillis() * 100.0);
-                }
-            });
-        }
     }
 
     @FXML
@@ -137,6 +106,32 @@ public class PianoController {
     @FXML
     private void handleStop() {
         player.stop();
+    }
+
+    @FXML
+    private void toggleLeftHand() {
+        toggleHand(midi.getLeftHand());
+    }
+
+    @FXML
+    private void toggleRightHand() {
+        toggleHand(midi.getRightHand());
+    }
+
+    private void toggleHand(Hand hand) {
+        boolean isRunning = player.getTimeline().getStatus().equals(Status.RUNNING);
+        player.pause();
+        resetNotes();
+        ObservableList<Hand> hands = midi.getHands();
+        if (hands.contains(hand)) {
+            hands.remove(hand);
+        } else {
+            hands.add(hand);
+        }
+        player.resetTimeline();
+        if (isRunning) {
+            player.fastPlay();
+        }
     }
 
     @FXML

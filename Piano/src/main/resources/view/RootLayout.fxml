@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../pianostyles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.PianoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@pianostyles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.PianoController">
     <children>
         <StackPane>
             <children>
@@ -18,28 +18,54 @@
                         <Slider fx:id="progressBar" prefHeight="25.0" prefWidth="550.0" styleClass="action-box" />
                     </children>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="48.0" prefWidth="524.0" styleClass="play-box">
-                    <children>
-                          <Button fx:id="play" mnemonicParsing="false" onAction="#handlePlay">
-                              <styleClass>
-                                  <String fx:value="play-button" />
-                                  <String fx:value="image-button" />
-                              </styleClass>
-                          </Button>
-                          <Button fx:id="pause" mnemonicParsing="false" onAction="#handlePause">
-                              <styleClass>
-                                  <String fx:value="pause-button" />
-                                  <String fx:value="image-button" />
-                              </styleClass>
-                          </Button>
-                          <Button fx:id="stop" mnemonicParsing="false" onAction="#handleStop">
-                              <styleClass>
-                                  <String fx:value="stop-button" />
-                                  <String fx:value="image-button" />
-                              </styleClass>
-                          </Button>
-                    </children>
-                </HBox>
+            <AnchorPane>
+               <children>
+                  <BorderPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                     <center>
+                        <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                                      <Button fx:id="play" defaultButton="true" mnemonicParsing="false" onAction="#handlePlay">
+                                          <styleClass>
+                                              <String fx:value="play-button" />
+                                              <String fx:value="image-button" />
+                                          </styleClass>
+                                      </Button>
+                                      <Button fx:id="pause" mnemonicParsing="false" onAction="#handlePause">
+                                          <styleClass>
+                                              <String fx:value="pause-button" />
+                                              <String fx:value="image-button" />
+                                          </styleClass>
+                                      </Button>
+                                      <Button fx:id="stop" mnemonicParsing="false" onAction="#handleStop">
+                                          <styleClass>
+                                              <String fx:value="stop-button" />
+                                              <String fx:value="image-button" />
+                                          </styleClass>
+                                      </Button>
+                           </children>
+                        </HBox>
+                     </center>
+                     <right>
+                        <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <ToggleButton mnemonicParsing="false" onAction="#toggleLeftHand" selected="true">
+                                 <styleClass>
+                                    <String fx:value="image-button" />
+                                    <String fx:value="left-hand" />
+                                 </styleClass>
+                              </ToggleButton>
+                              <ToggleButton mnemonicParsing="false" onAction="#toggleRightHand" selected="true">
+                                 <styleClass>
+                                    <String fx:value="image-button" />
+                                    <String fx:value="right-hand" />
+                                 </styleClass>
+                              </ToggleButton>
+                           </children>
+                        </HBox>
+                     </right>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
             </children>
         </VBox>
     </children>

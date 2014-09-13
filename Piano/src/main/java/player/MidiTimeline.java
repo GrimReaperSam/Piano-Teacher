@@ -1,6 +1,7 @@
 package player;
 
 import javafx.animation.Animation;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -9,6 +10,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.util.Duration;
 import player.model.Accord;
 import player.model.MidiFile;
@@ -25,7 +27,7 @@ public class MidiTimeline implements Player {
         this.controller = controller;
         this.midi = midi;
         initializeCountdownTimeline();
-        initializeTimeline();
+        resetTimeline();
     }
 
     @Override
@@ -43,7 +45,13 @@ public class MidiTimeline implements Player {
     }
 
     @Override
+    public void fastPlay() {
+        timeline.play();
+    }
+
+    @Override
     public void pause() {
+        controller.resetNotes();
         timeline.pause();
         MidiPlayerComponent.getInstance().getPiano().allNotesOff();
     }
@@ -55,8 +63,14 @@ public class MidiTimeline implements Player {
         MidiPlayerComponent.getInstance().getPiano().allNotesOff();
     }
 
-    private void initializeTimeline() {
+    @Override
+    public void resetTimeline() {
+        Duration currentTime = Duration.millis(0);
+        if (timeline != null) {
+            currentTime = timeline.getCurrentTime();
+        }
         timeline = new Timeline();
+
         double multiplier = 1;
         midi.getHands().forEach((hand) -> {
             for (int index = 0; index < hand.size(); index++) {
@@ -83,12 +97,35 @@ public class MidiTimeline implements Player {
         controller.getStart().disableProperty().bind(timelineRunning.or(countdownTimelineRunning));
         controller.getPause().disableProperty().bind(timelineRunning.not().or(countdownTimelineRunning));
         controller.getStop().disableProperty().bind(timeline.statusProperty().isEqualTo(Animation.Status.STOPPED).or(countdownTimelineRunning));
+
+        timeline.jumpTo(currentTime);
+        timeline.currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());
+        Slider progressBar = controller.getProgressBar();
+        progressBar.valueProperty().addListener(ov -> {
+            if (progressBar.isValueChanging()) {
+                // multiply duration by percentage calculated by slider position
+                Duration totalDuration = timeline.getTotalDuration();
+                if (totalDuration != null) {
+                    Status previousStatus = timeline.getStatus();
+                    timeline.pause();
+                    controller.resetNotes();
+                    timeline.jumpTo(totalDuration.multiply(progressBar.getValue() / 100.0));
+                    progressBar.pressedProperty().addListener((observable, oldValue, newValue) -> {
+                        if (previousStatus.equals(Status.RUNNING)) {
+                            fastPlay();
+                        }
+                    });
+                }
+                updateValues();
+            }
+        });
+
     }
 
     private void initializeCountdownTimeline() {
         countdownTimeline = new Timeline();
-        int COUNTDOWN_TIME = (int) midi.getCountdown() / 1000;
-        IntegerProperty countdown = new SimpleIntegerProperty(COUNTDOWN_TIME);
+        double COUNTDOWN_TIME = midi.getCountdown() / 1000;
+        IntegerProperty countdown = new SimpleIntegerProperty();
         Label countdownLabel = controller.getCountdownLabel();
         countdownLabel.textProperty().bind(countdown.asString());
         KeyFrame beginTimer = new KeyFrame(Duration.millis(0)
@@ -100,5 +137,19 @@ public class MidiTimeline implements Player {
                 , new KeyValue(countdownLabel.visibleProperty(), false));
 
         countdownTimeline.getKeyFrames().addAll(beginTimer, endTimer);
+    }
+
+    private void updateValues() {
+        Slider progressBar = controller.getProgressBar();
+        if (progressBar != null) {
+            Platform.runLater(() -> {
+                Duration currentTime = timeline.getCurrentTime();
+                Duration totalDuration = timeline.getTotalDuration();
+                progressBar.setDisable(totalDuration.isUnknown());
+                if (!progressBar.isDisabled() && totalDuration.greaterThan(Duration.ZERO) && !progressBar.isValueChanging()) {
+                    progressBar.setValue(currentTime.divide(totalDuration.toMillis()).toMillis() * 100.0);
+                }
+            });
+        }
     }
 }

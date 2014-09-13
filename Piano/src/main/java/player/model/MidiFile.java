@@ -1,5 +1,7 @@
 package player.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import midiparser.mididata.MIDI;
 import midiparser.mididata.Track;
 import midiparser.mididata.events.Note;
@@ -7,13 +9,12 @@ import player.PianoController;
 
 import javax.xml.bind.JAXBContext;
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 public class MidiFile {
 
     private Hand rightHand;
     private Hand leftHand;
+    private ObservableList<Hand> hands = FXCollections.observableArrayList();
     private double countdown;
     private double multiplier = 1;
 
@@ -26,11 +27,12 @@ public class MidiFile {
         MIDI midi = (MIDI) JAXBContext.newInstance(MIDI.class).createUnmarshaller().unmarshal(file);
         rightHand = getHand(midi, 0);
         leftHand = getHand(midi, 1);
+        hands.addAll(rightHand, leftHand);
         countdown = 4 * midi.getMicrosecondsPerBeat();
     }
 
-    public List<Hand> getHands() {
-        return Arrays.asList(rightHand, rightHand);
+    public ObservableList<Hand> getHands() {
+        return hands;
     }
 
     public double getMultiplier() {
