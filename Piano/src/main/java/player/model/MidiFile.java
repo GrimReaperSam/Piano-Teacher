@@ -19,7 +19,7 @@ public class MidiFile {
     private double multiplier = 1;
 
     public MidiFile() throws Exception {
-        File file = new File(PianoController.class.getResource("../music/beethoven_opus10_1.xml").toURI());
+        File file = new File(PianoController.class.getResource("../music/ty_juli.xml").toURI());
         initMidi(file);
     }
 
@@ -27,7 +27,12 @@ public class MidiFile {
         MIDI midi = (MIDI) JAXBContext.newInstance(MIDI.class).createUnmarshaller().unmarshal(file);
         rightHand = getHand(midi, 0);
         leftHand = getHand(midi, 1);
-        hands.addAll(rightHand, leftHand);
+        if (rightHand != null) {
+            hands.add(rightHand);
+        }
+        if (leftHand != null) {
+            hands.add(leftHand);
+        }
         countdown = 4 * midi.getMicrosecondsPerBeat();
     }
 

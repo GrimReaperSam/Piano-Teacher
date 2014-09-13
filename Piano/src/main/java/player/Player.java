@@ -8,6 +8,8 @@ public interface Player {
 
     void resetTimeline();
 
+    void preparePlay();
+
     void play();
 
     void fastPlay();

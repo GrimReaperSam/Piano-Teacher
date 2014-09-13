@@ -1,35 +1,32 @@
 package player;
 
 import javafx.animation.Animation.Status;
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
+import javafx.util.Duration;
+import keysgenerator.KeysGenerator;
+import keysgenerator.KeysResult;
 import midiparser.mididata.events.Note;
-import player.model.Hand;
 import player.model.MidiFile;
-import player.piano.BlackKey;
 import player.piano.PianoKey;
-import player.piano.WhiteKey;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PianoController {
 
-    private static final int WHITE_NUMBER = 52;
-    private static final List<Integer> BLACK_INDICES = Arrays.asList(0, 1, 3, 4, 5);
     private Map<Integer, PianoKey> whiteNotes = new HashMap<>();
     private Map<Integer, PianoKey> blackNotes = new HashMap<>();
-    private Player player;
+    private Player rightPlayer;
+    private Player leftPlayer;
 
     @FXML
     private Pane keys;
@@ -50,6 +47,7 @@ public class PianoController {
     private Slider progressBar;
 
     private MidiFile midi;
+    private Timeline countdownTimeline;
 
     public PianoController() {
     }
@@ -68,104 +66,103 @@ public class PianoController {
 
     public Slider getProgressBar() {return progressBar;}
 
-    public Label getCountdownLabel() {
-        return countdown;
-    }
-
     public PianoKey getKey(Note note) {
         int index = note.getValue();
         return whiteNotes.containsKey(index) ? whiteNotes.get(index) : blackNotes.get(index);
     }
 
-    public void resetNotes() {
-        Platform.runLater(() -> {
-            whiteNotes.forEach((key, note) -> note.resetStyle());
-            blackNotes.forEach((key, note) -> note.resetStyle());
-        });
-    }
-
-    public void setup() {
-        try {
-            midi = new MidiFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        player = new MidiTimeline(this, midi);
-    }
-
     @FXML
     private void handlePlay() {
-        player.play();
+        rightPlayer.preparePlay();
+        leftPlayer.preparePlay();
+        countdownTimeline.setOnFinished(ev -> {
+            rightPlayer.play();
+            leftPlayer.play();
+        });
+        countdownTimeline.playFromStart();
     }
 
     @FXML
     private void handlePause() {
-        player.pause();
+        rightPlayer.pause();
+        leftPlayer.pause();
     }
 
     @FXML
     private void handleStop() {
-        player.stop();
+        rightPlayer.stop();
+        leftPlayer.stop();
     }
 
     @FXML
     private void toggleLeftHand() {
-        toggleHand(midi.getLeftHand());
+        toggleHand(leftPlayer);
     }
 
     @FXML
     private void toggleRightHand() {
-        toggleHand(midi.getRightHand());
+        toggleHand(rightPlayer);
     }
 
-    private void toggleHand(Hand hand) {
-        boolean isRunning = player.getTimeline().getStatus().equals(Status.RUNNING);
-        player.pause();
-        resetNotes();
-        ObservableList<Hand> hands = midi.getHands();
-        if (hands.contains(hand)) {
-            hands.remove(hand);
+    private void toggleHand(Player player) {
+        if (player.getTimeline().getStatus().equals(Status.RUNNING)) {
+            player.pause();
         } else {
-            hands.add(hand);
-        }
-        player.resetTimeline();
-        if (isRunning) {
+            Duration currentTime = getOther(player).getTimeline().getCurrentTime();
+            player.getTimeline().jumpTo(currentTime);
             player.fastPlay();
         }
     }
 
     @FXML
     private void initialize() {
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
-        int keyWidth = (int) bounds.getWidth() / WHITE_NUMBER;
-
-        int noteIndex = 21;
-        Group whiteGroup = new Group();
-        Group blackGroup = new Group();
-        WhiteKey whiteKey;
-        BlackKey blackKey;
-        for (int i = 0; i < WHITE_NUMBER; i++) {
-            whiteKey = new WhiteKey(i * keyWidth, 1, keyWidth);
-            whiteKey.setNote(noteIndex);
-            whiteNotes.put(noteIndex, whiteKey);
-            whiteGroup.getChildren().add(whiteKey.getRectangle());
-            if (BLACK_INDICES.contains((i + 5) % 7)) {
-                if (i == WHITE_NUMBER - 1) {
-                    continue;
-                }
-                noteIndex += 1;
-                blackKey = new BlackKey(i * keyWidth + keyWidth / 2 + 4, 1, keyWidth - 8);
-                blackKey.setNote(noteIndex);
-                blackNotes.put(noteIndex, blackKey);
-                blackGroup.getChildren().add(blackKey.getRectangle());
-            }
-            noteIndex += 1;
-        }
-        keys.getChildren().addAll(whiteGroup, blackGroup);
+        KeysResult result = KeysGenerator.newInstance()
+//                                            .whiteNumber(36)
+                                            .whiteNumber(52)
+//                                            .startNote(48)
+                                            .startNote(21)
+                                            .blackOffset(5)
+                                            .generate();
+        whiteNotes = result.getWhiteNotes();
+        blackNotes = result.getBlackNotes();
+        keys.getChildren().addAll(result.getWhiteGroup(), result.getBlackGroup());
 
         countdown.prefWidthProperty().bind(keys.widthProperty());
         countdown.prefHeightProperty().bind(keys.heightProperty());
+
+        try {
+            midi = new MidiFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (midi.getRightHand() != null) {
+            rightPlayer = new HandPlayer(this, midi.getRightHand());
+        }
+        if (midi.getLeftHand() != null) {
+            leftPlayer = new HandPlayer(this, midi.getLeftHand());
+        }
+
+        initializeCountdownTimeline();
+    }
+
+    private Player getOther(Player player) {
+        return player.equals(rightPlayer) ? leftPlayer : rightPlayer;
+    }
+
+    private void initializeCountdownTimeline() {
+        countdownTimeline = new Timeline();
+        double COUNTDOWN_TIME = midi.getCountdown() / 1000;
+        IntegerProperty countdownProperty = new SimpleIntegerProperty();
+        countdown.textProperty().bind(countdownProperty.asString());
+        KeyFrame beginTimer = new KeyFrame(Duration.millis(0)
+                , new KeyValue(countdownProperty, 1)
+                , new KeyValue(countdown.visibleProperty(), true));
+
+        KeyFrame endTimer = new KeyFrame(Duration.millis(COUNTDOWN_TIME)
+                , new KeyValue(countdownProperty, 4)
+                , new KeyValue(countdown.visibleProperty(), false));
+
+        countdownTimeline.getKeyFrames().addAll(beginTimer, endTimer);
     }
 
 }

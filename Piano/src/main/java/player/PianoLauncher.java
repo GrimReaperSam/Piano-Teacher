@@ -8,25 +8,17 @@ import javafx.stage.Stage;
 
 public class PianoLauncher extends Application {
 
-    private Stage primaryStage;
-    private VBox rootLayout;
-
     @Override
     public void start(Stage stage) throws Exception {
-        primaryStage = stage;
-
         FXMLLoader loader = new FXMLLoader(PianoLauncher.class.getResource("../view/RootLayout.fxml"));
-        rootLayout = loader.load();
-
-        PianoController controller = loader.getController();
-        controller.setup();
+        VBox rootLayout = loader.load();
 
         Scene scene = new Scene(rootLayout);
-        primaryStage.setTitle("Piano");
-        primaryStage.setResizable(false);
-        primaryStage.setScene(scene);
-        primaryStage.sizeToScene();
-        primaryStage.show();
+        stage.setTitle("Piano");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.sizeToScene();
+        stage.show();
     }
 
     public static void main(String[] args) throws Exception {
