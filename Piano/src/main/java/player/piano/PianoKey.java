@@ -57,8 +57,8 @@ public class PianoKey {
         return "Note: " + note;
     }
 
-    public void play(Note note, double multiplier) {
-        noteOn(note.getVolume());
+    public void play(Note note, double multiplier, boolean sound) {
+        noteOn(sound ? note.getVolume(): 0);
         transition.setDuration(Duration.millis(multiplier * note.getDuration() / 2000));
         transition.play();
     }

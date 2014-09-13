@@ -104,6 +104,16 @@ public class PianoController {
         toggleHand(rightPlayer);
     }
 
+    @FXML
+    private void toggleLeftSound() {
+        leftPlayer.toggleSound();
+    }
+
+    @FXML
+    private void toggleRightSound() {
+        rightPlayer.toggleSound();
+    }
+
     private void toggleHand(Player player) {
         if (player.getTimeline().getStatus().equals(Status.RUNNING)) {
             player.pause();

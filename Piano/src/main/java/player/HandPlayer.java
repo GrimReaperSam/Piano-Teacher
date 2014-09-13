@@ -20,6 +20,7 @@ public class HandPlayer implements Player {
     private PianoController controller;
     private Hand hand;
     private Timeline timeline;
+    private boolean sound = true;
     private List<PianoKey> currentlyModified = new ArrayList<>();
 
     public HandPlayer(PianoController controller, Hand hand) {
@@ -89,7 +90,7 @@ public class HandPlayer implements Player {
                 double time = multiplier * note.getTime() / 1000;
                 KeyFrame noteFrame = new KeyFrame(Duration.millis(time)
                         , ev -> {
-                    key.play(note, multiplier);
+                    key.play(note, multiplier, sound);
                     currentlyModified.remove(key);
                     if (finalIndex < hand.size() - 2) {
                         hand.get(finalIndex + 1).forEach(nextNote -> {
@@ -147,5 +148,9 @@ public class HandPlayer implements Player {
                 }
             });
         }
+    }
+
+    public void toggleSound() {
+        sound = !sound;
     }
 }
