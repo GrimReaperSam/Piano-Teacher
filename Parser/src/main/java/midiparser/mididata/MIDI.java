@@ -19,7 +19,6 @@ public class MIDI {
     private int resolution;
     private float divisionType;
 
-    @XmlTransient
     private float microsecondsPerBeat= 500000; //Only used in PPQ mode
 
     @XmlElement(name= "tempoMultiplier")
@@ -122,6 +121,10 @@ public class MIDI {
         } else {
             throw new IllegalStateException("Cannot update MPB in SMTP mode");
         }
+    }
+
+    public float getMicrosecondsPerBeat() {
+        return microsecondsPerBeat;
     }
 
 //    public int getBPM() {

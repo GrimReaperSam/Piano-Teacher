@@ -11,4 +11,12 @@
 
     <artifactId>piano</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>midi</groupId>
+            <artifactId>parser</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>

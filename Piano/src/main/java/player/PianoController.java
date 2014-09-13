@@ -13,14 +13,15 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 import midiparser.mididata.events.Note;
-import player.model.Hand;
 import player.model.MidiFile;
 import player.piano.BlackKey;
 import player.piano.PianoKey;
 import player.piano.WhiteKey;
 
-import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PianoController {
 
@@ -83,18 +84,11 @@ public class PianoController {
 
     public void setup() {
         try {
-            midi = new MidiFile(new File(PianoController.class.getResource("../beethoven_opus10_1.xml").toURI()));
+            midi = new MidiFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Hand> hands = new ArrayList<>();
-        if (midi.getRightHand() != null) {
-            hands.add(midi.getRightHand());
-        }
-//        if (midi.getLeftHand() != null) {
-//            hands.add(midi.getLeftHand());
-//        }
-        player = new MidiTimeline(this, hands);
+        player = new MidiTimeline(this, midi);
 
         player.getTimeline().currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());
         progressBar.valueProperty().addListener(ov -> {
