@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import midiparser.ErrorController;
 import midiparser.MidiParserLauncher;
 
-public class DialogUtils {
+public class Dialogs {
 
     public static void errorDialog(String error) {
         dialog("Error", error);

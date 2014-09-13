@@ -9,7 +9,7 @@ import javafx.stage.FileChooser;
 import midiparser.mididata.MIDI;
 import midiparser.model.MidiInfo;
 import midiparser.parser.MidiParser;
-import midiparser.utils.DialogUtils;
+import midiparser.utils.Dialogs;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -95,7 +95,7 @@ public class MidiInfoController {
         String midiPath = midiFile.getText();
         File midiFile = new File(midiPath);
         if (!midiFile.exists()) {
-            DialogUtils.errorDialog("Specified path does not lead to a midi file, please make sure you have the correct path.");
+            Dialogs.errorDialog("Specified path does not lead to a midi file, please make sure you have the correct path.");
             return;
         }
 
@@ -109,7 +109,7 @@ public class MidiInfoController {
         }
         info.setMultiplier(Math.floor(multiplier.getValue() * 10) / 10);
         parse(info);
-        DialogUtils.infoDialog("Parsing complete");
+        Dialogs.infoDialog("Parsing complete");
     }
 
     @FXML

@@ -4,7 +4,6 @@ import midiparser.mididata.MIDI;
 import midiparser.mididata.Track;
 import midiparser.mididata.events.Note;
 import midiparser.mididata.events.Note.NoteBuilder;
-import midiparser.utils.MIDIUtils;
 
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
@@ -15,7 +14,7 @@ import java.util.HashMap;
 
 public class TrackParser {
 
-//    private static final String[] sm_astrKeySignatures = { "Cb", "Gb", "Db", "Ab", "Eb", "Bb", "F", "C", "G", "D", "A", "E", "B", "F#", "C#" };
+    private static final String[] KEY_NAMES = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
 
     private final Track track;
 
@@ -48,13 +47,13 @@ public class TrackParser {
     }
 
     private void fireNoteOn(ShortMessage message, long timeStamp) {
-        String key = MIDIUtils.getKey(message.getData1());
+        String key = getKey(message.getData1());
         NoteBuilder nb = new NoteBuilder(key).value(message.getData1()).ticks(timeStamp).time(midi.toMicros(timeStamp)).volume(message.getData2());
         notes.put(key, nb);
     }
 
     private void fireNoteOff(ShortMessage message, long timeStamp) {
-        String keyName = MIDIUtils.getKey(message.getData1());
+        String keyName = getKey(message.getData1());
         if (notes.containsKey(keyName)) {
             NoteBuilder nb = notes.remove(keyName);
             nb.duration(midi.toMicros(timeStamp - nb.getTicks()));
@@ -62,6 +61,8 @@ public class TrackParser {
             track.getNotes().add(note);
         }
     }
+
+
 
 //    private void firePolyphonicKeyPressure(ShortMessage message, long timeStamp) {
 //        String keyName = MIDIUtils.getKey(message.getData1());
@@ -241,6 +242,12 @@ public class TrackParser {
         default:
             break;
         }
+    }
+
+    private String getKey(int keyNumber) {
+        int nNote = keyNumber % 12;
+        int nOctave = keyNumber / 12;
+        return KEY_NAMES[nNote] + (nOctave - 1);
     }
 
 }
