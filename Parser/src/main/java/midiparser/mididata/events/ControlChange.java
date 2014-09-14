@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ControlChange extends Event {
 
-    private int control; //TODO list of controls (name)
+    private int control;
     private int value;
 
     public ControlChange( int control, int value, long ticks, double time) {

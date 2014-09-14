@@ -43,12 +43,6 @@ public class HandPlayer implements Player {
 
     @Override
     public void play() {
-
-        timeline.play();
-    }
-
-    @Override
-    public void fastPlay() {
         timeline.play();
     }
 
@@ -73,7 +67,6 @@ public class HandPlayer implements Player {
         }
     }
 
-    @Override
     public void resetTimeline() {
         Duration currentTime = Duration.millis(0);
         if (timeline != null) {
@@ -126,7 +119,7 @@ public class HandPlayer implements Player {
                     timeline.jumpTo(totalDuration.multiply(progressBar.getValue() / 100.0));
                     progressBar.pressedProperty().addListener((observable, oldValue, newValue) -> {
                         if (previousStatus.equals(Status.RUNNING)) {
-                            fastPlay();
+                            play();
                         }
                     });
                 }

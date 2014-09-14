@@ -21,6 +21,14 @@
     -fx-background-color: rgba(221, 221, 221, 0.5);
 }
 
+.music-icon {
+    -fx-background-image: url("icons/music-off.png");
+}
+
+.music-icon:selected {
+    -fx-background-image: url("icons/music-on.png");
+}
+
 .play-button {
     -fx-background-image: url("icons/play.png");
 }

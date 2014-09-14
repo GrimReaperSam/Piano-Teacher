@@ -69,13 +69,13 @@
                                     <ToggleButton mnemonicParsing="false" onAction="#toggleLeftSound" selected="true">
                                        <styleClass>
                                           <String fx:value="image-button" />
-                                          <String fx:value="left-hand" />
+                                          <String fx:value="music-icon" />
                                        </styleClass>
                                     </ToggleButton>
                                     <ToggleButton mnemonicParsing="false" onAction="#toggleRightSound" selected="true">
                                        <styleClass>
                                           <String fx:value="image-button" />
-                                          <String fx:value="right-hand" />
+                                          <String fx:value="music-icon" />
                                        </styleClass>
                                     </ToggleButton>
                                  </children>

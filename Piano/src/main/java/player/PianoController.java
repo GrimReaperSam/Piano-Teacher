@@ -120,7 +120,7 @@ public class PianoController {
         } else {
             Duration currentTime = getOther(player).getTimeline().getCurrentTime();
             player.getTimeline().jumpTo(currentTime);
-            player.fastPlay();
+            player.play();
         }
     }
 

@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramChange extends Event {
 
-    private int program; //TODO list of programs (name)
+    private int program;
 
     public ProgramChange(int program, long ticks, double time) {
         super(ticks, time);
