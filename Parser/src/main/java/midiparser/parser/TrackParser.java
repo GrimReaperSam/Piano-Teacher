@@ -103,6 +103,10 @@ public class TrackParser {
 //        Tempo tEvent = new Tempo(tempo, midi.getBPM(), timeStamp, midi.toMicros(timeStamp));
 //        track.getEvents().add(tEvent);
     }
+
+    private void fireTimeSignature(int signature) {
+        track.setTimeSignature(signature);
+    }
 //
 //    private void fireTrackName(String name, long timeStamp) {
 //        TrackName tn = new TrackName(name, timeStamp, midi.toMicros(timeStamp));
@@ -229,10 +233,9 @@ public class TrackParser {
 //            strMessage = "SMTPE Offset: " + (abData[0] & 0xFF) + ":" + (abData[1] & 0xFF) + ":" + (abData[2] & 0xFF) + "." + (abData[3] & 0xFF) + "." + (abData[4] & 0xFF);
 //            break;
 //
-//        case 0x58:
-//            strMessage = "Time Signature: " + (abData[0] & 0xFF) + "/" + (1 << (abData[1] & 0xFF)) + ", MIDI clocks per metronome tick: " + (abData[2] & 0xFF) + ", 1/32 per 24 MIDI clocks: "
-//                    + (abData[3] & 0xFF);
-//            break;
+        case 0x58:
+            fireTimeSignature((abData[0] & 0xFF));
+            break;
 //
 //        case 0x59:
 //            String strGender = (abData[1] == 1) ? "minor" : "major";

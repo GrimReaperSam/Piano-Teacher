@@ -58,6 +58,11 @@ public class HandPlayer implements Player {
         resetNotes();
     }
 
+    @Override
+    public void refresh() {
+        resetTimeline();
+    }
+
     public void resetNotes() {
         if (!currentlyModified.isEmpty()) {
             currentlyModified.forEach((key) -> {
@@ -74,7 +79,7 @@ public class HandPlayer implements Player {
         }
         timeline = new Timeline();
 
-        double multiplier = 1;
+        double multiplier = controller.getMultiplierSlider().getValue();
         for (int index = 0; index < hand.size(); index++) {
             final int finalIndex = index;
             Accord accord = hand.get(index);

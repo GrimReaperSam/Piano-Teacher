@@ -15,4 +15,7 @@ public interface Player {
     void stop();
 
     void toggleSound();
+
+    void refresh();
+
 }

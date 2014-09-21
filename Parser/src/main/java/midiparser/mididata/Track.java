@@ -14,6 +14,7 @@ public class Track {
     @XmlElementRef(name = "note")
     @XmlElementWrapper(name="notes")
     private List<Note> notes;
+    private int timeSignature;
 
     public List<Note> getNotes() {
         if (notes == null) {
@@ -30,5 +31,13 @@ public class Track {
             sb.append('\n');
         });
         return sb.toString();
+    }
+
+    public void setTimeSignature(int timeSignature) {
+        this.timeSignature = timeSignature;
+    }
+
+    public int getTimeSignature() {
+        return timeSignature;
     }
 }

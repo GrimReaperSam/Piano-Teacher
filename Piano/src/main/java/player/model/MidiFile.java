@@ -17,6 +17,7 @@ public class MidiFile {
     private ObservableList<Hand> hands = FXCollections.observableArrayList();
     private double countdown;
     private double multiplier = 1;
+    private int measure;
 
     public MidiFile() throws Exception {
         File file = new File(PianoController.class.getResource("../music/ty_juli.xml").toURI());
@@ -34,6 +35,7 @@ public class MidiFile {
             hands.add(leftHand);
         }
         countdown = 4 * midi.getMicrosecondsPerBeat();
+        measure = midi.getTracks().get(0).getTimeSignature();
     }
 
     public ObservableList<Hand> getHands() {
@@ -60,8 +62,8 @@ public class MidiFile {
         return countdown;
     }
 
-    public void setCountdown(double countdown) {
-        this.countdown = countdown;
+    public int getMeasure() {
+        return measure;
     }
 
     private Hand getHand(MIDI midi, int trackIndex) {
