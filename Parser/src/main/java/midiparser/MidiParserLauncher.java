@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 public class MidiParserLauncher extends Application {
 
     private Stage primaryStage;
-    private VBox rootLayout;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -20,7 +19,7 @@ public class MidiParserLauncher extends Application {
         primaryStage.setResizable(false);
 
         FXMLLoader loader = new FXMLLoader(MidiParserLauncher.class.getResource("/view/RootLayout.fxml"));
-        rootLayout = loader.load();
+        VBox rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
         primaryStage.show();
