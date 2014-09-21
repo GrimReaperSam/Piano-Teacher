@@ -1,25 +1,19 @@
 package midiparser.model;
 
 import java.io.File;
+import java.util.List;
 
 public class MidiInfo {
 
-    private File midi;
     private File output;
     private boolean textOutput;
     private double  multiplier;
+    private List<File> midiFiles;
 
     public MidiInfo() {
         multiplier = 1;
     }
 
-    public File getMidi() {
-        return midi;
-    }
-
-    public void setMidi(File midi) {
-        this.midi = midi;
-    }
 
     public File getOutput() {
         return output;
@@ -45,5 +39,11 @@ public class MidiInfo {
         this.multiplier = multiplier;
     }
 
+    public void setMidiFiles(List<File> midiFiles) {
+        this.midiFiles = midiFiles;
+    }
 
+    public List<File> getMidiFiles() {
+        return midiFiles;
+    }
 }

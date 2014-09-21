@@ -15,7 +15,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.prefs.Preferences;
+import java.util.stream.Collectors;
 
 public class MidiInfoController {
 
@@ -44,6 +46,7 @@ public class MidiInfoController {
     private Button parseButton;
 
     private MidiParserLauncher launcher;
+    private MidiInfo info = new MidiInfo();
 
     public MidiInfoController() {
     }
@@ -62,13 +65,17 @@ public class MidiInfoController {
         fileChooser.getExtensionFilters().add(extensionFilter);
         fileChooser.setInitialDirectory(initialDirectory);
 
-        File chosenFile = fileChooser.showOpenDialog(null);
-        String path = null;
-        if (chosenFile != null) {
-            path = chosenFile.getPath();
-            userPrefs.put(MIDI_SAVE_DIRECTORY,  chosenFile.getParent());
+        List<File> files = fileChooser.showOpenMultipleDialog(null);
+        if (files != null) {
+            userPrefs.put(MIDI_SAVE_DIRECTORY, files.get(0).getParent());
+            if (files.size() == 1) {
+                midiFile.setText(files.get(0).getPath());
+            } else {
+                String fileName = files.stream().map((file) -> file.getName().split("\\.")[0]).collect(Collectors.joining(", "));
+                midiFile.setText(fileName);
+            }
+            info.setMidiFiles(files);
         }
-        midiFile.setText(path);
     }
 
     @FXML
@@ -80,35 +87,20 @@ public class MidiInfoController {
         fileChooser.setInitialDirectory(initialDirectory);
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extensionFilter);
-        //Show save file dialog
+
         File chosenFile = fileChooser.showSaveDialog(launcher.getPrimaryStage());
-        String path = null;
         if (chosenFile != null) {
-            path = chosenFile.getPath();
             userPrefs.put(OUTPUT_SAVE_DIRECTORY,  chosenFile.getParent());
+            info.setOutput(chosenFile);
+            outputFile.setText(chosenFile.getPath());
         }
-        outputFile.setText(path);
     }
 
     @FXML
     private void handleParse(ActionEvent event) {
-        String midiPath = midiFile.getText();
-        File midiFile = new File(midiPath);
-        if (!midiFile.exists()) {
-            Dialogs.errorDialog("Specified path does not lead to a midi file, please make sure you have the correct path.");
-            return;
-        }
-
-        MidiInfo info = new MidiInfo();
-        info.setMidi(midiFile);
         info.setTextOutput(txtCheckbox.isSelected());
-        if (txtCheckbox.isSelected()) {
-            if(!outputFile.getText().isEmpty()) {
-                info.setOutput(new File(outputFile.getText()));
-            }
-        }
         info.setMultiplier(Math.floor(multiplier.getValue() * 10) / 10);
-        parse(info);
+        info.getMidiFiles().forEach(this::parse);
         Dialogs.infoDialog("Parsing complete");
     }
 
@@ -128,10 +120,15 @@ public class MidiInfoController {
         outputHbox.managedProperty().bind(txtCheckbox.selectedProperty());
     }
 
-    private void parse(MidiInfo info) {
-        MIDI midi = new MidiParser().parse(info);
-        String midiName = getFileName(midi);
+    private void parse(File midiFile) {
         try {
+            if (!midiFile.exists()) {
+                Dialogs.errorDialog("Specified path does not lead to a midi file, please make sure you have the correct path.");
+                return;
+            }
+
+            MIDI midi = new MidiParser().parse(midiFile, info.getMultiplier());
+            String midiName = getFileName(midi);
             if(info.isTextOutput()) {
                 PrintWriter printer;
                 File output = info.getOutput();

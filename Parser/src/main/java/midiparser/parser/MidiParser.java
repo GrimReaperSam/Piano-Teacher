@@ -1,7 +1,6 @@
 package midiparser.parser;
 
 import midiparser.mididata.MIDI;
-import midiparser.model.MidiInfo;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequence;
@@ -16,32 +15,27 @@ public class MidiParser {
         midi = new MIDI();
     }
 
-    public MIDI parse(MidiInfo info) {
-        try {
-            File file = info.getMidi();
-            midi.setFileName(file.getName());
-            midi.setType(MidiSystem.getMidiFileFormat(file).getType());
+    public MIDI parse(File file,double multiplier) throws Exception {
+        midi.setFileName(file.getName());
+        midi.setType(MidiSystem.getMidiFileFormat(file).getType());
 
-            Sequence sequence = MidiSystem.getSequence(file);
-            midi.setMultiplier(info.getMultiplier());
-            midi.setTicks(sequence.getTickLength());
-            midi.setMicroseconds((long) (sequence.getMicrosecondLength() /info.getMultiplier()));
+        Sequence sequence = MidiSystem.getSequence(file);
+        midi.setMultiplier(multiplier);
+        midi.setTicks(sequence.getTickLength());
+        midi.setMicroseconds((long) (sequence.getMicrosecondLength() / multiplier));
 
-            midi.setResolution(sequence.getResolution());
-            midi.setDivisionType(sequence.getDivisionType());
+        midi.setResolution(sequence.getResolution());
+        midi.setDivisionType(sequence.getDivisionType());
 
-            Track[] tracks = sequence.getTracks();
-            midi.setTrackCount(tracks.length);
-            for (Track track: tracks) {
-                midiparser.mididata.Track midiTrack = new TrackParser(midi).parse(track);
-                if (!midiTrack.getNotes().isEmpty()) {
-                    midi.getTracks().add(midiTrack);
-                }
+        Track[] tracks = sequence.getTracks();
+        midi.setTrackCount(tracks.length);
+        for (Track track: tracks) {
+            midiparser.mididata.Track midiTrack = new TrackParser(midi).parse(track);
+            if (!midiTrack.getNotes().isEmpty()) {
+                midi.getTracks().add(midiTrack);
             }
-            return midi;
-        }catch (Exception e) {
-            throw new IllegalStateException("Unable to find midi file");
         }
+        return midi;
     }
 
 }
