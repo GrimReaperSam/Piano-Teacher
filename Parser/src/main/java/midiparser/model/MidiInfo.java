@@ -1,14 +1,16 @@
 package midiparser.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.File;
-import java.util.List;
 
 public class MidiInfo {
 
     private File output;
     private boolean textOutput;
     private double  multiplier;
-    private List<File> midiFiles;
+    private ObservableList<File> midiFiles;
 
     public MidiInfo() {
         multiplier = 1;
@@ -39,11 +41,10 @@ public class MidiInfo {
         this.multiplier = multiplier;
     }
 
-    public void setMidiFiles(List<File> midiFiles) {
-        this.midiFiles = midiFiles;
-    }
-
-    public List<File> getMidiFiles() {
+    public ObservableList<File> getMidiFiles() {
+        if (midiFiles == null) {
+            midiFiles = FXCollections.observableArrayList();
+        }
         return midiFiles;
     }
 }
