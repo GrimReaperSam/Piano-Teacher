@@ -60,6 +60,7 @@ public class HandPlayer implements Player {
 
     @Override
     public void refresh() {
+        stop();
         resetTimeline();
     }
 

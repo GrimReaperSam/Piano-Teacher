@@ -170,8 +170,15 @@ public class PianoController {
         }
 
         multiplierSlider.valueProperty().addListener((observable, oldValue, newValue) -> players.forEach((player) -> {
-            player.stop();
+            double timeMultipler = newValue.doubleValue() / oldValue.doubleValue();
+            Timeline timeline = player.getTimeline();
+            Status previousStatus = timeline.getStatus();
+            Duration current = timeline.getCurrentTime();
             player.refresh();
+            player.getTimeline().jumpTo(current.multiply(timeMultipler));
+            if (previousStatus.equals(Status.RUNNING)) {
+                player.play();
+            }
         }));
 
         initializeCountdownTimeline();
