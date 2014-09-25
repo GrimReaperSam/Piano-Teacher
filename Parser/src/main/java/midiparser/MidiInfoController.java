@@ -96,13 +96,13 @@ public class MidiInfoController {
         File initialDirectory = new File (userPrefs.get(OUTPUT_SAVE_DIRECTORY, new File(".").getAbsolutePath()));
 
         File chosenFile;
-        if (info.getMidiFiles().size() == 1) {
+        if (info.getMidiFiles().size() == 1) { //Single Midi file to save, open a save file dialog
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(initialDirectory);
             FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
             fileChooser.getExtensionFilters().add(extensionFilter);
             chosenFile = fileChooser.showSaveDialog(launcher.getPrimaryStage());
-        } else {
+        } else { //Multiple Midi files to save, open a save folder dialog
             DirectoryChooser dirChooser = new DirectoryChooser();
             dirChooser.setInitialDirectory(initialDirectory);
             chosenFile = dirChooser.showDialog(launcher.getPrimaryStage());
@@ -118,7 +118,7 @@ public class MidiInfoController {
     private void handleParse(ActionEvent event) {
         info.setTextOutput(txtCheckbox.isSelected());
         info.setMultiplier(Math.floor(multiplier.getValue() * 10) / 10);
-        save(info.getMidiFiles());
+        save();
         Dialogs.infoDialog("Parsing complete");
     }
 
@@ -148,9 +148,12 @@ public class MidiInfoController {
         }
     }
 
-    private void save(List<File> midiFiles) {
-        boolean isBatch = midiFiles.size() > 1;
-        midiFiles.stream().map(this::parse).forEach((midi) -> {
+    /**
+     * Given the list of midiFiles in the MidiInfo model, it will parse each file, and save an xml result along a txt one if required
+     */
+    private void save() {
+        boolean isBatch = info.getMidiFiles().size() > 1;
+        info.getMidiFiles().stream().map(this::parse).forEach((midi) -> {
             String midiName = getFileName(midi);
             try {
                 Path path = Paths.get(String.format("%s/%s%s", XML_RESULT_FOLDER, midiName, XML_FORMAT));
@@ -179,7 +182,7 @@ public class MidiInfoController {
                             }
                             output = textResultsPath.toFile();
                         } // else save information give, will use the given output
-                        File file = new File(output, midiName + TXT_FORMAT);
+                        File file = new File(output, String.format("%s%s", midiName, TXT_FORMAT));
                         printer = new PrintWriter(file);
                     }
                     printer.println(midi);
@@ -190,6 +193,10 @@ public class MidiInfoController {
         });
     }
 
+    /**
+     * @param midi the requested song
+     * @return "songName" or "songName0.3"
+     */
     private String getFileName(MIDI midi) {
         return midi.getFileName().split("\\.")[0] + (midi.getMultiplier() == 1? "": midi.getMultiplier());
     }
