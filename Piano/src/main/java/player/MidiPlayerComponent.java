@@ -30,7 +30,6 @@ public class MidiPlayerComponent {
         try {
             if (synthesizer == null) {
                 if ((synthesizer = MidiSystem.getSynthesizer()) == null) {
-                    System.out.println("getSynthesizer() failed!");
                     return;
                 }
             }

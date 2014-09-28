@@ -14,8 +14,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import keysgenerator.KeysGenerator;
-import keysgenerator.KeysResult;
+import keysgenerator.Piano;
+import keysgenerator.PianoGenerator;
 import midiparser.mididata.events.Note;
 import player.model.MidiFile;
 import player.piano.PianoKey;
@@ -134,16 +134,16 @@ public class PianoController {
     @FXML
     private void initialize() {
         boolean useFull = true;
-        KeysResult halfPiano = KeysGenerator.newInstance()
+        Piano halfPiano = PianoGenerator.newInstance()
                                             .whiteNumber(36)
                                             .startNote(48)
                                             .generate();
-        KeysResult fullPiano = KeysGenerator.newInstance()
+        Piano fullPiano = PianoGenerator.newInstance()
                                             .whiteNumber(52)
                                             .startNote(21)
                                             .blackOffset(5)
                                             .generate();
-        KeysResult result = useFull ? fullPiano : halfPiano;
+        Piano result = useFull ? fullPiano : halfPiano;
         whiteNotes = result.getWhiteNotes();
         blackNotes = result.getBlackNotes();
         keys.getChildren().addAll(result.getWhiteGroup(), result.getBlackGroup());

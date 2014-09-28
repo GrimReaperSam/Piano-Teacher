@@ -56,6 +56,17 @@ public class Note extends Event {
         this.duration = duration;
     }
 
+    public Note multiply(double multiplier) {
+        Note note = new Note();
+        note.setValue(getValue());
+        note.setKey(getKey());
+        note.setVolume(getVolume());
+        note.setTicks(getTicks());
+        note.setTime(multiplier * getTime());
+        note.setDuration(multiplier * getDuration());
+        return note;
+    }
+
     public static class NoteBuilder {
         private int value;
         private String key;

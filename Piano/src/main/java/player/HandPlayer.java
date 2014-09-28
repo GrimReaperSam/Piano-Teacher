@@ -8,24 +8,27 @@ import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Slider;
 import javafx.util.Duration;
+import midiparser.mididata.events.Note;
+import player.components.BaseGraphicComponent;
+import player.components.BaseMusicComponent;
+import player.components.GraphicComponent;
+import player.components.MusicComponent;
 import player.model.Accord;
 import player.model.Hand;
-import player.piano.PianoKey;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HandPlayer implements Player {
 
     private PianoController controller;
     private Hand hand;
     private Timeline timeline;
-    private boolean sound = true;
-    private List<PianoKey> currentlyModified = new ArrayList<>();
+    BaseMusicComponent music;
+    BaseGraphicComponent graphic;
 
     public HandPlayer(PianoController controller, Hand hand) {
         this.controller = controller;
         this.hand = hand;
+        music = new MusicComponent();
+        graphic = new GraphicComponent(controller);
         resetTimeline();
     }
 
@@ -37,7 +40,7 @@ public class HandPlayer implements Player {
     @Override
     public void preparePlay() {
         if (timeline.getStatus().equals(Animation.Status.STOPPED)) {
-            Platform.runLater(() -> hand.get(0).forEach(note -> controller.getKey(note).preparePlay()));
+            Platform.runLater(() -> hand.get(0).forEach(graphic::playNext));
         }
     }
 
@@ -64,13 +67,15 @@ public class HandPlayer implements Player {
         resetTimeline();
     }
 
+
+    @Override
+    public void toggleSound() {
+        music.toggleSound();
+    }
+
     public void resetNotes() {
-        if (!currentlyModified.isEmpty()) {
-            currentlyModified.forEach((key) -> {
-                key.resetStyle();
-                MidiPlayerComponent.getInstance().getPiano().noteOff(key.getNote());
-            });
-        }
+        music.clear();
+        graphic.clear();
     }
 
     public void resetTimeline() {
@@ -85,23 +90,23 @@ public class HandPlayer implements Player {
             final int finalIndex = index;
             Accord accord = hand.get(index);
             accord.forEach(note -> {
-                PianoKey key = controller.getKey(note);
-                double time = multiplier * note.getTime() / 1000;
-                KeyFrame noteFrame = new KeyFrame(Duration.millis(time)
-                        , ev -> {
-                    key.play(note, multiplier, sound);
-                    currentlyModified.remove(key);
+                Note adjustedNote = note.multiply(multiplier);
+                double startTime = adjustedNote.getTime() / 1000;
+                double endTime = (adjustedNote.getTime() + adjustedNote.getDuration()) / 1000;
+                KeyFrame startFrame = new KeyFrame(Duration.millis(startTime)
+                , ev -> {
+                    music.play(adjustedNote);
+                    graphic.play(adjustedNote);
                     if (finalIndex < hand.size() - 2) {
-                        hand.get(finalIndex + 1).forEach(nextNote -> {
-                            PianoKey nextKey = controller.getKey(nextNote);
-                            if (!currentlyModified.contains(nextKey)) {
-                                currentlyModified.add(nextKey);
-                            }
-                            nextKey.preparePlay();
-                        });
+                        hand.get(finalIndex + 1).forEach(graphic::playNext);
                     }
                 });
-                timeline.getKeyFrames().addAll(noteFrame);
+                KeyFrame endFrame= new KeyFrame(Duration.millis(endTime)
+                , ev -> {
+                    music.stop(adjustedNote);
+                    graphic.stop(adjustedNote);
+                });
+                timeline.getKeyFrames().addAll(startFrame, endFrame);
             });
         }
         timeline.setOnFinished(event -> resetNotes());
@@ -149,7 +154,4 @@ public class HandPlayer implements Player {
         }
     }
 
-    public void toggleSound() {
-        sound = !sound;
-    }
 }

@@ -6,7 +6,7 @@ import player.piano.PianoKey;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KeysResult {
+public class Piano {
 
     private Map<Integer, PianoKey> whiteNotes = new HashMap<>();
     private Map<Integer, PianoKey> blackNotes = new HashMap<>();

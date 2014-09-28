@@ -8,7 +8,7 @@ import player.piano.WhiteKey;
 import java.util.Arrays;
 import java.util.List;
 
-public class KeysGenerator {
+public class PianoGenerator {
 
     private static final List<Integer> BLACK_INDICES = Arrays.asList(0, 1, 3, 4, 5);
 
@@ -16,29 +16,29 @@ public class KeysGenerator {
     private int startNote;
     private int blackOffset;
 
-    public static KeysGenerator newInstance() {
-        return new KeysGenerator();
+    public static PianoGenerator newInstance() {
+        return new PianoGenerator();
     }
 
-    private KeysGenerator() {}
+    private PianoGenerator() {}
 
-    public KeysGenerator whiteNumber(int whiteNumber) {
+    public PianoGenerator whiteNumber(int whiteNumber) {
         this.whiteNumber = whiteNumber;
         return this;
     }
 
-    public KeysGenerator startNote(int startNote) {
+    public PianoGenerator startNote(int startNote) {
         this.startNote = startNote;
         return this;
     }
 
-    public KeysGenerator blackOffset(int blackOffset) {
+    public PianoGenerator blackOffset(int blackOffset) {
         this.blackOffset = blackOffset;
         return this;
     }
 
-    public KeysResult generate() {
-        KeysResult result = new KeysResult();
+    public Piano generate() {
+        Piano result = new Piano();
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         int keyWidth = (int) bounds.getWidth() / whiteNumber;

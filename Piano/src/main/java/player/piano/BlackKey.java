@@ -2,7 +2,8 @@ package player.piano;
 
 public class BlackKey extends PianoKey {
 
-    public static final int HEIGHT = 110;
+    private static final int HEIGHT = 110;
+
 
     public BlackKey(int x, int y, int width) {
         super(x, y, width, HEIGHT);
@@ -11,7 +12,7 @@ public class BlackKey extends PianoKey {
     @Override
     public void resetStyle() {
         super.resetStyle();
-        getRectangle().getStyleClass().add("black-key");
+        getRectangle().setFill(BLACK);
     }
 
 }

@@ -1,9 +1,10 @@
 package player.piano;
 
+import javafx.scene.paint.Color;
+
 public class WhiteKey extends  PianoKey{
 
-
-    public static final int HEIGHT = 180;
+    private static final int HEIGHT = 180;
 
     public WhiteKey(int x, int y, int width) {
         super(x, y, width, HEIGHT);
@@ -12,6 +13,6 @@ public class WhiteKey extends  PianoKey{
     @Override
     public void resetStyle() {
         super.resetStyle();
-        getRectangle().getStyleClass().add("white-key");
+        getRectangle().setFill(Color.WHITE);
     }
 }

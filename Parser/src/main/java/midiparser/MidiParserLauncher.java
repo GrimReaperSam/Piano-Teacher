@@ -7,12 +7,14 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class MidiParserLauncher extends Application {
 
     private Stage primaryStage;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws IOException {
         primaryStage = stage;
         primaryStage.setTitle("Midi Parser");
         primaryStage.getIcons().add(new Image("/images/piano.png"));
@@ -28,7 +30,7 @@ public class MidiParserLauncher extends Application {
         controller.setLauncher(this);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         launch(args);
     }
 

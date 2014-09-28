@@ -2,10 +2,12 @@ package midiparser.parser;
 
 import midiparser.mididata.MIDI;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Track;
 import java.io.File;
+import java.io.IOException;
 
 public class MidiParser {
 
@@ -15,7 +17,7 @@ public class MidiParser {
         midi = new MIDI();
     }
 
-    public MIDI parse(File file,double multiplier) throws Exception {
+    public MIDI parse(File file,double multiplier) throws InvalidMidiDataException, IOException {
         midi.setFileName(file.getName());
         midi.setType(MidiSystem.getMidiFileFormat(file).getType());
 
