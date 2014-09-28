@@ -47,6 +47,4 @@ public class PianoKey {
     public String toString() {
         return "Note: " + note;
     }
-
-
 }

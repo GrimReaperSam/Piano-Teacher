@@ -20,7 +20,7 @@ public class MidiFile {
     private int measure;
 
     public MidiFile() throws Exception {
-        File file = new File(PianoController.class.getResource("../music/ty_juli.xml").toURI());
+        File file = new File(PianoController.class.getResource("../music/beethoven_opus10_1.xml").toURI());
         initMidi(file);
     }
 

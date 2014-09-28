@@ -28,7 +28,8 @@ public class GraphicComponent extends BaseGraphicComponent implements Component{
         FillTransition transition = new FillTransition();
         transition.setShape(key.getRectangle());
         transition.setToValue(Color.DARKGREEN);
-        transition.setDuration(Duration.millis(note.getDuration() / 2000));
+        transition.setDuration(Duration.millis(note.getDuration() / 1000));
+        transition.setOnFinished(event -> key.resetStyle());
         transition.play();
 
         key.setPlaying(true);
