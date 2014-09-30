@@ -3,7 +3,7 @@ package player.piano;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class PianoKey {
+public abstract class PianoKey {
 
     private int note;
     private Rectangle rectangle;
@@ -15,7 +15,10 @@ public class PianoKey {
         resetStyle();
     }
 
+    public abstract void resetFill();
+
     public void resetStyle() {
+        resetFill();
         rectangle.setStroke(BLACK);
     }
 
@@ -47,4 +50,5 @@ public class PianoKey {
     public String toString() {
         return "Note: " + note;
     }
+
 }

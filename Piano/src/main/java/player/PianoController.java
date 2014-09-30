@@ -1,12 +1,8 @@
 package player;
 
 import javafx.animation.Animation.Status;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,8 +13,10 @@ import javafx.util.Duration;
 import keysgenerator.Piano;
 import keysgenerator.PianoGenerator;
 import midiparser.mididata.events.Note;
+import player.listeners.MultiplierListener;
 import player.model.MidiFile;
 import player.piano.PianoKey;
+import timelines.CountdownGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -169,18 +167,7 @@ public class PianoController {
             }
         }
 
-        multiplierSlider.valueProperty().addListener((observable, oldValue, newValue) -> players.forEach((player) -> {
-            double timeMultipler = newValue.doubleValue() / oldValue.doubleValue();
-            Timeline timeline = player.getTimeline();
-            Status previousStatus = timeline.getStatus();
-            Duration current = timeline.getCurrentTime();
-            player.refresh();
-            player.getTimeline().jumpTo(current.multiply(timeMultipler));
-            if (previousStatus.equals(Status.RUNNING)) {
-                player.play();
-            }
-        }));
-
+        multiplierSlider.valueProperty().addListener(new MultiplierListener(players));
         initializeCountdownTimeline();
     }
 
@@ -189,20 +176,7 @@ public class PianoController {
     }
 
     private void initializeCountdownTimeline() {
-        countdownTimeline = new Timeline();
-        double COUNTDOWN_TIME = midi.getCountdown() / 1000;
-        int measure = midi.getMeasure() != 0 ? midi.getMeasure() : 4;
-        IntegerProperty countdownProperty = new SimpleIntegerProperty();
-        countdown.textProperty().bind(countdownProperty.asString());
-        KeyFrame beginTimer = new KeyFrame(Duration.millis(0)
-                , new KeyValue(countdownProperty, 1)
-                , new KeyValue(countdown.visibleProperty(), true));
-
-        KeyFrame endTimer = new KeyFrame(Duration.millis(COUNTDOWN_TIME)
-                , new KeyValue(countdownProperty, measure)
-                , new KeyValue(countdown.visibleProperty(), false));
-
-        countdownTimeline.getKeyFrames().addAll(beginTimer, endTimer);
+        countdownTimeline = new CountdownGenerator().createCountdown(midi, countdown);
     }
 
 }

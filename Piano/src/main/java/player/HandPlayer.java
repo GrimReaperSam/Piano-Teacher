@@ -13,6 +13,7 @@ import player.components.BaseGraphicComponent;
 import player.components.BaseMusicComponent;
 import player.components.GraphicComponent;
 import player.components.MusicComponent;
+import player.listeners.timelinelisteners.TimelineChangedListener;
 import player.model.Accord;
 import player.model.Hand;
 
@@ -27,7 +28,7 @@ public class HandPlayer implements Player {
     public HandPlayer(PianoController controller, Hand hand) {
         this.controller = controller;
         this.hand = hand;
-        music = new MusicComponent();
+        music = MusicComponent.getInstance();
         graphic = new GraphicComponent(controller);
         resetTimeline();
     }
@@ -92,7 +93,7 @@ public class HandPlayer implements Player {
             accord.forEach(note -> {
                 Note adjustedNote = note.multiply(multiplier);
                 double startTime = adjustedNote.getTime() / 1000;
-                double endTime = (adjustedNote.getTime() + adjustedNote.getDuration()) / 1000;
+                double endTime = startTime + adjustedNote.getDuration() / 1000;
                 KeyFrame startFrame = new KeyFrame(Duration.millis(startTime)
                 , ev -> {
                     music.play(adjustedNote);
@@ -117,8 +118,8 @@ public class HandPlayer implements Player {
         controller.getStop().disableProperty().bind(timeline.statusProperty().isEqualTo(Animation.Status.STOPPED));
 
         timeline.jumpTo(currentTime);
-        timeline.currentTimeProperty().addListener((observable, oldValue, newValue) -> updateValues());
         Slider progressBar = controller.getProgressBar();
+        timeline.currentTimeProperty().addListener(new TimelineChangedListener(timeline, progressBar));
         progressBar.valueProperty().addListener(ov -> {
             if (progressBar.isValueChanging()) {
                 // multiply duration by percentage calculated by slider position

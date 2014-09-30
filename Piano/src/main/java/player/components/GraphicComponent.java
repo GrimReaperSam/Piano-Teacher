@@ -29,11 +29,13 @@ public class GraphicComponent extends BaseGraphicComponent implements Component{
         transition.setShape(key.getRectangle());
         transition.setToValue(Color.DARKGREEN);
         transition.setDuration(Duration.millis(note.getDuration() / 1000));
-        transition.setOnFinished(event -> key.resetStyle());
+        transition.setOnFinished(event -> key.resetFill());
         transition.play();
 
         key.setPlaying(true);
-        playing.add(note);
+        if (!playing.contains(note)) {
+            playing.add(note);
+        }
     }
 
     @Override
@@ -58,6 +60,9 @@ public class GraphicComponent extends BaseGraphicComponent implements Component{
         } else {
             key.resetStyle();
             rectangle.setFill(Color.DARKORANGE);
+        }
+        if (!playing.contains(note)) {
+            playing.add(note);
         }
     }
 

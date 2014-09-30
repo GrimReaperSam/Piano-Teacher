@@ -8,11 +8,16 @@ import javax.sound.midi.Synthesizer;
 
 public class MusicComponent extends BaseMusicComponent {
 
+    private static MusicComponent music = new MusicComponent();
+
+    public static MusicComponent getInstance() {
+        return music;
+    }
 
     private Synthesizer synthesizer;
     private MidiChannel channel;
 
-    public MusicComponent() {
+    private MusicComponent() {
         initializeMidiSynthesizer();
     }
 

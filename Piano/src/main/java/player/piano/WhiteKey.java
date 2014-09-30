@@ -11,8 +11,8 @@ public class WhiteKey extends  PianoKey{
     }
 
     @Override
-    public void resetStyle() {
-        super.resetStyle();
+    public void resetFill() {
         getRectangle().setFill(Color.WHITE);
     }
+
 }

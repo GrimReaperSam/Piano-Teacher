@@ -10,8 +10,7 @@ public class BlackKey extends PianoKey {
     }
 
     @Override
-    public void resetStyle() {
-        super.resetStyle();
+    public void resetFill() {
         getRectangle().setFill(BLACK);
     }
 
