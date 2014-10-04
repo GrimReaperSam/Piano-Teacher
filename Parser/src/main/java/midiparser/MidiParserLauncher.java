@@ -17,10 +17,11 @@ public class MidiParserLauncher extends Application {
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
         primaryStage.setTitle("Midi Parser");
-        primaryStage.getIcons().add(new Image("/images/piano.png"));
+
+        primaryStage.getIcons().add(new Image(MidiParserLauncher.class.getResource("images/piano.png").openStream()));
         primaryStage.setResizable(false);
 
-        FXMLLoader loader = new FXMLLoader(MidiParserLauncher.class.getResource("/view/RootLayout.fxml"));
+        FXMLLoader loader = new FXMLLoader(MidiParserLauncher.class.getResource("view/RootLayout.fxml"));
         VBox rootLayout = loader.load();
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);

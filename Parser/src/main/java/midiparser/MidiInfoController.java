@@ -128,6 +128,13 @@ public class MidiInfoController {
     }
 
     @FXML
+    private void handleClear(ActionEvent event) {
+        midiFile.clear();
+        outputFile.clear();
+        multiplier.setValue(1);
+    }
+
+    @FXML
     private void initialize() {
         BooleanBinding isEmpty = midiFile.textProperty().isEmpty();
         txtCheckbox.disableProperty().bind(isEmpty);

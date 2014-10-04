@@ -19,7 +19,7 @@ public class Dialogs {
 
     public static void dialog(String title, String label) {
         try {
-            FXMLLoader loader = new FXMLLoader(MidiParserLauncher.class.getResource("/view/DialogLayout.fxml"));
+            FXMLLoader loader = new FXMLLoader(MidiParserLauncher.class.getResource("view/DialogLayout.fxml"));
             VBox overviewPage = loader.load();
             Scene scene = new Scene(overviewPage);
             Stage stage = new Stage();
