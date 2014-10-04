@@ -1,4 +1,4 @@
-package keysgenerator;
+package player.keysgenerator;
 
 import javafx.scene.Group;
 import player.piano.PianoKey;

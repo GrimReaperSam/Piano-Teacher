@@ -1,4 +1,4 @@
-package keysgenerator;
+package player.keysgenerator;
 
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;

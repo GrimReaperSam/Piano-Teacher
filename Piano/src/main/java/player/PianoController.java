@@ -1,8 +1,11 @@
 package player;
 
+import javafx.animation.Animation;
 import javafx.animation.Animation.Status;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,10 +13,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import keysgenerator.Piano;
-import keysgenerator.PianoGenerator;
 import midiparser.mididata.events.Note;
-import player.listeners.MultiplierListener;
+import player.keysgenerator.Piano;
+import player.keysgenerator.PianoGenerator;
 import player.model.MidiFile;
 import player.piano.PianoKey;
 import timelines.CountdownGenerator;
@@ -54,6 +56,7 @@ public class PianoController {
 
     @FXML
     private Slider multiplierSlider;
+    private double currentMultiplier;
 
     private MidiFile midi;
     private Timeline countdownTimeline;
@@ -167,7 +170,8 @@ public class PianoController {
             }
         }
 
-        multiplierSlider.valueProperty().addListener(new MultiplierListener(players));
+        multiplierSlider.valueChangingProperty().addListener(new MultiplierListener());
+        currentMultiplier = multiplierSlider.getValue();
         initializeCountdownTimeline();
     }
 
@@ -177,6 +181,33 @@ public class PianoController {
 
     private void initializeCountdownTimeline() {
         countdownTimeline = new CountdownGenerator().createCountdown(midi, countdown);
+    }
+
+
+    /**
+     * This listener will activate when the tempo is changed, and recalculates the timeline + creates a countdown
+     */
+    private class MultiplierListener implements ChangeListener<Boolean> {
+
+        @Override
+        public void changed(ObservableValue<? extends Boolean> observable, Boolean wasChanging, Boolean changing) {
+            if (!changing) {
+                players.forEach((player) -> {
+                    double newValue = multiplierSlider.getValue();
+                    double timeMultipler = newValue / currentMultiplier;
+                    currentMultiplier = newValue;
+                    Timeline timeline = player.getTimeline();
+                    Animation.Status previousStatus = timeline.getStatus();
+                    Duration current = timeline.getCurrentTime();
+                    player.refresh();
+                    player.getTimeline().jumpTo(current.multiply(timeMultipler));
+                    if (previousStatus.equals(Animation.Status.RUNNING)) {
+                        countdownTimeline.setOnFinished(ev -> players.forEach(Player::play));
+                        countdownTimeline.playFromStart();
+                    }
+                });
+            }
+        }
     }
 
 }

@@ -1,0 +1,56 @@
+.countdown-label {
+    -fx-font-size: 64px;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-background-color: rgba(221, 221, 221, 0.5);
+}
+
+.music-icon {
+    -fx-background-image: url("../icons/music-off.png");
+}
+
+.music-icon:selected {
+    -fx-background-image: url("../icons/music-on.png");
+}
+
+.play-button {
+    -fx-background-image: url("../icons/play.png");
+}
+
+.pause-button {
+    -fx-background-image: url("../icons/pause.png");
+}
+
+.stop-button {
+    -fx-background-image: url("../icons/stop.png");
+}
+
+.left-hand {
+    -fx-background-image: url("../icons/left-hand.png");
+}
+
+.right-hand {
+    -fx-background-image: url("../icons/right-hand.png");
+}
+
+.image-button {
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 24 24;
+    -fx-background-position: center center;
+    -fx-pref-width: 32;
+    -fx-pref-height: 32;
+}
+
+.play-box {
+    -fx-spacing: 10px;
+    -fx-padding: 0 0 10px 0;
+}
+
+.hand-box {
+    -fx-spacing: 10px;
+}
+
+.slider-hbox {
+    -fx-alignment: center;
+    -fx-padding: 10px 0;
+}
