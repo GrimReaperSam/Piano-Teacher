@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import midiparser.mididata.events.Note;
 import player.keysgenerator.Piano;
@@ -20,6 +21,7 @@ import player.model.MidiFile;
 import player.piano.PianoKey;
 import timelines.CountdownGenerator;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +34,10 @@ public class PianoController {
     private Player rightPlayer;
     private Player leftPlayer;
     private List<Player> players;
+    private MidiFile midi  = new MidiFile();
+    private Timeline countdownTimeline;
+    private double currentMultiplier;
+    private boolean useFull = true;
 
     @FXML
     private Pane keys;
@@ -53,13 +59,8 @@ public class PianoController {
 
     @FXML
     private GridPane handsPane;
-
     @FXML
     private Slider multiplierSlider;
-    private double currentMultiplier;
-
-    private MidiFile midi;
-    private Timeline countdownTimeline;
 
     public PianoController() {
     }
@@ -122,6 +123,31 @@ public class PianoController {
         rightPlayer.toggleSound();
     }
 
+    @FXML
+    private void handleOpen() {
+        players.forEach(Player::stop);
+
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            midi.setFile(file);
+            players.clear();
+            if (midi.getRightHand() != null) {
+                rightPlayer = new HandPlayer(this, midi.getRightHand());
+                players.add(rightPlayer);
+            }
+            if (useFull) {
+                if (midi.getLeftHand() != null) {
+                    leftPlayer = new HandPlayer(this, midi.getLeftHand());
+                    players.add(leftPlayer);
+                }
+            }
+        }
+    }
+
     private void toggleHand(Player player) {
         if (player.getTimeline().getStatus().equals(Status.RUNNING)) {
             player.pause();
@@ -134,7 +160,6 @@ public class PianoController {
 
     @FXML
     private void initialize() {
-        boolean useFull = true;
         Piano halfPiano = PianoGenerator.newInstance()
                                             .whiteNumber(36)
                                             .startNote(48)
@@ -153,11 +178,7 @@ public class PianoController {
         countdown.prefWidthProperty().bind(keys.widthProperty());
         countdown.prefHeightProperty().bind(keys.heightProperty());
 
-        try {
-            midi = new MidiFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        midi = new MidiFile();
         players = new ArrayList<>();
         if (midi.getRightHand() != null) {
             rightPlayer = new HandPlayer(this, midi.getRightHand());

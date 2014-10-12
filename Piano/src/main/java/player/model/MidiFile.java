@@ -8,10 +8,12 @@ import midiparser.mididata.events.Note;
 import player.PianoController;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import java.io.File;
 
 public class MidiFile {
 
+    private File file;
     private Hand rightHand;
     private Hand leftHand;
     private ObservableList<Hand> hands = FXCollections.observableArrayList();
@@ -19,23 +21,18 @@ public class MidiFile {
     private double multiplier = 1;
     private int measure;
 
-    public MidiFile() throws Exception {
-        File file = new File(PianoController.class.getResource("../music/beethoven_opus10_1.xml").toURI());
-        initMidi(file);
+    public MidiFile() {
+        try {
+            file = new File(PianoController.class.getResource("../music/beethoven_opus10_1.xml").toURI());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        initMidi();
     }
 
-    private void initMidi(File file) throws Exception {
-        MIDI midi = (MIDI) JAXBContext.newInstance(MIDI.class).createUnmarshaller().unmarshal(file);
-        rightHand = getHand(midi, 0);
-        leftHand = getHand(midi, 1);
-        if (rightHand != null) {
-            hands.add(rightHand);
-        }
-        if (leftHand != null) {
-            hands.add(leftHand);
-        }
-        countdown = 4 * midi.getMicrosecondsPerBeat();
-        measure = midi.getTracks().get(0).getTimeSignature();
+    public void setFile(File file) {
+        this.file = file;
+        initMidi();
     }
 
     public ObservableList<Hand> getHands() {
@@ -87,4 +84,22 @@ public class MidiFile {
         return hand;
     }
 
+    private void initMidi() {
+        try {
+            MIDI midi = (MIDI) JAXBContext.newInstance(MIDI.class).createUnmarshaller().unmarshal(file);
+            rightHand = getHand(midi, 0);
+            leftHand = getHand(midi, 1);
+            hands.clear();
+            if (rightHand != null) {
+                hands.add(rightHand);
+            }
+            if (leftHand != null) {
+                hands.add(leftHand);
+            }
+            countdown = 4 * midi.getMicrosecondsPerBeat();
+            measure = midi.getTracks().get(0).getTimeSignature();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,9 +1,7 @@
 package player.components;
 
-import javafx.animation.FillTransition;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 import midiparser.mididata.events.Note;
 import player.PianoController;
 import player.piano.PianoKey;
@@ -24,13 +22,7 @@ public class GraphicComponent extends BaseGraphicComponent implements Component{
     public void play(Note note) {
         PianoKey key = getKey(note);
         key.resetStyle();
-
-        FillTransition transition = new FillTransition();
-        transition.setShape(key.getRectangle());
-        transition.setToValue(Color.DARKGREEN);
-        transition.setDuration(Duration.millis(note.getDuration() / 1000));
-        transition.setOnFinished(event -> key.resetFill());
-        transition.play();
+        key.getRectangle().setFill(Color.DARKGREEN);
 
         key.setPlaying(true);
         if (!playing.contains(note)) {
