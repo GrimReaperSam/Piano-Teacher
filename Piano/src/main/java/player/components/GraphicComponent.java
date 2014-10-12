@@ -2,7 +2,7 @@ package player.components;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import midiparser.mididata.events.Note;
+import midi.midiparser.mididata.events.Note;
 import player.PianoController;
 import player.piano.PianoKey;
 

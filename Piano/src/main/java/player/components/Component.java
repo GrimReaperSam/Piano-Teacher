@@ -1,6 +1,7 @@
 package player.components;
 
-import midiparser.mididata.events.Note;
+
+import midi.midiparser.mididata.events.Note;
 
 public interface Component {
 

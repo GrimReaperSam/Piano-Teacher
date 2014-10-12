@@ -1,6 +1,6 @@
 package player.components;
 
-import midiparser.mididata.events.Note;
+import midi.midiparser.mididata.events.Note;
 
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
