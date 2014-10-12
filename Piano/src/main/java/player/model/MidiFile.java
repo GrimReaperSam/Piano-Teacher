@@ -2,9 +2,9 @@ package player.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import midi.midiparser.mididata.MIDI;
-import midi.midiparser.mididata.Track;
-import midi.midiparser.mididata.events.Note;
+import midi.common.data.MIDI;
+import midi.common.data.Track;
+import midi.common.data.events.Note;
 import player.PianoController;
 
 import javax.xml.bind.JAXBContext;

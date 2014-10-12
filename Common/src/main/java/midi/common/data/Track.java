@@ -1,6 +1,6 @@
-package midi.midiparser.mididata;
+package midi.common.data;
 
-import midi.midiparser.mididata.events.Note;
+import midi.common.data.events.Note;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;

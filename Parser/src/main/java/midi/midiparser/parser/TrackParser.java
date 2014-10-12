@@ -1,9 +1,9 @@
 package midi.midiparser.parser;
 
-import midi.midiparser.mididata.MIDI;
-import midi.midiparser.mididata.Track;
-import midi.midiparser.mididata.events.Note;
-import midi.midiparser.mididata.events.Note.NoteBuilder;
+import midi.common.data.MIDI;
+import midi.common.data.Track;
+import midi.common.data.events.Note;
+import midi.common.data.events.Note.NoteBuilder;
 
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;

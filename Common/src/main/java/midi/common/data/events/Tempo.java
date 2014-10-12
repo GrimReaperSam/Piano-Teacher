@@ -1,4 +1,4 @@
-package midi.midiparser.mididata.events;
+package midi.common.data.events;
 
 
 import javax.xml.bind.annotation.XmlAccessType;

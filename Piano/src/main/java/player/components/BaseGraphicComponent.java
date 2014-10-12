@@ -1,6 +1,7 @@
 package player.components;
 
-import midi.midiparser.mididata.events.Note;
+
+import midi.common.data.events.Note;
 
 public abstract class BaseGraphicComponent implements Component {
 

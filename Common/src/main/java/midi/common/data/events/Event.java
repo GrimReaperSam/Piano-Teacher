@@ -1,6 +1,6 @@
-package midi.midiparser.mididata.events;
+package midi.common.data.events;
 
-import midi.midiparser.utils.DateUtils;
+import midi.common.util.DateUtils;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;

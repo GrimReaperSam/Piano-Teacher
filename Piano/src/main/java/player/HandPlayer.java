@@ -8,7 +8,7 @@ import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Slider;
 import javafx.util.Duration;
-import midi.midiparser.mididata.events.Note;
+import midi.common.data.events.Note;
 import player.components.BaseGraphicComponent;
 import player.components.BaseMusicComponent;
 import player.components.GraphicComponent;

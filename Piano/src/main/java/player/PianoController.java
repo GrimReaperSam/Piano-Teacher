@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import midi.midiparser.mididata.events.Note;
+import midi.common.data.events.Note;
 import player.keysgenerator.Piano;
 import player.keysgenerator.PianoGenerator;
 import player.model.MidiFile;

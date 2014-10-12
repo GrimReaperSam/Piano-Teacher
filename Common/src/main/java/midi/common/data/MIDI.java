@@ -1,6 +1,6 @@
-package midi.midiparser.mididata;
+package midi.common.data;
 
-import midi.midiparser.utils.DateUtils;
+import midi.common.util.DateUtils;
 
 import javax.sound.midi.Sequence;
 import javax.xml.bind.annotation.*;

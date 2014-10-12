@@ -1,6 +1,6 @@
 package midi.midiparser.parser;
 
-import midi.midiparser.mididata.MIDI;
+import midi.common.data.MIDI;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
@@ -32,7 +32,7 @@ public class MidiParser {
         Track[] tracks = sequence.getTracks();
         midi.setTrackCount(tracks.length);
         for (Track track: tracks) {
-            midi.midiparser.mididata.Track midiTrack = new TrackParser(midi).parse(track);
+            midi.common.data.Track midiTrack = new TrackParser(midi).parse(track);
             if (!midiTrack.getNotes().isEmpty()) {
                 midi.getTracks().add(midiTrack);
             }

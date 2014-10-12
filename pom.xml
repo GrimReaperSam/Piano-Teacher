@@ -3,11 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>midi</groupId>
   <artifactId>midi</artifactId>
-  <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>Parser</module>
-        <module>Piano</module>
-    </modules>
+  <version>1.0</version>
+
+  <modules>
+    <module>Parser</module>
+    <module>Piano</module>
+    <module>Common</module>
+  </modules>
+
     <packaging>pom</packaging>
-  <name>midi</name>
+    <name>midi</name>
 </project>

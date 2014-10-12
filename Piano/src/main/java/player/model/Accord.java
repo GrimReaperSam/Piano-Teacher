@@ -1,6 +1,7 @@
 package player.model;
 
-import midi.midiparser.mididata.events.Note;
+
+import midi.common.data.events.Note;
 
 import java.util.ArrayList;
 import java.util.List;

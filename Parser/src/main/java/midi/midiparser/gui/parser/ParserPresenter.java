@@ -10,8 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import midi.common.data.MIDI;
 import midi.midiparser.gui.main.MainPresenter;
-import midi.midiparser.mididata.MIDI;
 import midi.midiparser.model.MidiInfo;
 import midi.midiparser.parser.MidiParser;
 
