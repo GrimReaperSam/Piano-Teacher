@@ -3,6 +3,7 @@ package midi.midiparser.gui.parser;
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleListProperty;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -168,7 +169,14 @@ public class ParserPresenter {
 
                 StringWriter sw = new StringWriter();
                 jxbM.marshal(midi, sw);
-                midiService.updateMidi(new Midi(null, midiName, sw.toString()));
+                final Task<Midi> saveTask = new Task<Midi>()
+                {
+                    protected Midi call() throws Exception
+                    {
+                       return midiService.updateMidi(new Midi(null, midiName, sw.toString()));
+                    }
+                };
+                new Thread(saveTask).start();
 
                 //This covers all cases
                 if(midiInfo.isTextOutput()) { //no output just skip

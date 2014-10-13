@@ -10,14 +10,14 @@
     </parent>
 
     <artifactId>server</artifactId>
-    <name>server Maven Webapp</name>
+    <name>Server Maven Webapp</name>
 
     <packaging>war</packaging>
     <version>1.0</version>
 
     <dependencies>
 
-        <!-- First Contact Common -->
+        <!-- Midi Common -->
 
         <dependency>
             <groupId>midi</groupId>

@@ -20,7 +20,7 @@
 
     <servlet-mapping>
         <servlet-name>midi</servlet-name>
-        <url-pattern>*.midi</url-pattern>
+        <url-pattern>*.service</url-pattern>
     </servlet-mapping>
 
 </web-app>

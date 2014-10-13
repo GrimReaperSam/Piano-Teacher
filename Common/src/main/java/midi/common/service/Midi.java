@@ -1,17 +1,16 @@
 package midi.common.service;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Midi {
+public class Midi implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-
-    @Lob
-    private String data;
+    @Lob private String data;
 
     public Midi() {}
 
