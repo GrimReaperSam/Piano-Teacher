@@ -9,6 +9,7 @@
     <module>Parser</module>
     <module>Piano</module>
     <module>Common</module>
+      <module>Server</module>
   </modules>
 
     <packaging>pom</packaging>

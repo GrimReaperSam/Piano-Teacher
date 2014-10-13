@@ -11,6 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import midi.common.data.MIDI;
+import midi.common.service.Midi;
+import midi.common.service.MidiService;
 import midi.midiparser.gui.main.MainPresenter;
 import midi.midiparser.model.MidiInfo;
 import midi.midiparser.parser.MidiParser;
@@ -20,6 +22,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -46,6 +49,7 @@ public class ParserPresenter {
     @FXML private Button parseButton;
     @FXML private Label batchNoticeLabel;
 
+    @Inject private MidiService midiService;
     @Inject private MainPresenter mainPresenter;
 
     private MidiInfo midiInfo = new MidiInfo();
@@ -161,6 +165,10 @@ public class ParserPresenter {
 
                 jxbM.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 jxbM.marshal(midi, midiPath.toFile());
+
+                StringWriter sw = new StringWriter();
+                jxbM.marshal(midi, sw);
+                midiService.updateMidi(new Midi(null, midiName, sw.toString()));
 
                 //This covers all cases
                 if(midiInfo.isTextOutput()) { //no output just skip
