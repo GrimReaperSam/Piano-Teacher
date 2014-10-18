@@ -2,8 +2,10 @@ package midi.midiparser.gui;
 
 import javafx.fxml.FXMLLoader;
 import midi.common.service.MidiService;
+import midi.midiparser.gui.base.BasePresenter;
 import midi.midiparser.gui.main.MainPresenter;
 import midi.midiparser.gui.parser.ParserPresenter;
+import midi.midiparser.gui.song.SongPresenter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor;
@@ -24,6 +26,14 @@ public class MidiParserAppFactory {
     public ParserPresenter parserPresenter() {
         return loadPresenter("/fxml/Parser.fxml");
     }
+
+    @Bean
+    public SongPresenter songPresenter() {
+        return loadPresenter("/fxml/Song.fxml");
+    }
+
+    @Bean
+    BasePresenter basePresenter() { return loadPresenter("/fxml/Base.fxml"); }
 
     @Bean
     public FXMLLoader dialogLoader() {

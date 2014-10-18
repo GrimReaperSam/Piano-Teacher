@@ -18,7 +18,7 @@ public class MidiParser {
     }
 
     public MIDI parse(File file,double multiplier) throws InvalidMidiDataException, IOException {
-        midi.setFileName(file.getName());
+        midi.setFileName(file.getName().split("\\.")[0]);
         midi.setType(MidiSystem.getMidiFileFormat(file).getType());
 
         Sequence sequence = MidiSystem.getSequence(file);

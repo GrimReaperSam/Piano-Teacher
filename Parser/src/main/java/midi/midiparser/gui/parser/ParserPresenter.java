@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleListProperty;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,6 +14,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import midi.common.data.MIDI;
 import midi.common.service.Midi;
+import midi.common.service.MidiBuilder;
 import midi.common.service.MidiService;
 import midi.midiparser.gui.main.MainPresenter;
 import midi.midiparser.model.MidiInfo;
@@ -20,25 +22,18 @@ import midi.midiparser.parser.MidiParser;
 
 import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
+import javax.xml.bind.JAXBException;
 import java.io.File;
-import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ParserPresenter {
 
     private static final String MIDI_SAVE_DIRECTORY = "MIDI_SAVEDIR";
     private static final String OUTPUT_SAVE_DIRECTORY = "OUTPUT_SAVEDIR";
-    private static final String XML_RESULT_FOLDER = "results";
-    private static final String XML_FORMAT = ".xml";
-    private static final String TXT_RESULT_FOLDER = "textResults";
-    private static final String TXT_FORMAT = ".txt";
 
     @FXML private Node root;
     @FXML private TextField midiFile;
@@ -50,7 +45,6 @@ public class ParserPresenter {
     @FXML private Button parseButton;
     @FXML private Label batchNoticeLabel;
 
-    @Inject private MidiService midiService;
     @Inject private MainPresenter mainPresenter;
 
     private MidiInfo midiInfo = new MidiInfo();
@@ -111,7 +105,6 @@ public class ParserPresenter {
         midiInfo.setTextOutput(txtCheckbox.isSelected());
         midiInfo.setMultiplier(Math.floor(multiplier.getValue() * 10) / 10);
         save();
-        mainPresenter.showInfo("Parsing complete");
     }
 
     @FXML
@@ -121,6 +114,10 @@ public class ParserPresenter {
 
     @FXML
     private void handleClear(ActionEvent event) {
+        clear();
+    }
+
+    public void clear() {
         midiFile.clear();
         outputFile.clear();
         multiplier.setValue(1);
@@ -147,67 +144,40 @@ public class ParserPresenter {
         }
     }
 
+    @Inject private MidiService midiService;
     /**
      * Given the list of midiFiles in the MidiInfo model, it will parse each file, and save an xml result along a txt one if required
      */
     private void save() {
-        boolean isBatch = midiInfo.getMidiFiles().size() > 1;
-        midiInfo.getMidiFiles().stream().map(this::parse).forEach((midi) -> {
-            String midiName = getFileName(midi);
+        Stream<MIDI> midiStream = midiInfo.getMidiFiles().stream().map(this::parse);
+        Midi[] newSongs = midiStream.map(midi -> {
             try {
-                Path path = Paths.get(String.format("%s/%s%s", XML_RESULT_FOLDER, midiName, XML_FORMAT));
-                Files.createDirectories(path.getParent());
-
-                Files.deleteIfExists(path);
-                Path midiPath = Files.createFile(path);
-
-                JAXBContext context = JAXBContext.newInstance(MIDI.class);
-                Marshaller jxbM = context.createMarshaller();
-
-                jxbM.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                jxbM.marshal(midi, midiPath.toFile());
-
                 StringWriter sw = new StringWriter();
-                jxbM.marshal(midi, sw);
-                final Task<Midi> saveTask = new Task<Midi>()
-                {
-                    protected Midi call() throws Exception
-                    {
-                       return midiService.updateMidi(new Midi(null, midiName, sw.toString()));
-                    }
-                };
-                new Thread(saveTask).start();
-
-                //This covers all cases
-                if(midiInfo.isTextOutput()) { //no output just skip
-                    PrintWriter printer;
-                    File output = midiInfo.getOutput();
-                    if (output != null && !isBatch) { //Single file output specified, save in file
-                        printer = new PrintWriter(output);
-                    } else {
-                        if (output == null) {  //No save information given, will use default 'textResults'
-                            Path textResultsPath = Paths.get(TXT_RESULT_FOLDER);
-                            if (Files.notExists(textResultsPath)) {
-                                textResultsPath = Files.createDirectory(textResultsPath);
-                            }
-                            output = textResultsPath.toFile();
-                        } // else save information give, will use the given output
-                        File file = new File(output, String.format("%s%s", midiName, TXT_FORMAT));
-                        printer = new PrintWriter(file);
-                    }
-                    printer.println(midi);
-                    printer.close();
-                }
-            } catch (Exception ignored) {
+                JAXBContext.newInstance(MIDI.class).createMarshaller().marshal(midi, sw);
+                return MidiBuilder.newInstance()
+                        .setName(midi.getFileName())
+                        .setLength(midi.getMicroseconds())
+                        .setData(sw.toString())
+                        .createMidi();
+            } catch (JAXBException e) {
+                mainPresenter.showError("Unable to create XML parser, make sure all your classes properly obey the annotation format!");
+                return null;
+            }
+        }).toArray(Midi[]::new);
+        final Task<Void> saveTask = new Task<Void>()
+        {
+            protected Void call() throws Exception
+            {
+                midiService.addAll(newSongs);
+                return null;
+            }
+        };
+        saveTask.stateProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals(Worker.State.SUCCEEDED)) {
+                mainPresenter.showBase(midiService.getAll());
             }
         });
+        new Thread(saveTask).start();
     }
-
-    /**
-     * @param midi the requested song
-     * @return "songName" or "songName0.3"
-     */
-    private String getFileName(MIDI midi) {
-        return midi.getFileName().split("\\.")[0] + (midi.getMultiplier() == 1? "": midi.getMultiplier());
-    }
+    //Cbkake12
 }

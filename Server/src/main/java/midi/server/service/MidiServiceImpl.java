@@ -30,4 +30,12 @@ public class MidiServiceImpl implements MidiService {
     public Midi updateMidi(Midi updatedMidi) {
         return midiRepository.save(updatedMidi);
     }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void addAll(Midi... midis) {
+        for (Midi midi : midis) {
+            midiRepository.save(midi);
+        }
+    }
 }

@@ -7,4 +7,6 @@ public interface MidiService {
     Midi getMidi(Long midiId);
 
     Midi updateMidi(Midi updatedMidi);
+
+    void addAll(Midi... midis);
 }

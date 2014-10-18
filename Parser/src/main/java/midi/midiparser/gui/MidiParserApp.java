@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import midi.common.service.MidiService;
 import midi.midiparser.gui.main.MainPresenter;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -17,8 +18,9 @@ public class MidiParserApp extends Application {
     public void start(Stage stage) throws Exception {
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MidiParserAppFactory.class);
+        MidiService midiService = context.getBean(MidiService.class);
         MainPresenter mainPresenter = context.getBean(MainPresenter.class);
-        mainPresenter.showParser();
+        mainPresenter.showBase(midiService.getAll());
         Scene scene = new Scene(mainPresenter.getView());
         stage.setTitle("Midi Parser");
         stage.getIcons().add(new Image(getClass().getResource("/images/piano.png").openStream()));

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane fx:id="root" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="midi.midiparser.gui.base.BasePresenter">
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="800.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="660.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleAdd" prefHeight="25.0" prefWidth="50.0" text="Add" />
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#handleSave" text="Save" />
+            <Button mnemonicParsing="false" onAction="#handleExit" prefHeight="25.0" prefWidth="53.0" text="Exit" />
+         </children>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <center>
+      <ScrollPane fx:id="songView" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" prefHeight="400.0" prefViewportHeight="343.0" prefViewportWidth="600.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+      <ListView fx:id="songsList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+</BorderPane>

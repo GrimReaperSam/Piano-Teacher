@@ -63,7 +63,6 @@ public class TrackParser {
     }
 
 
-
 //    private void firePolyphonicKeyPressure(ShortMessage message, long timeStamp) {
 //        String keyName = MIDIUtils.getKey(message.getData1());
 //        int pressure = message.getData2();
