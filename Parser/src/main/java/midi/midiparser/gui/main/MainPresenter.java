@@ -37,7 +37,6 @@ public class MainPresenter {
     }
 
     public void showParser() {
-        parserPresenter.clear();
         contentArea.setCenter(parserPresenter.getView());
     }
 

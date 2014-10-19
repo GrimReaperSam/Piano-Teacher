@@ -29,6 +29,7 @@ public class BasePresenter {
     }
 
     public void setMidis(Iterable<Midi> midis) {
+        songsList.getItems().clear();
         midis.forEach(midi -> songsList.getItems().add(midi));
         if (songsList.getItems().size() != 0) {
             songsList.getSelectionModel().select(0);
@@ -41,9 +42,6 @@ public class BasePresenter {
     private void handleAdd(ActionEvent event) {
         mainPresenter.showParser();
     }
-
-    @FXML
-    private void handleSave(ActionEvent event) {}
 
     @FXML
     private void handleExit(ActionEvent event) {
