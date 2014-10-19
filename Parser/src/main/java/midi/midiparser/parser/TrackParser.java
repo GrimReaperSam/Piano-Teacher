@@ -1,6 +1,6 @@
 package midi.midiparser.parser;
 
-import midi.common.data.MIDI;
+import midi.common.data.ParsedMidi;
 import midi.common.data.Track;
 import midi.common.data.events.Note;
 import midi.common.data.events.Note.NoteBuilder;
@@ -19,9 +19,9 @@ public class TrackParser {
     private final Track track;
 
     private HashMap<String, NoteBuilder> notes;
-    private MIDI midi;
+    private ParsedMidi midi;
 
-    public TrackParser(MIDI midi) {
+    public TrackParser(ParsedMidi midi) {
         this.midi = midi;
         this.notes = new HashMap<>();
         this.track = new Track();

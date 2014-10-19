@@ -11,6 +11,7 @@ import midi.common.service.Difficulty;
 import midi.common.service.Midi;
 import midi.common.service.MidiBuilder;
 import midi.common.service.MidiService;
+import midi.common.util.DateUtils;
 import midi.midiparser.gui.main.MainPresenter;
 
 import javax.inject.Inject;
@@ -39,7 +40,7 @@ public class SongPresenter {
     public void setMidi(Midi midi) {
         this.midi = midi;
         songNameTextField.setText(midi.getName());
-        lengthLabel.setText(String.valueOf(midi.getLength()));
+        lengthLabel.setText(DateUtils.toMinSec(midi.getLength()));
     }
 
     private void handleSave(ActionEvent event) {
@@ -71,7 +72,7 @@ public class SongPresenter {
                 .setComposer(composerTextField.getText())
                 .setGenre(genreTextField.getText())
                 .setAlbum(albumTextField.getText())
-                .setLength(Long.valueOf(lengthLabel.getText()))
+                .setLength(midi.getLength())
                 .setDifficulty(difficultyComboBox.getValue().getValue())
                 .setYear(yearTextField.getText())
                 .createMidi();

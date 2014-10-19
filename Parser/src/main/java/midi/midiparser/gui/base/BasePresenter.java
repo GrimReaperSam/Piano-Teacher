@@ -6,7 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import midi.common.service.Midi;
 import midi.midiparser.gui.main.MainPresenter;
@@ -16,9 +17,9 @@ import javax.inject.Inject;
 
 public class BasePresenter {
 
-    @FXML private Node root;
+    @FXML private BorderPane root;
     @FXML private ListView<Midi> songsList;
-    @FXML private ScrollPane songView;
+    @FXML private HBox editSongHBox;
 
     @Inject private SongPresenter songPresenter;
     @Inject private MainPresenter mainPresenter;
@@ -32,7 +33,7 @@ public class BasePresenter {
         if (songsList.getItems().size() != 0) {
             songsList.getSelectionModel().select(0);
             songPresenter.setMidi(midis.iterator().next());
-            songView.setContent(songPresenter.getView());
+            editSongHBox.getChildren().setAll(songPresenter.getView());
         }
     }
 
@@ -69,7 +70,7 @@ public class BasePresenter {
                     Midi midi = cell.getItem();
                     if (midi != null) {
                         songPresenter.setMidi(midi);
-                        songView.setContent(songPresenter.getView());
+                        editSongHBox.getChildren().setAll(songPresenter.getView());
                     }
                 });
                 return cell;

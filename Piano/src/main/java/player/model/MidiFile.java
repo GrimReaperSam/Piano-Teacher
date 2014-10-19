@@ -2,7 +2,7 @@ package player.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import midi.common.data.MIDI;
+import midi.common.data.ParsedMidi;
 import midi.common.data.Track;
 import midi.common.data.events.Note;
 import player.PianoController;
@@ -63,7 +63,7 @@ public class MidiFile {
         return measure;
     }
 
-    private Hand getHand(MIDI midi, int trackIndex) {
+    private Hand getHand(ParsedMidi midi, int trackIndex) {
         if(midi.getTracks().size() <= trackIndex) {
             return null;
         }
@@ -86,7 +86,7 @@ public class MidiFile {
 
     private void initMidi() {
         try {
-            MIDI midi = (MIDI) JAXBContext.newInstance(MIDI.class).createUnmarshaller().unmarshal(file);
+            ParsedMidi midi = (ParsedMidi) JAXBContext.newInstance(ParsedMidi.class).createUnmarshaller().unmarshal(file);
             rightHand = getHand(midi, 0);
             leftHand = getHand(midi, 1);
             hands.clear();

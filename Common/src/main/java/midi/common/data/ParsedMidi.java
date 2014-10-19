@@ -9,7 +9,7 @@ import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MIDI {
+public class ParsedMidi {
 
     private String fileName;
     private int type;
@@ -30,7 +30,7 @@ public class MIDI {
     @XmlElementWrapper(name = "tracks")
     private List<Track> tracks;
 
-    public MIDI() {
+    public ParsedMidi() {
     }
 
     public List<Track> getTracks() {

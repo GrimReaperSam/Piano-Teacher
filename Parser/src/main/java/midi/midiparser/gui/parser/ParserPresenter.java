@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import midi.common.data.MIDI;
+import midi.common.data.ParsedMidi;
 import midi.common.service.Midi;
 import midi.common.service.MidiBuilder;
 import midi.common.service.MidiService;
@@ -135,7 +135,7 @@ public class ParserPresenter {
         batchNoticeLabel.visibleProperty().bind(new SimpleListProperty<>(midiInfo.getMidiFiles()).sizeProperty().greaterThan(1));
     }
 
-    private MIDI parse(File midiFile) {
+    private ParsedMidi parse(File midiFile) {
         try {
             return new MidiParser().parse(midiFile, midiInfo.getMultiplier());
         } catch (Exception e) { //Should never be here unless file was modified
@@ -149,11 +149,11 @@ public class ParserPresenter {
      * Given the list of midiFiles in the MidiInfo model, it will parse each file, and save an xml result along a txt one if required
      */
     private void save() {
-        Stream<MIDI> midiStream = midiInfo.getMidiFiles().stream().map(this::parse);
+        Stream<ParsedMidi> midiStream = midiInfo.getMidiFiles().stream().map(this::parse);
         Midi[] newSongs = midiStream.map(midi -> {
             try {
                 StringWriter sw = new StringWriter();
-                JAXBContext.newInstance(MIDI.class).createMarshaller().marshal(midi, sw);
+                JAXBContext.newInstance(ParsedMidi.class).createMarshaller().marshal(midi, sw);
                 return MidiBuilder.newInstance()
                         .setName(midi.getFileName())
                         .setLength(midi.getMicroseconds())

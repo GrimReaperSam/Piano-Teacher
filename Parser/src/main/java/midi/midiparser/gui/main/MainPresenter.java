@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import midi.common.data.MIDI;
+import midi.common.data.ParsedMidi;
 import midi.common.service.Midi;
 import midi.common.service.MidiBuilder;
 import midi.common.service.MidiService;
@@ -41,10 +41,10 @@ public class MainPresenter {
         contentArea.setCenter(parserPresenter.getView());
     }
 
-    public void showSong(MIDI midi) {
+    public void showSong(ParsedMidi midi) {
         StringWriter sw = new StringWriter();
         try {
-            JAXBContext context = JAXBContext.newInstance(MIDI.class);
+            JAXBContext context = JAXBContext.newInstance(ParsedMidi.class);
             Marshaller jxbM = context.createMarshaller();
             jxbM.marshal(midi, sw);
         } catch (JAXBException e) {
