@@ -22,6 +22,7 @@ import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 
@@ -31,6 +32,8 @@ public class ParserPresenter {
 
     @FXML private Node root;
     @FXML private GridPane songsPane;
+
+    private List<SongPresenter> songsPresenters = new ArrayList<>();
 
     @Inject private MainPresenter mainPresenter;
     @Inject private MidiService midiService;
@@ -75,6 +78,7 @@ public class ParserPresenter {
                     SongPresenter songPresenter = loader.getController();
                     songPresenter.setMidi(newMidis[i]);
                     songsPane.add(songPresenter.getView(), 1, i);
+                    songsPresenters.add(songPresenter);
                 } catch (IOException e) {
                     throw new RuntimeException("Unable to load FXML file '/fxml/Song.fxml'", e);
                 }
@@ -89,7 +93,7 @@ public class ParserPresenter {
         {
             protected Void call() throws Exception
             {
-                midiService.addAll(newMidis);
+                midiService.addAll(songsPresenters.stream().map(SongPresenter::getMidi).toArray(Midi[]::new));
                 return null;
             }
         };
