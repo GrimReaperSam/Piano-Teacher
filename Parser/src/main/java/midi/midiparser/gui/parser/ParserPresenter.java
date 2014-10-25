@@ -27,7 +27,6 @@ import java.util.stream.Stream;
 public class ParserPresenter {
 
     private static final String MIDI_SAVE_DIRECTORY = "MIDI_SAVEDIR";
-    private static final String OUTPUT_SAVE_DIRECTORY = "OUTPUT_SAVEDIR";
 
     @FXML private Node root;
     @FXML private Button parseButton;
