@@ -17,14 +17,13 @@ public class MidiParser {
         midi = new ParsedMidi();
     }
 
-    public ParsedMidi parse(File file,double multiplier) throws InvalidMidiDataException, IOException {
+    public ParsedMidi parse(File file) throws InvalidMidiDataException, IOException {
         midi.setFileName(file.getName().split("\\.")[0]);
         midi.setType(MidiSystem.getMidiFileFormat(file).getType());
 
         Sequence sequence = MidiSystem.getSequence(file);
-        midi.setMultiplier(multiplier);
         midi.setTicks(sequence.getTickLength());
-        midi.setMicroseconds((long) (sequence.getMicrosecondLength() / multiplier));
+        midi.setMicroseconds(sequence.getMicrosecondLength());
 
         midi.setResolution(sequence.getResolution());
         midi.setDivisionType(sequence.getDivisionType());

@@ -33,7 +33,7 @@ public class MidiParserAppFactory {
     }
 
     @Bean
-    BasePresenter basePresenter() { return loadPresenter("/fxml/Base.fxml"); }
+    public BasePresenter basePresenter() { return loadPresenter("/fxml/Base.fxml"); }
 
     @Bean
     public FXMLLoader dialogLoader() {
@@ -51,7 +51,7 @@ public class MidiParserAppFactory {
         return new CommonsHttpInvokerRequestExecutor();
     }
 
-    protected <T> T createService(String endPoint, Class serviceInterface) {
+    private <T> T createService(String endPoint, Class serviceInterface) {
         HttpInvokerProxyFactoryBean factory = new HttpInvokerProxyFactoryBean();
         String serverUrl = String.format("http://localhost:8080/%s", endPoint);
         factory.setServiceUrl(serverUrl);

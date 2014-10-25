@@ -21,9 +21,6 @@ public class ParsedMidi {
 
     private float microsecondsPerBeat= 500000; //Only used in PPQ mode
 
-    @XmlElement(name= "tempoMultiplier")
-    private double multiplier = 1; //For changing the speed, bigger is faster
-
     private int trackCount;
 
     @XmlElement(name = "track")
@@ -96,14 +93,6 @@ public class ParsedMidi {
         this.divisionType = divisionType;
     }
 
-    public void setMultiplier(double multiplier) {
-        this.multiplier = multiplier;
-    }
-
-    public double getMultiplier() {
-        return multiplier;
-    }
-
     public double toMicros(long ticks) {
         float originalTime;
         if (getDivisionType()== Sequence.PPQ) {
@@ -112,7 +101,7 @@ public class ParsedMidi {
             float microsecondsPerTick = 1000000.0f / (divisionType * resolution);
             originalTime =  ticks * microsecondsPerTick;
         }
-        return originalTime / multiplier;
+        return originalTime;
     }
 
     public void updateMPB(int microsecondPerTick) {
@@ -144,7 +133,6 @@ public class ParsedMidi {
         sb.append("Length: ").append(ticks).append(" ticks\n");
         sb.append("Duration: ").append(DateUtils.toMinSec(microseconds)).append(" microseconds\n");
         sb.append("Number of tracks: ").append(trackCount).append("\n");
-        sb.append("Tempo Multiplier: ").append(multiplier).append("\n");
         for (int index=0; index<tracks.size(); index++) {
             sb.append("---------------------------------------------------------------------------\n");
             sb.append("Track ").append(index).append(":\n");
