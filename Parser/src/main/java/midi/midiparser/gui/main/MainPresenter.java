@@ -56,8 +56,6 @@ public class MainPresenter {
                 .setData(sw.toString())
                 .createMidi();
         midiService.updateMidi(newInstance);
-//        songPresenter.setMidi(newInstance);
-//        contentArea.setCenter(songPresenter.getView());
     }
 
     public void showBase(Iterable<Midi> midis) {

@@ -34,7 +34,10 @@ public class SongPresenter {
         genreTextField.setText(midi.getGenre());
         albumTextField.setText(midi.getAlbum());
         lengthLabel.setText(DateUtils.toMinSec(midi.getLength()));
-        difficultyComboBox.setValue(Difficulty.fromInt(midi.getDifficulty()));
+        Difficulty difficulty = Difficulty.fromInt(midi.getDifficulty());
+        if (difficulty != null) {
+            difficultyComboBox.setValue(difficulty);
+        }
         yearTextField.setText(midi.getYear());
     }
 
