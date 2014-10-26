@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<VBox fx:id="root" stylesheets="@/css/pianostyles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="midi.player.gui.piano.PianoPresenter">
+    <children>
+        <StackPane>
+            <children>
+                <Pane fx:id="keys" />
+                <Label fx:id="countdown" styleClass="countdown-label" text="Label" visible="false" />
+            </children>
+        </StackPane>
+        <VBox>
+            <children>
+            <AnchorPane>
+               <children>
+                      <HBox alignment="CENTER" styleClass="slider-hbox" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                          <children>
+                              <Slider fx:id="progressBar" styleClass="action-box" HBox.hgrow="ALWAYS" />
+                          </children>
+                      </HBox>
+                  <BorderPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0">
+                     <right>
+                        <GridPane fx:id="handsPane" hgap="5.0" prefHeight="69.0" prefWidth="86.0" vgap="5.0" BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <ToggleButton mnemonicParsing="false" onAction="#toggleLeftHand" selected="true">
+                                 <styleClass>
+                                    <String fx:value="image-button" />
+                                    <String fx:value="left-hand" />
+                                 </styleClass>
+                              </ToggleButton>
+                              <ToggleButton mnemonicParsing="false" onAction="#toggleRightHand" selected="true" GridPane.columnIndex="2">
+                                 <styleClass>
+                                    <String fx:value="image-button" />
+                                    <String fx:value="right-hand" />
+                                 </styleClass>
+                              </ToggleButton>
+                              <ToggleButton mnemonicParsing="false" onAction="#toggleLeftSound" selected="true" GridPane.rowIndex="1">
+                                 <styleClass>
+                                    <String fx:value="image-button" />
+                                    <String fx:value="music-icon" />
+                                 </styleClass>
+                              </ToggleButton>
+                              <ToggleButton mnemonicParsing="false" onAction="#toggleRightSound" selected="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                 <styleClass>
+                                    <String fx:value="image-button" />
+                                    <String fx:value="music-icon" />
+                                 </styleClass>
+                              </ToggleButton>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="1.0" GridPane.columnIndex="1" GridPane.rowSpan="2147483647" />
+                           </children>
+                        </GridPane>
+                     </right>
+                     <left>
+                        <VBox prefHeight="104.0" prefWidth="322.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="TOP_CENTER">
+                                 <children>
+                                            <Button fx:id="play" defaultButton="true" mnemonicParsing="false" onAction="#handlePlay">
+                                                <styleClass>
+                                                    <String fx:value="play-button" />
+                                                    <String fx:value="image-button" />
+                                                </styleClass>
+                                            </Button>
+                                            <Button fx:id="pause" mnemonicParsing="false" onAction="#handlePause">
+                                                <styleClass>
+                                                    <String fx:value="pause-button" />
+                                                    <String fx:value="image-button" />
+                                                </styleClass>
+                                            </Button>
+                                            <Button fx:id="stop" mnemonicParsing="false" onAction="#handleStop">
+                                                <styleClass>
+                                                    <String fx:value="stop-button" />
+                                                    <String fx:value="image-button" />
+                                                </styleClass>
+                                            </Button>
+                                    <Button mnemonicParsing="false" onAction="#handleOpen" prefHeight="32.0" prefWidth="56.0" text="Open" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_LEFT" prefHeight="36.0" prefWidth="116.0" spacing="10.0">
+                                 <children>
+                                    <Label alignment="CENTER" text="Tempo" />
+                                    <Slider fx:id="multiplierSlider" majorTickUnit="0.2" max="4.0" min="0.2" minorTickCount="2" value="1.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" layoutX="10.0" layoutY="42.0" prefHeight="17.0" prefWidth="322.0" />
+                           </children>
+                        </VBox>
+                     </left>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
+            </children>
+        </VBox>
+    </children>
+</VBox>

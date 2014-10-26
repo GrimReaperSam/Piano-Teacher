@@ -3,6 +3,7 @@ package midi.player.gui;
 import javafx.fxml.FXMLLoader;
 import midi.common.service.MidiService;
 import midi.player.gui.main.MainPresenter;
+import midi.player.gui.piano.PianoPresenter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor;
@@ -17,6 +18,11 @@ public class MidiPianoAppFactory {
     @Bean
     public MainPresenter mainPresenter() {
         return loadPresenter("/fxml/Main.fxml");
+    }
+
+    @Bean
+    public PianoPresenter pianoPresenter() {
+        return loadPresenter("/fxml/Piano.fxml");
     }
 
     @Bean

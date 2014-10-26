@@ -10,7 +10,7 @@ public class PianoLauncher extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(PianoLauncher.class.getResource("view/RootLayout.fxml"));
+        FXMLLoader loader = new FXMLLoader(PianoLauncher.class.getResource("view/Piano.fxml"));
         VBox rootLayout = loader.load();
 
         Scene scene = new Scene(rootLayout);
