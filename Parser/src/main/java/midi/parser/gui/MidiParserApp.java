@@ -1,11 +1,11 @@
-package midi.midiparser.gui;
+package midi.parser.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import midi.common.service.MidiService;
-import midi.midiparser.gui.main.MainPresenter;
+import midi.parser.gui.main.MainPresenter;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class MidiParserApp extends Application {

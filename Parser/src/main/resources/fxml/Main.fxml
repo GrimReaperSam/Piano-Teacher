@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import java.lang.String?>
 <BorderPane fx:id="root"
-            fx:controller="midi.midiparser.gui.main.MainPresenter"
+            fx:controller="midi.parser.gui.main.MainPresenter"
             xmlns:fx="http://javafx.com/fxml">
 
     <!-- Content Area -->

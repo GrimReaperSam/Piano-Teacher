@@ -1,4 +1,4 @@
-package midi.midiparser.gui.base;
+package midi.parser.gui.base;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -10,8 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import midi.common.service.Midi;
-import midi.midiparser.gui.main.MainPresenter;
-import midi.midiparser.gui.song.SongPresenter;
+import midi.parser.gui.main.MainPresenter;
+import midi.parser.gui.song.SongPresenter;
 
 import javax.inject.Inject;
 

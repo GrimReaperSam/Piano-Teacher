@@ -1,11 +1,14 @@
-package midi.midiparser.gui;
+package midi.parser.gui;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import midi.common.service.MidiService;
-import midi.midiparser.gui.base.BasePresenter;
-import midi.midiparser.gui.main.MainPresenter;
-import midi.midiparser.gui.parser.ParserPresenter;
-import midi.midiparser.gui.song.SongPresenter;
+import midi.parser.gui.base.BasePresenter;
+import midi.parser.gui.dialog.DialogPresenter;
+import midi.parser.gui.main.MainPresenter;
+import midi.parser.gui.parser.ParserPresenter;
+import midi.parser.gui.song.SongPresenter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor;
@@ -36,8 +39,13 @@ public class MidiParserAppFactory {
     public BasePresenter basePresenter() { return loadPresenter("/fxml/Base.fxml"); }
 
     @Bean
-    public FXMLLoader dialogLoader() {
-        return loader("/fxml/Dialog.fxml");
+    public DialogPresenter dialogPresenter() {
+        FXMLLoader dialogLoader = loader("/fxml/Dialog.fxml");
+        Stage stage = new Stage();
+        stage.setScene(new Scene(dialogLoader.getRoot()));
+        DialogPresenter dialogPresenter = dialogLoader.getController();
+        dialogPresenter.setDialog(stage);
+        return dialogPresenter;
     }
 
     @Bean

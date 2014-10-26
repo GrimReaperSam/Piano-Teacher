@@ -1,4 +1,4 @@
-package midi.midiparser.parser;
+package midi.parser.parser;
 
 import midi.common.data.ParsedMidi;
 import midi.common.data.Track;

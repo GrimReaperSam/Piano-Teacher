@@ -1,4 +1,4 @@
-package midi.midiparser.gui.dialog;
+package midi.parser.gui.dialog;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,4 +23,6 @@ public class DialogPresenter {
     public void setDialog(Stage dialog) {
         this.dialog = dialog;
     }
+
+    public Stage getDialog() {return dialog;}
 }

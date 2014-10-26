@@ -1,4 +1,4 @@
-package midi.midiparser.gui.song;
+package midi.parser.gui.song;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;

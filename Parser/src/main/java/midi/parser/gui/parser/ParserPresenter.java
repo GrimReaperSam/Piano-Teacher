@@ -1,4 +1,4 @@
-package midi.midiparser.gui.parser;
+package midi.parser.gui.parser;
 
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
@@ -12,9 +12,9 @@ import midi.common.data.ParsedMidi;
 import midi.common.service.Midi;
 import midi.common.service.MidiBuilder;
 import midi.common.service.MidiService;
-import midi.midiparser.gui.main.MainPresenter;
-import midi.midiparser.gui.song.SongPresenter;
-import midi.midiparser.parser.MidiParser;
+import midi.parser.gui.main.MainPresenter;
+import midi.parser.gui.song.SongPresenter;
+import midi.parser.parser.MidiParser;
 
 import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
@@ -38,14 +38,12 @@ public class ParserPresenter {
     @Inject private MainPresenter mainPresenter;
     @Inject private MidiService midiService;
 
-    private Midi[] newMidis;
-
     public Node getView() {
         return root;
     }
 
     @FXML
-    private void handleMidiFileButton(ActionEvent event) {
+    private void handleSelectMidis(ActionEvent event) {
         Preferences userPrefs = Preferences.userRoot().node(getClass().getName());
         File initialDirectory = new File (userPrefs.get(MIDI_SAVE_DIRECTORY, new File(".").getAbsolutePath()));
 
@@ -57,7 +55,7 @@ public class ParserPresenter {
         List<File> files = fileChooser.showOpenMultipleDialog(null);
         if (files != null) {
             userPrefs.put(MIDI_SAVE_DIRECTORY, files.get(0).getParent());
-            newMidis = files.stream().map(this::parse).map(midi -> {
+            Midi[] newMidis = files.stream().map(this::parse).map(midi -> {
                 try {
                     StringWriter sw = new StringWriter();
                     JAXBContext.newInstance(ParsedMidi.class).createMarshaller().marshal(midi, sw);
@@ -102,6 +100,7 @@ public class ParserPresenter {
                 mainPresenter.showBase(midiService.getAll());
             } else if (newValue.equals(Worker.State.FAILED)) {
                 mainPresenter.showBase(midiService.getAll());
+                mainPresenter.showError("Parsing incomplete");
             }
         });
         new Thread(saveTask).start();
@@ -116,4 +115,7 @@ public class ParserPresenter {
         }
     }
 
+    public void clear() {
+        songsPane.getChildren().clear();
+    }
 }
