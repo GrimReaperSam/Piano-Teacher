@@ -15,10 +15,10 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import midi.common.data.events.Note;
+import midi.player.gui.keys.Key.PianoKey;
 import midi.player.gui.keys.Keys;
 import midi.player.gui.keys.KeysGenerator;
 import player.model.MidiFile;
-import player.piano.PianoKey;
 import timelines.CountdownGenerator;
 
 import java.io.File;

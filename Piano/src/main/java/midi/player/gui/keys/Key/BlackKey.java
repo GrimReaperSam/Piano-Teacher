@@ -1,4 +1,4 @@
-package player.piano;
+package midi.player.gui.keys.Key;
 
 public class BlackKey extends PianoKey {
 

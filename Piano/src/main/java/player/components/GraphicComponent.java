@@ -3,8 +3,8 @@ package player.components;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import midi.common.data.events.Note;
+import midi.player.gui.keys.Key.PianoKey;
 import player.PianoController;
-import player.piano.PianoKey;
 
 import java.util.ArrayList;
 import java.util.List;

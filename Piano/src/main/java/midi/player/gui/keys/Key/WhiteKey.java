@@ -1,4 +1,4 @@
-package player.piano;
+package midi.player.gui.keys.Key;
 
 import javafx.scene.paint.Color;
 

@@ -1,7 +1,7 @@
 package midi.player.gui.keys;
 
 import javafx.scene.Group;
-import player.piano.PianoKey;
+import midi.player.gui.keys.Key.PianoKey;
 
 import java.util.HashMap;
 import java.util.Map;

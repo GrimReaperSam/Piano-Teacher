@@ -2,8 +2,8 @@ package midi.player.gui.keys;
 
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
-import player.piano.BlackKey;
-import player.piano.WhiteKey;
+import midi.player.gui.keys.Key.BlackKey;
+import midi.player.gui.keys.Key.WhiteKey;
 
 import java.util.Arrays;
 import java.util.List;

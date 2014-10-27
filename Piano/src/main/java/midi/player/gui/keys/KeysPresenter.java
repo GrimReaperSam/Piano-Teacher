@@ -3,7 +3,7 @@ package midi.player.gui.keys;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import player.piano.PianoKey;
+import midi.player.gui.keys.Key.PianoKey;
 
 import javax.inject.Inject;
 import java.util.Map;
