@@ -5,9 +5,8 @@
 <?import java.lang.*?>
 <VBox fx:id="root" stylesheets="@/css/pianostyles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="midi.player.gui.piano.PianoPresenter">
     <children>
-        <StackPane>
+        <StackPane fx:id="pianoStack">
             <children>
-                <Pane fx:id="keys" />
                 <Label fx:id="countdown" styleClass="countdown-label" text="Label" visible="false" />
             </children>
         </StackPane>

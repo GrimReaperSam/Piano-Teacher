@@ -15,8 +15,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import midi.common.data.events.Note;
-import player.keysgenerator.Piano;
-import player.keysgenerator.PianoGenerator;
+import midi.player.gui.keys.Keys;
+import midi.player.gui.keys.KeysGenerator;
 import player.model.MidiFile;
 import player.piano.PianoKey;
 import timelines.CountdownGenerator;
@@ -160,16 +160,16 @@ public class PianoController {
 
     @FXML
     private void initialize() {
-        Piano halfPiano = PianoGenerator.newInstance()
+        Keys halfPiano = KeysGenerator.newInstance()
                                             .whiteNumber(36)
                                             .startNote(48)
                                             .generate();
-        Piano fullPiano = PianoGenerator.newInstance()
+        Keys fullPiano = KeysGenerator.newInstance()
                                             .whiteNumber(52)
                                             .startNote(21)
                                             .blackOffset(5)
                                             .generate();
-        Piano result = useFull ? fullPiano : halfPiano;
+        Keys result = useFull ? fullPiano : halfPiano;
         whiteNotes = result.getWhiteNotes();
         blackNotes = result.getBlackNotes();
         keys.getChildren().addAll(result.getWhiteGroup(), result.getBlackGroup());

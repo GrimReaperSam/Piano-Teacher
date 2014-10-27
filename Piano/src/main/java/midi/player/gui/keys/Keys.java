@@ -1,4 +1,4 @@
-package player.keysgenerator;
+package midi.player.gui.keys;
 
 import javafx.scene.Group;
 import player.piano.PianoKey;
@@ -6,7 +6,7 @@ import player.piano.PianoKey;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Piano {
+public class Keys {
 
     private Map<Integer, PianoKey> whiteNotes = new HashMap<>();
     private Map<Integer, PianoKey> blackNotes = new HashMap<>();

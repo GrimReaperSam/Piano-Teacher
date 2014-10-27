@@ -2,6 +2,9 @@ package midi.player.gui;
 
 import javafx.fxml.FXMLLoader;
 import midi.common.service.MidiService;
+import midi.player.gui.keys.Keys;
+import midi.player.gui.keys.KeysGenerator;
+import midi.player.gui.keys.KeysPresenter;
 import midi.player.gui.main.MainPresenter;
 import midi.player.gui.piano.PianoPresenter;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +26,28 @@ public class MidiPianoAppFactory {
     @Bean
     public PianoPresenter pianoPresenter() {
         return loadPresenter("/fxml/Piano.fxml");
+    }
+
+    @Bean
+    public KeysPresenter keysPresenter() {
+        return loadPresenter("/fxml/Keys.fxml");
+    }
+
+    @Bean
+    public Keys fullPiano() {
+       return KeysGenerator.newInstance()
+               .whiteNumber(52)
+               .startNote(21)
+               .blackOffset(5)
+               .generate();
+    }
+
+    @Bean
+    public Keys halfPiano() {
+        return KeysGenerator.newInstance()
+                .whiteNumber(36)
+                .startNote(48)
+                .generate();
     }
 
     @Bean

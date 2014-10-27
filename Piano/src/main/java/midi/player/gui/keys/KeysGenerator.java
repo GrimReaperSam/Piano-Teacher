@@ -1,4 +1,4 @@
-package player.keysgenerator;
+package midi.player.gui.keys;
 
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
@@ -8,7 +8,7 @@ import player.piano.WhiteKey;
 import java.util.Arrays;
 import java.util.List;
 
-public class PianoGenerator {
+public class KeysGenerator {
 
     private static final List<Integer> BLACK_INDICES = Arrays.asList(0, 1, 3, 4, 5);
 
@@ -16,29 +16,29 @@ public class PianoGenerator {
     private int startNote;
     private int blackOffset;
 
-    public static PianoGenerator newInstance() {
-        return new PianoGenerator();
+    public static KeysGenerator newInstance() {
+        return new KeysGenerator();
     }
 
-    private PianoGenerator() {}
+    private KeysGenerator() {}
 
-    public PianoGenerator whiteNumber(int whiteNumber) {
+    public KeysGenerator whiteNumber(int whiteNumber) {
         this.whiteNumber = whiteNumber;
         return this;
     }
 
-    public PianoGenerator startNote(int startNote) {
+    public KeysGenerator startNote(int startNote) {
         this.startNote = startNote;
         return this;
     }
 
-    public PianoGenerator blackOffset(int blackOffset) {
+    public KeysGenerator blackOffset(int blackOffset) {
         this.blackOffset = blackOffset;
         return this;
     }
 
-    public Piano generate() {
-        Piano result = new Piano();
+    public Keys generate() {
+        Keys result = new Keys();
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         int keyWidth = (int) bounds.getWidth() / whiteNumber;

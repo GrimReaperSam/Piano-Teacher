@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<Pane fx:id="root"
+            fx:controller="midi.player.gui.keys.KeysPresenter"
+            xmlns:fx="http://javafx.com/fxml">
+
+</Pane>
