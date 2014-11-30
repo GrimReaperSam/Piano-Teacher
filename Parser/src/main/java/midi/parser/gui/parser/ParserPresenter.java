@@ -52,7 +52,7 @@ public class ParserPresenter {
         fileChooser.getExtensionFilters().add(extensionFilter);
         fileChooser.setInitialDirectory(initialDirectory);
 
-        List<File> files = fileChooser.showOpenMultipleDialog(null);
+        List<File> files = fileChooser.showOpenMultipleDialog(root.getScene().getWindow());
         if (files != null) {
             userPrefs.put(MIDI_SAVE_DIRECTORY, files.get(0).getParent());
             Midi[] newMidis = files.stream().map(this::parse).map(midi -> {

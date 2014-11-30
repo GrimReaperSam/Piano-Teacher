@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="midi.player.gui.chooser.ChooserPresenter">
+    <children>
+        <ScrollPane hbarPolicy="NEVER" layoutY="70.0" prefViewportHeight="375.0" prefViewportWidth="800.0">
+            <content>
+                <GridPane fx:id="songsPane" gridLinesVisible="true">
+                </GridPane>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

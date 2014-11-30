@@ -2,6 +2,7 @@ package midi.player.gui;
 
 import javafx.fxml.FXMLLoader;
 import midi.common.service.MidiService;
+import midi.player.gui.chooser.ChooserPresenter;
 import midi.player.gui.keys.Keys;
 import midi.player.gui.keys.KeysGenerator;
 import midi.player.gui.keys.KeysPresenter;
@@ -21,6 +22,11 @@ public class MidiPianoAppFactory {
     @Bean
     public MainPresenter mainPresenter() {
         return loadPresenter("/fxml/Main.fxml");
+    }
+
+    @Bean
+    public ChooserPresenter chooserPresenter() {
+        return loadPresenter("/fxml/Chooser.fxml");
     }
 
     @Bean

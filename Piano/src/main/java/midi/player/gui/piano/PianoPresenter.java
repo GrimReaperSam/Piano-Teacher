@@ -25,7 +25,6 @@ public class PianoPresenter {
 
     public void setMidi(Midi midi) {
         initializeKeys();
-        System.out.println(midi.getName());
     }
 
     private void initializeKeys() {

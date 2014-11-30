@@ -19,7 +19,7 @@ public class MidiPianoApp extends Application {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MidiPianoAppFactory.class);
         MidiService midiService = context.getBean(MidiService.class);
         MainPresenter mainPresenter = context.getBean(MainPresenter.class);
-        mainPresenter.showPiano(midiService.getAll().iterator().next());
+        mainPresenter.showChooser(midiService.getAll());
         Scene scene = new Scene(mainPresenter.getView());
         stage.setTitle("Midi Piano");
         stage.setResizable(false);
