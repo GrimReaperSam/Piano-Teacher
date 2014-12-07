@@ -3,6 +3,7 @@ package midi.player.gui.keys;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import midi.common.data.events.Note;
 import midi.player.gui.keys.Key.PianoKey;
 
 import javax.inject.Inject;
@@ -27,6 +28,11 @@ public class KeysPresenter {
         whiteNotes = result.getWhiteNotes();
         blackNotes = result.getBlackNotes();
         root.getChildren().addAll(result.getWhiteGroup(), result.getBlackGroup());
+    }
+
+    public PianoKey getKey(Note note) {
+        int index = note.getValue();
+        return whiteNotes.containsKey(index) ? whiteNotes.get(index) : blackNotes.get(index);
     }
 
 }

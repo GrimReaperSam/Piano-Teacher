@@ -1,21 +1,21 @@
-package player.components;
+package midi.player.engine.components;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import midi.common.data.events.Note;
 import midi.player.gui.keys.Key.PianoKey;
-import player.PianoController;
+import midi.player.gui.piano.PianoPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GraphicComponent extends BaseGraphicComponent implements Component{
+public class GraphicComponent extends BaseGraphicComponent implements Component {
 
-    private PianoController contoller;
+    private PianoPresenter presenter;
     private List<Note> playing = new ArrayList<>();
 
-    public GraphicComponent(PianoController contoller) {
-        this.contoller = contoller;
+    public GraphicComponent(PianoPresenter presenter) {
+        this.presenter = presenter;
     }
 
     @Override
@@ -59,6 +59,6 @@ public class GraphicComponent extends BaseGraphicComponent implements Component{
     }
 
     private PianoKey getKey(Note note) {
-        return contoller.getKey(note);
+        return presenter.getKey(note);
     }
 }

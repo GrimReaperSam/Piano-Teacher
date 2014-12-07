@@ -1,4 +1,4 @@
-package timelines;
+package midi.player.engine.timelines;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -7,7 +7,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
-import player.model.MidiFile;
+import midi.player.engine.midiinfo.MidiFile;
 
 public class CountdownGenerator {
 

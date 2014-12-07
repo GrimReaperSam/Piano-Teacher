@@ -1,4 +1,4 @@
-package player;
+package midi.player.engine;
 
 import javafx.animation.Timeline;
 

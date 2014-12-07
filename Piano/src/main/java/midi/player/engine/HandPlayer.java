@@ -1,7 +1,6 @@
-package player;
+package midi.player.engine;
 
 import javafx.animation.Animation;
-import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -9,27 +8,29 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Slider;
 import javafx.util.Duration;
 import midi.common.data.events.Note;
-import player.components.BaseGraphicComponent;
-import player.components.BaseMusicComponent;
-import player.components.GraphicComponent;
-import player.components.MusicComponent;
-import player.listeners.timelinelisteners.TimelineChangedListener;
-import player.model.Accord;
-import player.model.Hand;
+import midi.player.engine.components.BaseGraphicComponent;
+import midi.player.engine.components.BaseMusicComponent;
+import midi.player.engine.components.GraphicComponent;
+import midi.player.engine.components.MusicComponent;
+import midi.player.engine.listeners.timelinelisteners.TimelineChangedListener;
+import midi.player.engine.midiinfo.Accord;
+import midi.player.engine.midiinfo.Hand;
+import midi.player.gui.piano.PianoPresenter;
 
 public class HandPlayer implements Player {
 
-    private PianoController controller;
+
+    private PianoPresenter presenter;
     private Hand hand;
     private Timeline timeline;
     BaseMusicComponent music;
     BaseGraphicComponent graphic;
 
-    public HandPlayer(PianoController controller, Hand hand) {
-        this.controller = controller;
+    public HandPlayer(PianoPresenter presenter, Hand hand) {
+        this.presenter = presenter;
         this.hand = hand;
         music = MusicComponent.getInstance();
-        graphic = new GraphicComponent(controller);
+        graphic = new GraphicComponent(presenter);
         resetTimeline();
     }
 
@@ -86,7 +87,7 @@ public class HandPlayer implements Player {
         }
         timeline = new Timeline();
 
-        double multiplier = controller.getMultiplierSlider().getValue();
+        double multiplier = presenter.getMultiplierSlider().getValue();
         for (int index = 0; index < hand.size(); index++) {
             final int finalIndex = index;
             Accord accord = hand.get(index);
@@ -95,7 +96,7 @@ public class HandPlayer implements Player {
                 double startTime = adjustedNote.getTime() / 1000;
                 double endTime = startTime + adjustedNote.getDuration() / 1000;
                 KeyFrame startFrame = new KeyFrame(Duration.millis(startTime)
-                , ev -> {
+                        , ev -> {
                     music.play(adjustedNote);
                     graphic.play(adjustedNote);
                     if (finalIndex < hand.size() - 2) {
@@ -103,7 +104,7 @@ public class HandPlayer implements Player {
                     }
                 });
                 KeyFrame endFrame= new KeyFrame(Duration.millis(endTime)
-                , ev -> {
+                        , ev -> {
                     music.stop(adjustedNote);
                     graphic.stop(adjustedNote);
                 });
@@ -113,24 +114,24 @@ public class HandPlayer implements Player {
         timeline.setOnFinished(event -> resetNotes());
 
         BooleanBinding timelineRunning = timeline.statusProperty().isEqualTo(Animation.Status.RUNNING);
-        controller.getStart().disableProperty().bind(timelineRunning);
-        controller.getPause().disableProperty().bind(timelineRunning.not());
-        controller.getStop().disableProperty().bind(timeline.statusProperty().isEqualTo(Animation.Status.STOPPED));
+        presenter.getStart().disableProperty().bind(timelineRunning);
+        presenter.getPause().disableProperty().bind(timelineRunning.not());
+        presenter.getStop().disableProperty().bind(timeline.statusProperty().isEqualTo(Animation.Status.STOPPED));
 
         timeline.jumpTo(currentTime);
-        Slider progressBar = controller.getProgressBar();
+        Slider progressBar = presenter.getProgressBar();
         timeline.currentTimeProperty().addListener(new TimelineChangedListener(timeline, progressBar));
         progressBar.valueProperty().addListener(ov -> {
             if (progressBar.isValueChanging()) {
                 // multiply duration by percentage calculated by slider position
                 Duration totalDuration = timeline.getTotalDuration();
                 if (totalDuration != null) {
-                    Status previousStatus = timeline.getStatus();
+                    Animation.Status previousStatus = timeline.getStatus();
                     timeline.pause();
                     resetNotes();
                     timeline.jumpTo(totalDuration.multiply(progressBar.getValue() / 100.0));
                     progressBar.pressedProperty().addListener((observable, oldValue, newValue) -> {
-                        if (previousStatus.equals(Status.RUNNING)) {
+                        if (previousStatus.equals(Animation.Status.RUNNING)) {
                             play();
                         }
                     });
@@ -142,7 +143,7 @@ public class HandPlayer implements Player {
     }
 
     private void updateValues() {
-        Slider progressBar = controller.getProgressBar();
+        Slider progressBar = presenter.getProgressBar();
         if (progressBar != null) {
             Platform.runLater(() -> {
                 Duration currentTime = timeline.getCurrentTime();

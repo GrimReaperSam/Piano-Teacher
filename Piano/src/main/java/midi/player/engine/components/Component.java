@@ -1,4 +1,4 @@
-package player.components;
+package midi.player.engine.components;
 
 
 import midi.common.data.events.Note;

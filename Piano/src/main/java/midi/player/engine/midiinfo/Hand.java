@@ -1,4 +1,4 @@
-package player.model;
+package midi.player.engine.midiinfo;
 
 import java.util.ArrayList;
 import java.util.List;
