@@ -3,6 +3,7 @@ package midi.parser.gui.main;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import midi.common.service.Midi;
 import midi.parser.gui.base.BasePresenter;
 import midi.parser.gui.dialog.DialogPresenter;
@@ -19,6 +20,8 @@ public class MainPresenter {
     @Inject private ParserPresenter parserPresenter;
     @Inject private DialogPresenter dialogPresenter;
 
+    private Stage primaryStage;
+
     public Parent getView() {
         return root;
     }
@@ -26,11 +29,13 @@ public class MainPresenter {
     public void showParser() {
         parserPresenter.clear();
         contentArea.setCenter(parserPresenter.getView());
+        primaryStage.sizeToScene();
     }
 
     public void showBase(Iterable<Midi> midis) {
         basePresenter.setMidis(midis);
         contentArea.setCenter(basePresenter.getView());
+        primaryStage.sizeToScene();
     }
 
     public void showError(String text) {
@@ -47,4 +52,11 @@ public class MainPresenter {
         dialogPresenter.getDialog().show();
     }
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 }

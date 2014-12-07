@@ -16,10 +16,10 @@ public class MidiParserApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MidiParserAppFactory.class);
         MidiService midiService = context.getBean(MidiService.class);
         MainPresenter mainPresenter = context.getBean(MainPresenter.class);
+        mainPresenter.setPrimaryStage(stage);
         mainPresenter.showBase(midiService.getAll());
         Scene scene = new Scene(mainPresenter.getView());
         stage.setTitle("Midi Parser");

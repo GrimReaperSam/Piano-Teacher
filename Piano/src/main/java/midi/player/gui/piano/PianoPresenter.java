@@ -16,12 +16,12 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import midi.common.data.events.Note;
 import midi.common.service.Midi;
-import midi.player.engine.HandPlayer;
-import midi.player.engine.Player;
-import midi.player.engine.midiinfo.MidiFile;
-import midi.player.engine.timelines.CountdownGenerator;
 import midi.player.gui.keys.Key.PianoKey;
 import midi.player.gui.keys.KeysPresenter;
+import midi.player.player.HandPlayer;
+import midi.player.player.Player;
+import midi.player.player.midiinfo.MidiFile;
+import midi.player.player.timelines.CountdownGenerator;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -76,9 +76,6 @@ public class PianoPresenter {
 
     public void setMidi(Midi unparsedMidi) {
         midi = new MidiFile(unparsedMidi.getData());
-        keysPresenter.setMode(useFull);
-        pianoStack.getChildren().add(0, keysPresenter.getView());
-        countdownTimeline = new CountdownGenerator().createCountdown(midi, countdown);
         players = new ArrayList<>();
         if (midi.getRightHand() != null) {
             rightPlayer = new HandPlayer(this, midi.getRightHand());
@@ -91,11 +88,18 @@ public class PianoPresenter {
             }
         }
         handsPane.visibleProperty().bind(new SimpleBooleanProperty(useFull));
-        countdown.prefWidthProperty().bind(pianoStack.widthProperty());
-        countdown.prefHeightProperty().bind(pianoStack.heightProperty());
         multiplierSlider.valueChangingProperty().addListener(new MultiplierListener());
         currentMultiplier = multiplierSlider.getValue();
+        keysPresenter.setMode(useFull);
+        pianoStack.getChildren().add(0, keysPresenter.getView());
     }
+
+    public void configureLabel() {
+        countdown.prefWidthProperty().bind(keysPresenter.getView().widthProperty());
+        countdown.prefHeightProperty().bind(keysPresenter.getView().heightProperty());
+        countdownTimeline = new CountdownGenerator().createCountdown(midi, countdown);
+    }
+
 
     @FXML
     private void handlePlay() {

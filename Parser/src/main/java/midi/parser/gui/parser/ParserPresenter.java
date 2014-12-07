@@ -75,7 +75,7 @@ public class ParserPresenter {
                     loader.load(getClass().getResourceAsStream("/fxml/Song.fxml"));
                     SongPresenter songPresenter = loader.getController();
                     songPresenter.setMidi(newMidis[i]);
-                    songsPane.add(songPresenter.getView(), 1, i);
+                    songsPane.add(songPresenter.getView(), 0, i);
                     songsPresenters.add(songPresenter);
                 } catch (IOException e) {
                     throw new RuntimeException("Unable to load FXML file '/fxml/Song.fxml'", e);

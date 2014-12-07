@@ -1,4 +1,4 @@
-package midi.player.engine.components;
+package midi.player.player.components;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

@@ -1,4 +1,4 @@
-package midi.player.engine;
+package midi.player.player;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -8,14 +8,14 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.Slider;
 import javafx.util.Duration;
 import midi.common.data.events.Note;
-import midi.player.engine.components.BaseGraphicComponent;
-import midi.player.engine.components.BaseMusicComponent;
-import midi.player.engine.components.GraphicComponent;
-import midi.player.engine.components.MusicComponent;
-import midi.player.engine.listeners.timelinelisteners.TimelineChangedListener;
-import midi.player.engine.midiinfo.Accord;
-import midi.player.engine.midiinfo.Hand;
 import midi.player.gui.piano.PianoPresenter;
+import midi.player.player.components.BaseGraphicComponent;
+import midi.player.player.components.BaseMusicComponent;
+import midi.player.player.components.GraphicComponent;
+import midi.player.player.components.MusicComponent;
+import midi.player.player.listeners.timelinelisteners.TimelineChangedListener;
+import midi.player.player.midiinfo.Accord;
+import midi.player.player.midiinfo.Hand;
 
 public class HandPlayer implements Player {
 
@@ -29,7 +29,7 @@ public class HandPlayer implements Player {
     public HandPlayer(PianoPresenter presenter, Hand hand) {
         this.presenter = presenter;
         this.hand = hand;
-        music = MusicComponent.getInstance();
+        music = new MusicComponent();
         graphic = new GraphicComponent(presenter);
         resetTimeline();
     }
@@ -68,7 +68,6 @@ public class HandPlayer implements Player {
         stop();
         resetTimeline();
     }
-
 
     @Override
     public void toggleSound() {

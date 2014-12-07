@@ -4,9 +4,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="midi.parser.gui.parser.ParserPresenter">
+<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="midi.parser.gui.parser.ParserPresenter">
    <children>
-       <HBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="800.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+       <HBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="550.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <children>
               <Button mnemonicParsing="false" onAction="#handleSelectMidis" prefHeight="25.0" prefWidth="123.0" text="select Midi Files" />
           </children>
@@ -17,13 +17,13 @@
                <Insets left="20.0" right="5.0" />
            </padding>
        </HBox>
-      <ScrollPane hbarPolicy="NEVER" layoutY="70.0" prefViewportHeight="375.0" prefViewportWidth="800.0">
+      <ScrollPane hbarPolicy="NEVER" layoutY="70.0" prefHeight="377.0" prefViewportHeight="375.0" prefViewportWidth="800.0" prefWidth="550.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
          <content>
-            <GridPane fx:id="songsPane" gridLinesVisible="true">
+            <GridPane fx:id="songsPane">
             </GridPane>
          </content>
       </ScrollPane>
-       <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+       <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="550.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
           <children>
               <Button mnemonicParsing="false" onAction="#handleSave" prefHeight="25.0" prefWidth="60.0" text="Save" />
           </children>

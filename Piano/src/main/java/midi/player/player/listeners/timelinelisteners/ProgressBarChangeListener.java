@@ -1,4 +1,4 @@
-package midi.player.engine.listeners.timelinelisteners;
+package midi.player.player.listeners.timelinelisteners;
 
 import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;

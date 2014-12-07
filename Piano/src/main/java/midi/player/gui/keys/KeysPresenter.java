@@ -1,7 +1,6 @@
 package midi.player.gui.keys;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import midi.common.data.events.Note;
 import midi.player.gui.keys.Key.PianoKey;
@@ -19,7 +18,7 @@ public class KeysPresenter {
     private Map<Integer, PianoKey> whiteNotes;
     private Map<Integer, PianoKey> blackNotes;
 
-    public Node getView() {
+    public Pane getView() {
         return root;
     }
 

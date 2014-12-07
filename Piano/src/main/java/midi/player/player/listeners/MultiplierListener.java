@@ -1,11 +1,11 @@
-package midi.player.engine.listeners;
+package midi.player.player.listeners;
 
 import javafx.animation.Animation;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
-import midi.player.engine.Player;
+import midi.player.player.Player;
 
 import java.util.List;
 

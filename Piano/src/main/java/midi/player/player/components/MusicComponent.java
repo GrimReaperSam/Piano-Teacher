@@ -1,4 +1,4 @@
-package midi.player.engine.components;
+package midi.player.player.components;
 
 
 import midi.common.data.events.Note;
@@ -9,16 +9,10 @@ import javax.sound.midi.Synthesizer;
 
 public class MusicComponent extends BaseMusicComponent {
 
-    private static MusicComponent music = new MusicComponent();
-
-    public static MusicComponent getInstance() {
-        return music;
-    }
-
     private Synthesizer synthesizer;
     private MidiChannel channel;
 
-    private MusicComponent() {
+    public MusicComponent() {
         initializeMidiSynthesizer();
     }
 

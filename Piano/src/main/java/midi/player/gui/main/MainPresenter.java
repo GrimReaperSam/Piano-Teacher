@@ -28,6 +28,7 @@ public class MainPresenter {
         pianoPresenter.setMidi(midi);
         contentArea.setCenter(pianoPresenter.getView());
         primaryStage.sizeToScene();
+        pianoPresenter.configureLabel();
     }
 
     public void showChooser(Iterable<Midi> midis) {

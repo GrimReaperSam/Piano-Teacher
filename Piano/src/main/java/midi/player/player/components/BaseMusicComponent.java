@@ -1,4 +1,4 @@
-package midi.player.engine.components;
+package midi.player.player.components;
 
 public abstract class BaseMusicComponent implements Component {
 

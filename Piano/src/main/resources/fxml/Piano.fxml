@@ -7,7 +7,7 @@
     <children>
         <StackPane fx:id="pianoStack">
             <children>
-                <Label fx:id="countdown" styleClass="countdown-label" text="Label" visible="false" />
+                <Label fx:id="countdown" styleClass="countdown-label" visible="false" />
             </children>
         </StackPane>
         <VBox>

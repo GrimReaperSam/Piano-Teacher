@@ -1,4 +1,4 @@
-package midi.player.engine.midiinfo;
+package midi.player.player.midiinfo;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
