@@ -25,13 +25,13 @@
             <Label text="Length" GridPane.columnIndex="2" />
             <Label text="Difficulty" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label text="Album" GridPane.rowIndex="3" />
-            <TextField fx:id="songNameTextField" GridPane.columnIndex="1" />
-            <TextField fx:id="composerTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="genreTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="albumTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="songNameLabel" GridPane.columnIndex="1" />
+            <Label fx:id="composerLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="genreLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="albumLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label fx:id="lengthLabel" GridPane.columnIndex="3" />
-            <TextField fx:id="yearTextField" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <ComboBox fx:id="difficultyComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label fx:id="yearLabel" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label fx:id="difficultyLabel" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
