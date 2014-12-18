@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="814856294">
-    <data-source source="LOCAL" name="first-contact" uuid="635ae28e-ad7a-4096-b807-017976858ec5">
-      <driver-ref>postgresql</driver-ref>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/fayez</jdbc-url>
-      <user-name>fayez</user-name>
-      <user-password>dfecdfcbdfd3dfcfdfd0df9bdfeadf9b</user-password>
-      <libraries>
-        <library>
-          <url>file://$MAVEN_REPOSITORY$/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar</url>
-        </library>
-      </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="PostgreSQL - midi@localhost" uuid="495ff65c-ba33-4104-b97f-10c24fa303be">
+  <component name="DataSourceManagerImpl" format="xml">
+    <data-source source="LOCAL" name="PostgreSQL - midi@localhost" uuid="015ff297-100f-40f8-b3b4-4fd68a24c418">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/midi</jdbc-url>
-      <user-name>fayez</user-name>
-      <user-password>dfecdfcbdfd3dfcfdfd0df9bdfeadf9b</user-password>
       <libraries />
     </data-source>
   </component>
 </project>
-

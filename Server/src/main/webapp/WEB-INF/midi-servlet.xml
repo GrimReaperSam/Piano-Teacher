@@ -10,4 +10,9 @@
         <property name="serviceInterface" value="midi.common.service.MidiService"/>
     </bean>
 
+    <bean name="/security.service" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="securityServiceImpl"/>
+        <property name="serviceInterface" value="midi.common.security.SecurityService"/>
+    </bean>
+
 </beans>

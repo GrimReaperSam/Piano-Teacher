@@ -15,7 +15,7 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="midi.server.service"/>
+    <context:component-scan base-package="midi.server"/>
 
     <!-- Database Setup -->
 
@@ -23,7 +23,7 @@
         <property name="persistenceUnitName" value="midi" />
     </bean>
 
-    <data:repositories base-package="midi.server.service"/>
+    <data:repositories base-package="midi.server"/>
 
     <!-- Transaction Setup -->
 
@@ -32,5 +32,7 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+
+    <bean id="userDetailsService" class="midi.server.security.MidiUserDetailsService"></bean>
 
 </beans>

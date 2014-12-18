@@ -3,6 +3,7 @@ package midi.parser.gui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import midi.common.security.SecurityService;
 import midi.common.service.MidiService;
 import midi.parser.gui.base.BasePresenter;
 import midi.parser.gui.dialog.DialogPresenter;
@@ -51,6 +52,11 @@ public class MidiParserAppFactory {
     @Bean
     public MidiService midiService() {
         return createService("midi.service", MidiService.class);
+    }
+
+    @Bean
+    public SecurityService securityService() {
+        return createService("security.service", SecurityService.class);
     }
 
     @Bean
