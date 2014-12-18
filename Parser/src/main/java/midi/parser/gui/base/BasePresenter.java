@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import midi.common.security.SecurityService;
 import midi.common.service.Midi;
 import midi.parser.gui.main.MainPresenter;
 import midi.parser.gui.song.SongPresenter;
@@ -23,6 +24,7 @@ public class BasePresenter {
 
     @Inject private SongPresenter songPresenter;
     @Inject private MainPresenter mainPresenter;
+    @Inject SecurityService securityService;
 
     public Node getView() {
         return root;
@@ -44,7 +46,14 @@ public class BasePresenter {
     }
 
     @FXML
+    private void handleLogout(ActionEvent actionEvent) {
+        securityService.logout();
+        mainPresenter.showLogin();
+    }
+
+    @FXML
     private void handleExit(ActionEvent event) {
+        securityService.logout();
         Platform.exit();
     }
 

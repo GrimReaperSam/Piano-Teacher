@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import midi.common.service.Midi;
 import midi.parser.gui.base.BasePresenter;
 import midi.parser.gui.dialog.DialogPresenter;
+import midi.parser.gui.login.LoginPresenter;
 import midi.parser.gui.parser.ParserPresenter;
 
 import javax.inject.Inject;
@@ -19,11 +20,16 @@ public class MainPresenter {
     @Inject private BasePresenter basePresenter;
     @Inject private ParserPresenter parserPresenter;
     @Inject private DialogPresenter dialogPresenter;
+    @Inject private LoginPresenter loginPresenter;
 
     private Stage primaryStage;
 
     public Parent getView() {
         return root;
+    }
+
+    public void showLogin() {
+        contentArea.setCenter(loginPresenter.getView());
     }
 
     public void showParser() {
@@ -59,4 +65,5 @@ public class MainPresenter {
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
+
 }

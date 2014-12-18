@@ -7,6 +7,7 @@ import midi.common.security.SecurityService;
 import midi.common.service.MidiService;
 import midi.parser.gui.base.BasePresenter;
 import midi.parser.gui.dialog.DialogPresenter;
+import midi.parser.gui.login.LoginPresenter;
 import midi.parser.gui.main.MainPresenter;
 import midi.parser.gui.parser.ParserPresenter;
 import midi.parser.gui.song.SongPresenter;
@@ -38,6 +39,10 @@ public class MidiParserAppFactory {
 
     @Bean
     public BasePresenter basePresenter() { return loadPresenter("/fxml/Base.fxml"); }
+
+    @Bean public LoginPresenter loginPresenter() {
+        return loadPresenter("/fxml/Login.fxml");
+    }
 
     @Bean
     public DialogPresenter dialogPresenter() {

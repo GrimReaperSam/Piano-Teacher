@@ -21,4 +21,9 @@ public class SecurityServiceImpl implements SecurityService {
         Authentication auth = authenticationManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
+
+    @Override
+    public void logout() {
+        SecurityContextHolder.clearContext();
+    }
 }

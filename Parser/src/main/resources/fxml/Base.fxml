@@ -8,7 +8,7 @@
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="800.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="735.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="648.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleAdd" prefHeight="25.0" prefWidth="50.0" text="Add" />
                </children>
@@ -16,7 +16,8 @@
                   <Insets left="10.0" />
                </padding>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#handleExit" prefHeight="25.0" prefWidth="53.0" text="Exit" />
+            <Button mnemonicParsing="false" onAction="#handleLogout" prefHeight="25.0" prefWidth="60.0" text="Logout" />
+            <Button mnemonicParsing="false" onAction="#handleExit" prefHeight="25.0" prefWidth="60.0" text="Exit" />
          </children>
          <padding>
             <Insets right="10.0" />
