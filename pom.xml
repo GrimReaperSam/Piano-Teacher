@@ -12,6 +12,18 @@
       <module>Server</module>
   </modules>
 
-    <packaging>pom</packaging>
-    <name>midi</name>
+  <packaging>pom</packaging>
+  <name>midi</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

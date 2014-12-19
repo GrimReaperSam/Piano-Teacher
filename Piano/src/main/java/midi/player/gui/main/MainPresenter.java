@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import midi.common.service.Midi;
 import midi.player.gui.chooser.ChooserPresenter;
+import midi.player.gui.login.LoginPresenter;
 import midi.player.gui.piano.PianoPresenter;
 
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ public class MainPresenter {
 
     @Inject private PianoPresenter pianoPresenter;
     @Inject private ChooserPresenter chooserPresenter;
+    @Inject private LoginPresenter loginPresenter;
 
     public Parent getView() {
         return root;
@@ -34,6 +36,10 @@ public class MainPresenter {
     public void showChooser(Iterable<Midi> midis) {
         chooserPresenter.setCollection(midis);
         contentArea.setCenter(chooserPresenter.getView());
+    }
+
+    public void showLogin() {
+        contentArea.setCenter(loginPresenter.getView());
     }
 
     public Stage getPrimaryStage() {

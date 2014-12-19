@@ -20,7 +20,7 @@ public class MidiPianoApp extends Application {
         MidiService midiService = context.getBean(MidiService.class);
         MainPresenter mainPresenter = context.getBean(MainPresenter.class);
         mainPresenter.setPrimaryStage(stage);
-        mainPresenter.showChooser(midiService.getAll());
+        mainPresenter.showLogin();
         Scene scene = new Scene(mainPresenter.getView());
         stage.setTitle("Midi Piano");
         stage.setResizable(false);

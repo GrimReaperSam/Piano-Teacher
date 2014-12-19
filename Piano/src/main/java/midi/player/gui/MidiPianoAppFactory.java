@@ -1,11 +1,13 @@
 package midi.player.gui;
 
 import javafx.fxml.FXMLLoader;
+import midi.common.security.SecurityService;
 import midi.common.service.MidiService;
 import midi.player.gui.chooser.ChooserPresenter;
 import midi.player.gui.keys.Keys;
 import midi.player.gui.keys.KeysGenerator;
 import midi.player.gui.keys.KeysPresenter;
+import midi.player.gui.login.LoginPresenter;
 import midi.player.gui.main.MainPresenter;
 import midi.player.gui.piano.PianoPresenter;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +41,10 @@ public class MidiPianoAppFactory {
         return loadPresenter("/fxml/Keys.fxml");
     }
 
+    @Bean public LoginPresenter loginPresenter() {
+        return loadPresenter("/fxml/Login.fxml");
+    }
+
     @Bean
     public Keys fullPiano() {
        return KeysGenerator.newInstance()
@@ -59,6 +65,11 @@ public class MidiPianoAppFactory {
     @Bean
     public MidiService midiService() {
         return createService("midi.service", MidiService.class);
+    }
+
+    @Bean
+    public SecurityService securityService() {
+        return createService("security.service", SecurityService.class);
     }
 
     @Bean

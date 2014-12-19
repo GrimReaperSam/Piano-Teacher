@@ -28,6 +28,7 @@ public class MidiServiceImpl implements MidiService {
 
     @Override
     @Transactional(readOnly = false)
+    @Secured("ROLE_ADMIN")
     public Midi updateMidi(Midi updatedMidi) {
         return midiRepository.save(updatedMidi);
     }
