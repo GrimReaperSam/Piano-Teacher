@@ -1,5 +1,7 @@
 package midi.common.security;
 
+import midi.common.service.Midi;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,10 +10,12 @@ import java.util.Set;
 @Table(name = "table_users")
 public class User {
 
+    private Long id;
     private String username;
     private String password;
     private boolean enabled;
     private Set<UserRole> userRole = new HashSet<>(0);
+    private Set<Midi> midis = new HashSet<>(0);
 
     public User() {
     }
@@ -31,6 +35,16 @@ public class User {
     }
 
     @Id
+    @Column(name="user_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Column(name = "username", unique = true, nullable = false, length = 45)
     public String getUsername() {
         return this.username;
@@ -65,5 +79,17 @@ public class User {
 
     public void setUserRole(Set<UserRole> userRole) {
         this.userRole = userRole;
+    }
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="user_songs",
+            joinColumns={@JoinColumn(name="user_id")},
+            inverseJoinColumns={@JoinColumn(name="midi_id")})
+    public Set<Midi> getMidis() {
+        return this.midis;
+    }
+
+    public void setMidis(Set<Midi> midis) {
+        this.midis = midis;
     }
 }
