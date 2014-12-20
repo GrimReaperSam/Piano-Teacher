@@ -61,14 +61,6 @@
             <version>1.7.1.RELEASE</version>
         </dependency>
 
-        <!-- Hibernate -->
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.6.8.Final</version>
-        </dependency>
-
         <!-- PostgreSQL DB -->
 
         <dependency>

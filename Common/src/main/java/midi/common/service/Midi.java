@@ -13,8 +13,8 @@ public class Midi implements Serializable {
 
     @Id
     @Column(name="midi_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue
+    private Long midiId;
     @Column(unique = true, nullable = false)
     private String name;
     private Long length;
@@ -35,10 +35,14 @@ public class Midi implements Serializable {
     @ManyToMany(mappedBy="midis")
     private Set<User> users = new HashSet<>(0);
 
+    public Midi(String name) {
+        this.name = name;
+    }
+
     protected Midi() {}
 
-    protected Midi(Long id, String name, Long length, String data, String composer, String genre, String album, String year, Integer difficulty) {
-        this.id = id;
+    protected Midi(Long midiId, String name, Long length, String data, String composer, String genre, String album, String year, Integer difficulty) {
+        this.midiId = midiId;
         this.name = name;
         this.length = length;
         this.data = data;
@@ -49,12 +53,12 @@ public class Midi implements Serializable {
         this.difficulty = difficulty;
     }
 
-    public Long getId() {
-        return id;
+    public Long getMidiId() {
+        return midiId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setMidiId(Long id) {
+        this.midiId = id;
     }
 
     public String getName() {

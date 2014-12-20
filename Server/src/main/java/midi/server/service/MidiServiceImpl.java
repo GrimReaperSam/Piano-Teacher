@@ -13,8 +13,7 @@ import javax.inject.Inject;
 @Transactional(readOnly = true)
 public class MidiServiceImpl implements MidiService {
 
-    @Inject
-    private MidiRepository midiRepository;
+    @Inject private MidiRepository midiRepository;
 
     @Override
     public Iterable<Midi> getAll() {

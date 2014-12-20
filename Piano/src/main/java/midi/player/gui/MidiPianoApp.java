@@ -3,7 +3,6 @@ package midi.player.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import midi.common.service.MidiService;
 import midi.player.gui.main.MainPresenter;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -17,7 +16,6 @@ public class MidiPianoApp extends Application {
     public void start(Stage stage) throws Exception {
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MidiPianoAppFactory.class);
-        MidiService midiService = context.getBean(MidiService.class);
         MainPresenter mainPresenter = context.getBean(MainPresenter.class);
         mainPresenter.setPrimaryStage(stage);
         mainPresenter.showLogin();

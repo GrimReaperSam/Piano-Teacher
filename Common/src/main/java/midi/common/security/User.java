@@ -3,18 +3,30 @@ package midi.common.security;
 import midi.common.service.Midi;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "table_users")
-public class User {
+public class User implements Serializable {
 
-    private Long id;
+    @Id
+    @Column(name="user_id")
+    @GeneratedValue
+    private Long userId;
+    @Column(name = "username", unique = true, nullable = false, length = 45)
     private String username;
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
+    @Column(name = "enabled", nullable = false)
     private boolean enabled;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<UserRole> userRole = new HashSet<>(0);
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinTable(name="user_songs",
+            joinColumns={@JoinColumn(name="user_id")},
+            inverseJoinColumns={@JoinColumn(name="midi_id")})
     private Set<Midi> midis = new HashSet<>(0);
 
     public User() {
@@ -34,18 +46,14 @@ public class User {
         this.userRole = userRole;
     }
 
-    @Id
-    @Column(name="user_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    @Column(name = "username", unique = true, nullable = false, length = 45)
     public String getUsername() {
         return this.username;
     }
@@ -54,7 +62,6 @@ public class User {
         this.username = username;
     }
 
-    @Column(name = "password", nullable = false, length = 60)
     public String getPassword() {
         return this.password;
     }
@@ -63,7 +70,6 @@ public class User {
         this.password = password;
     }
 
-    @Column(name = "enabled", nullable = false)
     public boolean isEnabled() {
         return this.enabled;
     }
@@ -72,7 +78,6 @@ public class User {
         this.enabled = enabled;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     public Set<UserRole> getUserRole() {
         return this.userRole;
     }
@@ -81,10 +86,6 @@ public class User {
         this.userRole = userRole;
     }
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name="user_songs",
-            joinColumns={@JoinColumn(name="user_id")},
-            inverseJoinColumns={@JoinColumn(name="midi_id")})
     public Set<Midi> getMidis() {
         return this.midis;
     }

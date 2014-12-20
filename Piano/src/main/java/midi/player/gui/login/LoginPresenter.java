@@ -10,7 +10,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import midi.common.security.SecurityService;
-import midi.common.service.MidiService;
 import midi.player.gui.main.MainPresenter;
 import org.springframework.security.authentication.BadCredentialsException;
 
@@ -24,7 +23,6 @@ public class LoginPresenter {
     @FXML private Label statusText;
 
     @Inject private SecurityService securityService;
-    @Inject private MidiService midiService;
     @Inject private MainPresenter mainPresenter;
 
     public Node getView() {
@@ -47,7 +45,7 @@ public class LoginPresenter {
             if (newState.equals(Worker.State.SUCCEEDED)) {
                 usernameField.clear();
                 passwordField.clear();
-                mainPresenter.showChooser(midiService.getAll());
+                mainPresenter.showChooser(securityService.getCurrentUser().getMidis());
             } else if (newState.equals(Worker.State.FAILED)) {
                 Throwable exception = loginTask.getException();
                 if (exception instanceof BadCredentialsException) {
