@@ -4,7 +4,6 @@ import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
@@ -15,12 +14,13 @@ import midi.common.service.MidiService;
 import midi.parser.gui.main.MainPresenter;
 import midi.parser.gui.song.SongPresenter;
 import midi.parser.parser.MidiParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import java.io.File;
-import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +37,7 @@ public class ParserPresenter {
 
     @Inject private MainPresenter mainPresenter;
     @Inject private MidiService midiService;
+    @Autowired private ApplicationContext appContext;
 
     public Node getView() {
         return root;
@@ -70,17 +71,10 @@ public class ParserPresenter {
                 }
             }).toArray(Midi[]::new);
             for (int i=0; i< newMidis.length; i++) {
-                try {
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.load(getClass().getResourceAsStream("/fxml/Song.fxml"));
-                    SongPresenter songPresenter = loader.getController();
-                    songPresenter.setMidi(newMidis[i]);
-                    songsPane.add(songPresenter.getView(), 0, i);
-                    songsPresenters.add(songPresenter);
-                } catch (IOException e) {
-                    throw new RuntimeException("Unable to load FXML file '/fxml/Song.fxml'", e);
-                }
-
+                SongPresenter songPresenter = (SongPresenter) appContext.getBean("songPresenter");
+                songPresenter.setMidi(newMidis[i]);
+                songsPane.add(songPresenter.getView(), 0, i);
+                songsPresenters.add(songPresenter);
             }
         }
     }

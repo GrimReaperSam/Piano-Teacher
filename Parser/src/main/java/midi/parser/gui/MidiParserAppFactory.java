@@ -13,6 +13,7 @@ import midi.parser.gui.parser.ParserPresenter;
 import midi.parser.gui.song.SongPresenter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 import org.springframework.remoting.httpinvoker.HttpInvokerRequestExecutor;
@@ -33,6 +34,7 @@ public class MidiParserAppFactory {
     }
 
     @Bean
+    @Scope(value = "prototype")
     public SongPresenter songPresenter() {
         return loadPresenter("/fxml/Song.fxml");
     }
