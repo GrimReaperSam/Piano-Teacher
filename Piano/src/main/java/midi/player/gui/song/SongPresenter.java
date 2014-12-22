@@ -33,7 +33,7 @@ public class SongPresenter {
         genreLabel.setText(midi.getGenre());
         albumLabel.setText(midi.getAlbum());
         lengthLabel.setText(DateUtils.toMinSec(midi.getLength()));
-        Difficulty difficulty = Difficulty.fromInt(midi.getDifficulty());
+        Difficulty difficulty = midi.getDifficulty();
         if (difficulty != null) {
             difficultyLabel.setText(difficulty.toString());
         }

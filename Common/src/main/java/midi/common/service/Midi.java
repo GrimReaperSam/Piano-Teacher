@@ -22,7 +22,8 @@ public class Midi implements Serializable {
     private String genre;
     private String album;
     private String year;
-    private Integer difficulty;
+    @Enumerated(EnumType.ORDINAL)
+    private Difficulty difficulty;
 
     @Lob private String data;
 
@@ -41,7 +42,7 @@ public class Midi implements Serializable {
 
     protected Midi() {}
 
-    protected Midi(Long midiId, String name, Long length, String data, String composer, String genre, String album, String year, Integer difficulty) {
+    protected Midi(Long midiId, String name, Long length, String data, String composer, String genre, String album, String year, Difficulty difficulty) {
         this.midiId = midiId;
         this.name = name;
         this.length = length;
@@ -94,8 +95,12 @@ public class Midi implements Serializable {
         return year;
     }
 
-    public Integer getDifficulty() {
+    public Difficulty getDifficulty() {
         return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Date getCreated() {

@@ -4,12 +4,11 @@ public class MidiBuilder {
     private String name;
     private Long length;
     private String data;
-    private Long id;
     private String composer;
     private String genre;
     private String album;
     private String year;
-    private Integer difficulty;
+    private Difficulty difficulty;
 
     public static MidiBuilder newInstance() {
         return new MidiBuilder();
@@ -52,7 +51,7 @@ public class MidiBuilder {
         return this;
     }
 
-    public MidiBuilder setDifficulty(Integer difficulty) {
+    public MidiBuilder setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
         return this;
     }
