@@ -1,5 +1,7 @@
 package midi.common.service;
 
+import java.util.List;
+
 public interface MidiService {
 
     Iterable<Midi> getAll();
@@ -9,4 +11,6 @@ public interface MidiService {
     Midi updateMidi(Midi updatedMidi);
 
     void addAll(Midi... midis);
+
+    List<Midi> getCurrentUserMidis();
 }
