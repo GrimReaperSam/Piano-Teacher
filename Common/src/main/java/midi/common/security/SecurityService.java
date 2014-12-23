@@ -9,4 +9,7 @@ public interface SecurityService {
     User getCurrentUser();
 
     void registerNewUserAccount(User user);
+
+    boolean existsByName(String username);
+
 }

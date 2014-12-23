@@ -46,4 +46,9 @@ public class SecurityServiceImpl implements SecurityService {
         userRepository.save(user);
         login(user.getUsername(), originalPass);
     }
+
+    @Override
+    public boolean existsByName(String username) {
+        return userRepository.findByUsername(username) != null;
+    }
 }

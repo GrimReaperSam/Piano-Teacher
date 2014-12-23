@@ -5,6 +5,7 @@ import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -23,6 +24,7 @@ public class RegisterPresenter {
     @FXML private BorderPane root;
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
+    @FXML private Button submitButton;
     @FXML private Label statusText;
 
     @Inject private SecurityService securityService;
@@ -62,5 +64,18 @@ public class RegisterPresenter {
             }
         });
         new Thread(loginTask).start();
+    }
+
+    @FXML
+    private void initialize(){
+        usernameField.textProperty().addListener(observable -> {
+            if (securityService.existsByName(usernameField.getText())) {
+                statusText.setText("Username exists");
+                submitButton.setDisable(true);
+            } else {
+                statusText.setText("");
+                submitButton.setDisable(false);
+            }
+        });
     }
 }
