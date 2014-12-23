@@ -70,6 +70,7 @@ public class ParserPresenter {
                     return null;
                 }
             }).toArray(Midi[]::new);
+            songsPresenters.clear();
             for (int i=0; i< newMidis.length; i++) {
                 SongPresenter songPresenter = appContext.getBean(SongPresenter.class);
                 songPresenter.setMidi(newMidis[i]);
@@ -90,11 +91,10 @@ public class ParserPresenter {
             }
         };
         saveTask.stateProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.equals(Worker.State.SUCCEEDED)) {
-                mainPresenter.showBase(midiService.getAll());
-            } else if (newValue.equals(Worker.State.FAILED)) {
-                mainPresenter.showBase(midiService.getAll());
+            mainPresenter.showBase(midiService.getAll());
+            if (newValue.equals(Worker.State.FAILED)) {
                 mainPresenter.showError(saveTask.getException().toString());
+                System.out.println(saveTask.getException());
             }
         });
         new Thread(saveTask).start();
