@@ -8,7 +8,10 @@ import javafx.scene.control.TextField;
 import midi.common.service.Difficulty;
 import midi.common.service.Midi;
 import midi.common.service.MidiBuilder;
+import midi.common.service.MidiService;
 import midi.common.util.DateUtils;
+
+import javax.inject.Inject;
 
 public class SongPresenter {
 
@@ -20,16 +23,31 @@ public class SongPresenter {
     @FXML private Label lengthLabel;
     @FXML private ComboBox<Difficulty> difficultyComboBox;
     @FXML private TextField yearTextField;
+    @FXML private Label existsLabel;
 
     private Midi midi;
+    private boolean exists;
+
+    @Inject private MidiService midiService;
 
     public Node getView() {
         return root;
     }
 
     public void setMidi(Midi midi) {
+        setMidi(midi, false);
+    }
+
+    public void setMidi(Midi midi, boolean add) {
         this.midi = midi;
-        songNameTextField.setText(midi.getName());
+        String name = midi.getName();
+        if (add) {
+            songNameTextField.textProperty().addListener(observable -> {
+                exists = midiService.existsByName(name);
+                existsLabel.setVisible(exists);
+            });
+        }
+        songNameTextField.setText(name);
         composerTextField.setText(midi.getComposer());
         genreTextField.setText(midi.getGenre());
         albumTextField.setText(midi.getAlbum());
@@ -50,6 +68,10 @@ public class SongPresenter {
                 .setDifficulty(difficultyComboBox.getValue())
                 .setYear(yearTextField.getText())
                 .createMidi();
+    }
+
+    public boolean isValid() {
+        return !exists;
     }
 
     @FXML

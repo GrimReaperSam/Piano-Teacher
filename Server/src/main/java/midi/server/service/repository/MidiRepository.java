@@ -12,4 +12,5 @@ public interface MidiRepository extends CrudRepository<Midi, Long> {
     @Query("select distinct m from Midi m join m.users u where u.userId = :userId")
     List<Midi> findByUserId(@Param("userId") Long userId);
 
+    Midi findByName(String name);
 }

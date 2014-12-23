@@ -10,7 +10,9 @@ public interface MidiService {
 
     Midi updateMidi(Midi updatedMidi);
 
-    void addAll(Midi... midis);
+    void addAll(Iterable<Midi> midis);
 
     List<Midi> getCurrentUserMidis();
+
+    boolean existsByName(String midiName);
 }

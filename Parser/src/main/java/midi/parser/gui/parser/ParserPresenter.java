@@ -14,7 +14,6 @@ import midi.common.service.MidiService;
 import midi.parser.gui.main.MainPresenter;
 import midi.parser.gui.song.SongPresenter;
 import midi.parser.parser.MidiParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import javax.inject.Inject;
@@ -25,6 +24,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
+import java.util.stream.Collectors;
 
 public class ParserPresenter {
 
@@ -37,7 +37,7 @@ public class ParserPresenter {
 
     @Inject private MainPresenter mainPresenter;
     @Inject private MidiService midiService;
-    @Autowired private ApplicationContext appContext;
+    @Inject private ApplicationContext appContext;
 
     public Node getView() {
         return root;
@@ -70,10 +70,9 @@ public class ParserPresenter {
                     return null;
                 }
             }).toArray(Midi[]::new);
-            songsPresenters.clear();
             for (int i=0; i< newMidis.length; i++) {
                 SongPresenter songPresenter = appContext.getBean(SongPresenter.class);
-                songPresenter.setMidi(newMidis[i]);
+                songPresenter.setMidi(newMidis[i], true);
                 songsPane.add(songPresenter.getView(), 0, i);
                 songsPresenters.add(songPresenter);
             }
@@ -86,7 +85,7 @@ public class ParserPresenter {
         {
             protected Void call() throws Exception
             {
-                midiService.addAll(songsPresenters.stream().map(SongPresenter::getMidi).toArray(Midi[]::new));
+                midiService.addAll(songsPresenters.stream().filter(SongPresenter::isValid).map(SongPresenter::getMidi).collect(Collectors.toList()));
                 return null;
             }
         };
@@ -111,5 +110,6 @@ public class ParserPresenter {
 
     public void clear() {
         songsPane.getChildren().clear();
+        songsPresenters.clear();
     }
 }

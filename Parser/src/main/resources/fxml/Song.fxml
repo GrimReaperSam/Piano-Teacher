@@ -23,16 +23,17 @@
             <Label text="Composer" GridPane.rowIndex="1" />
             <Label text="Genre" GridPane.rowIndex="2" />
             <Label text="Year" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Label text="Length" GridPane.columnIndex="2" />
-            <Label text="Difficulty" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label text="Length" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label text="Difficulty" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label text="Album" GridPane.rowIndex="3" />
             <TextField fx:id="songNameTextField" GridPane.columnIndex="1" />
             <TextField fx:id="composerTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="genreTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="albumTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="lengthLabel" GridPane.columnIndex="3" />
+            <Label fx:id="lengthLabel" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <TextField fx:id="yearTextField" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <ComboBox fx:id="difficultyComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ComboBox fx:id="difficultyComboBox" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label fx:id="existsLabel" text="Name already exists" textFill="RED" visible="false" GridPane.columnIndex="3" />
          </children>
       </GridPane>
    </children>
