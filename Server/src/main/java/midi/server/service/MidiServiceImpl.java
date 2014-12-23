@@ -1,12 +1,10 @@
 package midi.server.service;
 
+import midi.common.security.SecurityService;
 import midi.common.service.Midi;
 import midi.common.service.MidiService;
-import midi.server.security.dao.UserRepository;
 import midi.server.service.repository.MidiRepository;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +16,7 @@ import java.util.List;
 public class MidiServiceImpl implements MidiService {
 
     @Inject private MidiRepository midiRepository;
-    @Inject private UserRepository userRepository;
+    @Inject private SecurityService securityService;
 
     @Override
     public Iterable<Midi> getAll() {
@@ -32,10 +30,7 @@ public class MidiServiceImpl implements MidiService {
 
     @Override
     public List<Midi> getCurrentUserMidis() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        Long userId = userRepository.findByUsername(username).getUserId();
-        return midiRepository.findByUserId(userId);
+        return midiRepository.findByUserId(securityService.getCurrentUser().getUserId());
     }
 
     @Override

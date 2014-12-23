@@ -21,7 +21,7 @@ public class User implements Serializable {
     private String password;
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<UserRole> userRole = new HashSet<>(0);
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name="user_songs",

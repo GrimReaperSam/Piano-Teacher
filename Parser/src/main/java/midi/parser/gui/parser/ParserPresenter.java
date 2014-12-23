@@ -71,7 +71,7 @@ public class ParserPresenter {
                 }
             }).toArray(Midi[]::new);
             for (int i=0; i< newMidis.length; i++) {
-                SongPresenter songPresenter = (SongPresenter) appContext.getBean("songPresenter");
+                SongPresenter songPresenter = appContext.getBean(SongPresenter.class);
                 songPresenter.setMidi(newMidis[i]);
                 songsPane.add(songPresenter.getView(), 0, i);
                 songsPresenters.add(songPresenter);
@@ -94,7 +94,7 @@ public class ParserPresenter {
                 mainPresenter.showBase(midiService.getAll());
             } else if (newValue.equals(Worker.State.FAILED)) {
                 mainPresenter.showBase(midiService.getAll());
-                mainPresenter.showError("Parsing incomplete");
+                mainPresenter.showError(saveTask.getException().toString());
             }
         });
         new Thread(saveTask).start();

@@ -7,4 +7,6 @@ public interface SecurityService {
     void logout();
 
     User getCurrentUser();
+
+    User registerNewUserAccount(User user);
 }

@@ -33,6 +33,4 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="userDetailsService" class="midi.server.security.MidiUserDetailsService"></bean>
-
 </beans>

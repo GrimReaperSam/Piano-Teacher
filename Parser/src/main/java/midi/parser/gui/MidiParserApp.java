@@ -22,7 +22,7 @@ public class MidiParserApp extends Application {
         Scene scene = new Scene(mainPresenter.getView());
         stage.setTitle("Midi Parser");
         stage.getIcons().add(new Image(getClass().getResource("/images/piano.png").openStream()));
-//        stage.setResizable(false);
+        stage.setResizable(false);
         stage.setScene(scene);
 
         stage.show();
