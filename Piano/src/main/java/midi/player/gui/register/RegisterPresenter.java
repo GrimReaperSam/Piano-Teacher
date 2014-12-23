@@ -1,22 +1,24 @@
-package midi.player.gui.login;
+package midi.player.gui.register;
 
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import midi.common.security.SecurityService;
+import midi.common.security.User;
+import midi.common.security.UserRole;
 import midi.common.service.MidiService;
 import midi.player.gui.main.MainPresenter;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import javax.inject.Inject;
 
-public class LoginPresenter {
+public class RegisterPresenter {
 
     @FXML private BorderPane root;
     @FXML private TextField usernameField;
@@ -27,7 +29,7 @@ public class LoginPresenter {
     @Inject private MidiService midiService;
     @Inject private MainPresenter mainPresenter;
 
-    public Node getView() {
+    public Parent getView() {
         return root;
     }
 
@@ -38,7 +40,10 @@ public class LoginPresenter {
         final String password = passwordField.getText();
         final Task loginTask = new Task() {
             protected Void call() throws Exception {
-                securityService.login(username, password);
+                User user = new User(username, password, true);
+                UserRole role = new UserRole(user, "ROLE_USER");
+                user.getUserRole().add(role);
+                securityService.registerNewUserAccount(user);
                 return null;
             }
         };
@@ -58,10 +63,4 @@ public class LoginPresenter {
         });
         new Thread(loginTask).start();
     }
-
-    @FXML
-    private void handleRegister(ActionEvent event) {
-        mainPresenter.showRegister();
-    }
-
 }

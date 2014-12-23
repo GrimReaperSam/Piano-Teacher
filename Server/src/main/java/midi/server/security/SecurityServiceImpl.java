@@ -40,8 +40,10 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public User registerNewUserAccount(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    public void registerNewUserAccount(User user) {
+        String originalPass = user.getPassword();
+        user.setPassword(encoder.encode(originalPass));
+        userRepository.save(user);
+        login(user.getUsername(), originalPass);
     }
 }

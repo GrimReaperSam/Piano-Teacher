@@ -8,5 +8,5 @@ public interface SecurityService {
 
     User getCurrentUser();
 
-    User registerNewUserAccount(User user);
+    void registerNewUserAccount(User user);
 }

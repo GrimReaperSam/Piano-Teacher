@@ -10,6 +10,7 @@ import midi.player.gui.keys.KeysPresenter;
 import midi.player.gui.login.LoginPresenter;
 import midi.player.gui.main.MainPresenter;
 import midi.player.gui.piano.PianoPresenter;
+import midi.player.gui.register.RegisterPresenter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor;
@@ -41,8 +42,14 @@ public class MidiPianoAppFactory {
         return loadPresenter("/fxml/Keys.fxml");
     }
 
-    @Bean public LoginPresenter loginPresenter() {
+    @Bean
+    public LoginPresenter loginPresenter() {
         return loadPresenter("/fxml/Login.fxml");
+    }
+
+    @Bean
+    public RegisterPresenter registerPresenter() {
+        return loadPresenter("/fxml/Register.fxml");
     }
 
     @Bean

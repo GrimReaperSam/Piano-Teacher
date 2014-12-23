@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane fx:id="root" prefHeight="500.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="midi.player.gui.register.RegisterPresenter">
+    <center>
+        <GridPane alignment="top_center" hgap="8" style="-fx-padding: 40 0 0 0" vgap="8">
+            <children>
+                <Label style="-fx-font: NORMAL 14 Tahoma;" text="Register" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                <Label labelFor="$usernameField" text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="usernameField" prefColumnCount="10" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label labelFor="$passwordField" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <PasswordField fx:id="passwordField" prefColumnCount="10" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <Button fx:id="submitButton" onAction="#login" prefHeight="25.0" prefWidth="61.0" text="Sign up" GridPane.rowIndex="3" />
+
+                <Label fx:id="statusText" prefHeight="17.0" prefWidth="62.0" style="-fx-text-fill: #ff0000;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+            </children>
+        </GridPane>
+    </center>
+</BorderPane>

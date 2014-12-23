@@ -8,6 +8,7 @@ import midi.common.service.Midi;
 import midi.player.gui.chooser.ChooserPresenter;
 import midi.player.gui.login.LoginPresenter;
 import midi.player.gui.piano.PianoPresenter;
+import midi.player.gui.register.RegisterPresenter;
 
 import javax.inject.Inject;
 
@@ -21,6 +22,7 @@ public class MainPresenter {
     @Inject private PianoPresenter pianoPresenter;
     @Inject private ChooserPresenter chooserPresenter;
     @Inject private LoginPresenter loginPresenter;
+    @Inject private RegisterPresenter registerPresenter;
 
     public Parent getView() {
         return root;
@@ -48,5 +50,9 @@ public class MainPresenter {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public void showRegister() {
+        contentArea.setCenter(registerPresenter.getView());
     }
 }
