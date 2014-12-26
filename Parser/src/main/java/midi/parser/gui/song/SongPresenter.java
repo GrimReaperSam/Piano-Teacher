@@ -53,7 +53,7 @@ public class SongPresenter {
         albumTextField.setText(midi.getAlbum());
         lengthLabel.setText(DateUtils.toMinSec(midi.getLength()));
         Difficulty difficulty = midi.getDifficulty();
-        difficultyComboBox.setValue(difficulty != null ? difficulty: Difficulty.NORMAL);
+        difficultyComboBox.setValue(difficulty != null ? difficulty: Difficulty.INTERMEDIATE);
         yearTextField.setText(midi.getYear());
     }
 
@@ -77,6 +77,6 @@ public class SongPresenter {
     @FXML
     private void initialize() {
         difficultyComboBox.getItems().addAll(Difficulty.values());
-        difficultyComboBox.setValue(Difficulty.NORMAL);
+        difficultyComboBox.setValue(Difficulty.INTERMEDIATE);
     }
 }
