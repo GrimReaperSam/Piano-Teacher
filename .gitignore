@@ -1,3 +1,5 @@
 # Removing Intellij files
 .idea
 *.iml
+
+*/target/**
